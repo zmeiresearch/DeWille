@@ -4,7 +4,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A3 16535 11693
 encoding utf-8
-Sheet 1 6
+Sheet 1 7
 Title "DeWille"
 Date "2019-11-01"
 Rev "1"
@@ -285,4 +285,17 @@ Text Label 8900 4900 0    50   ~ 0
 DACR_SCK
 Text Label 7450 4200 0    50   ~ 0
 FPGA_SCK
+$Sheet
+S 6000 6850 1350 950 
+U 5DDC09A7
+F0 "Usb" 50
+F1 "Usb.sch" 50
+F2 "+3V3_USB" I R 7350 6950 50 
+F3 "TCK" O R 7350 7150 50 
+F4 "TDI" O R 7350 7250 50 
+F5 "TDO" I R 7350 7350 50 
+F6 "TMS" O R 7350 7450 50 
+F7 "Rx" O R 7350 7550 50 
+F8 "Tx" I R 7350 7650 50 
+$EndSheet
 $EndSCHEMATC
