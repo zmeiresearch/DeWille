@@ -1,5 +1,6 @@
 .DS_Store
 *.bak
+*.kicad_pcb-bak
 *sch-bak
-*/fp-info-cache
-
+fp-info-cache
+_autosave-*
