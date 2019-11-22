@@ -17,7 +17,7 @@ $EndDescr
 Wire Wire Line
 	14600 8400 13450 8400
 Wire Wire Line
-	14600 7900 13450 7900
+	14600 7900 14200 7900
 Text HLabel 14600 8400 2    50   Output ~ 0
 MISO
 Text HLabel 14600 8200 2    50   Input ~ 0
@@ -36,10 +36,8 @@ Wire Wire Line
 	1850 7400 1450 7400
 Wire Wire Line
 	1450 7800 1850 7800
-Text HLabel 1200 4100 0    50   Input ~ 0
+Text HLabel 4400 2300 2    50   Input ~ 0
 SCK_IN
-Wire Wire Line
-	1400 4100 1800 4100
 $Comp
 L power:GND #PWR0417
 U 1 1 5E0484F6
@@ -376,18 +374,18 @@ Wire Wire Line
 	1850 8200 1450 8200
 Wire Wire Line
 	1450 8600 1850 8600
-Text HLabel 1150 9300 0    50   Input ~ 0
+Text HLabel 1500 3600 0    50   Input ~ 0
 I2S1_DATA_IN
-Text HLabel 1150 9400 0    50   Input ~ 0
+Text HLabel 1500 3900 0    50   Input ~ 0
 I2S1_BCK_IN
-Text HLabel 1150 9500 0    50   Input ~ 0
+Text HLabel 1500 3800 0    50   Input ~ 0
 I2S1_LRCK_IN
-Text HLabel 1150 9700 0    50   Input ~ 0
+Text HLabel 1500 2900 0    50   Input ~ 0
 I2S2_DATA_IN
-Text HLabel 1150 9800 0    50   Input ~ 0
+Text HLabel 1500 3200 0    50   Input ~ 0
 I2S2_BCK_IN
-Text HLabel 1150 9900 0    50   Input ~ 0
-I2S_LRCK_IN
+Text HLabel 1500 3100 0    50   Input ~ 0
+I2S2_LRCK_IN
 Text HLabel 1150 8950 0    50   Input ~ 0
 SPDIF1_IN
 Text HLabel 1150 9100 0    50   Input ~ 0
@@ -1029,14 +1027,6 @@ TCK
 Text HLabel 15300 5400 2    50   Output ~ 0
 TDO
 Wire Wire Line
-	15300 5100 14700 5100
-Wire Wire Line
-	14300 5200 14800 5200
-Wire Wire Line
-	15300 5300 14900 5300
-Wire Wire Line
-	15300 5400 15000 5400
-Wire Wire Line
 	14400 5700 12600 5700
 Wire Wire Line
 	12600 5700 12600 5200
@@ -1044,8 +1034,6 @@ Wire Wire Line
 	12600 5200 12700 5200
 Wire Wire Line
 	14400 5400 14400 5700
-Text Label 15050 4250 0    50   ~ 0
-+3V3_FPGA
 $Comp
 L Device:C C?
 U 1 1 5E1BC43A
@@ -1212,7 +1200,7 @@ F 3 "http://www.ti.com/lit/ds/symlink/tps79333-ep.pdf" H 14250 2400 50  0001 C C
 	1    14250 2350
 	-1   0    0    -1  
 $EndComp
-Text Label 13250 1150 0    50   ~ 0
+Text Label 13100 1150 0    50   ~ 0
 +3V3_IO
 Wire Wire Line
 	13550 1150 13550 850 
@@ -1233,59 +1221,12 @@ F 3 "http://www.ti.com/lit/ds/symlink/tps736.pdf" H 14250 1200 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	14250 1500 14250 1650
-$Comp
-L Device:R_Pack04 RN?
-U 1 1 5DFC54A3
-P 14800 4750
-AR Path="/5DBF9B5A/5DFC54A3" Ref="RN?"  Part="1" 
-AR Path="/5DC88EF1/5DFC54A3" Ref="RN?"  Part="1" 
-AR Path="/5DCC3140/5DFC54A3" Ref="RN?"  Part="1" 
-AR Path="/5DDC09A7/5DFC54A3" Ref="RN?"  Part="1" 
-AR Path="/5DCFEDFC/5DFC54A3" Ref="RN401"  Part="1" 
-F 0 "RN401" V 14383 4750 50  0000 C CNN
-F 1 "RA1206 10k" V 14474 4750 50  0000 C CNN
-F 2 "Resistor_SMD:R_Array_Convex_4x0603" V 15075 4750 50  0001 C CNN
-F 3 "~" H 14800 4750 50  0001 C CNN
-	1    14800 4750
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	14800 4950 14800 5200
-Connection ~ 14800 5200
-Wire Wire Line
-	14800 5200 15300 5200
-Wire Wire Line
-	14700 4950 14700 5100
-Connection ~ 14700 5100
-Wire Wire Line
-	14700 5100 14300 5100
-Wire Wire Line
-	14900 4950 14900 5300
-Connection ~ 14900 5300
-Wire Wire Line
-	14900 5300 14300 5300
-Wire Wire Line
-	15000 4950 15000 5400
-Connection ~ 15000 5400
-Wire Wire Line
-	15000 5400 14400 5400
-Wire Wire Line
-	13800 4250 14800 4250
-Wire Wire Line
-	15000 4550 15000 4250
 Connection ~ 15000 4250
 Wire Wire Line
 	15000 4250 15100 4250
-Wire Wire Line
-	14900 4550 14900 4250
 Connection ~ 14900 4250
 Wire Wire Line
 	14900 4250 15000 4250
-Wire Wire Line
-	14800 4550 14800 4250
-Connection ~ 14800 4250
-Wire Wire Line
-	14800 4250 14900 4250
 $Comp
 L power:GND #PWR0105
 U 1 1 5E07A959
@@ -1298,11 +1239,7 @@ F 3 "" H 14500 4450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	14700 4400 14500 4400
-Wire Wire Line
 	14500 4400 14500 4450
-Wire Wire Line
-	14700 4400 14700 4550
 $Comp
 L power:GND #PWR0106
 U 1 1 5E08CA34
@@ -2028,98 +1965,547 @@ F 3 "" H 3950 1700 50  0001 C CNN
 	1    3950 1700
 	1    0    0    -1  
 $EndComp
-$Comp
-L Jumper:SolderJumper_2_Open JP401
-U 1 1 5F287A76
-P 1650 2300
-F 0 "JP401" H 1650 2505 50  0000 C CNN
-F 1 "SolderJumper_2_Open" H 1650 2414 50  0000 C CNN
-F 2 "Jumper:SolderJumper-2_P1.3mm_Open_RoundedPad1.0x1.5mm" H 1650 2300 50  0001 C CNN
-F 3 "~" H 1650 2300 50  0001 C CNN
-	1    1650 2300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1400 2300 1400 4100
-Wire Wire Line
-	1400 2300 1500 2300
-Wire Wire Line
-	1400 4100 1200 4100
-Connection ~ 1400 4100
 Text HLabel 14600 7500 2    50   Input ~ 0
 ~PROGRAM~
 Wire Wire Line
-	13450 7500 14400 7500
+	13450 7500 14100 7500
 Wire Wire Line
-	13450 8600 14300 8600
+	13450 8600 14000 8600
 Text HLabel 14600 8600 2    50   BiDi ~ 0
 ~INIT~
 $Comp
 L Device:R R?
 U 1 1 5F41F19F
-P 14300 7050
+P 14000 7050
 AR Path="/5DBF9B5A/5F41F19F" Ref="R?"  Part="1" 
 AR Path="/5DCC3140/5F41F19F" Ref="R?"  Part="1" 
 AR Path="/5DD2C0D9/5F41F19F" Ref="R?"  Part="1" 
 AR Path="/5DDC09A7/5F41F19F" Ref="R?"  Part="1" 
 AR Path="/5DCFEDFC/5F41F19F" Ref="R403"  Part="1" 
-F 0 "R403" H 14100 7050 50  0000 L CNN
-F 1 "10k" H 14100 6950 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 14230 7050 50  0001 C CNN
-F 3 "~" H 14300 7050 50  0001 C CNN
-	1    14300 7050
+F 0 "R403" H 13800 7050 50  0000 L CNN
+F 1 "10k" H 13800 6950 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 13930 7050 50  0001 C CNN
+F 3 "~" H 14000 7050 50  0001 C CNN
+	1    14000 7050
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R R?
 U 1 1 5F41F1A5
-P 14400 7050
+P 14100 7050
 AR Path="/5DBF9B5A/5F41F1A5" Ref="R?"  Part="1" 
 AR Path="/5DCC3140/5F41F1A5" Ref="R?"  Part="1" 
 AR Path="/5DD2C0D9/5F41F1A5" Ref="R?"  Part="1" 
 AR Path="/5DDC09A7/5F41F1A5" Ref="R?"  Part="1" 
 AR Path="/5DCFEDFC/5F41F1A5" Ref="R404"  Part="1" 
-F 0 "R404" H 14450 7050 50  0000 L CNN
-F 1 "10k" H 14450 6950 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 14330 7050 50  0001 C CNN
-F 3 "~" H 14400 7050 50  0001 C CNN
-	1    14400 7050
+F 0 "R404" H 14150 7050 50  0000 L CNN
+F 1 "10k" H 14150 6950 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 14030 7050 50  0001 C CNN
+F 3 "~" H 14100 7050 50  0001 C CNN
+	1    14100 7050
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	14300 6900 14300 6800
+	14000 6900 14000 6800
 Wire Wire Line
-	14300 6800 14400 6800
+	14000 6800 14100 6800
 Wire Wire Line
-	14400 6900 14400 6800
-Connection ~ 14400 6800
+	14100 6900 14100 6800
+Connection ~ 14100 6800
 Wire Wire Line
-	14400 6800 14550 6800
-Text Label 14500 6800 0    50   ~ 0
-+3V3_FPGA
+	14100 6800 14200 6800
 Wire Wire Line
-	14400 7200 14400 7500
-Connection ~ 14400 7500
+	14100 7200 14100 7500
 Wire Wire Line
-	14400 7500 14600 7500
-Wire Wire Line
-	14300 7200 14300 8600
-Connection ~ 14300 8600
-Wire Wire Line
-	14300 8600 14600 8600
+	14000 7200 14000 8600
 Wire Wire Line
 	13450 7600 14600 7600
 Text HLabel 14600 7600 2    50   BiDi ~ 0
 DONE
 $Comp
-L Zmei_elements:IS61WV5128FBLL U?
+L Zmei_elements:IS61WV5128FBLL U402
 U 1 1 5FD7313A
 P 9100 8350
-F 0 "U?" H 9100 9615 50  0000 C CNN
+F 0 "U402" H 9100 9615 50  0000 C CNN
 F 1 "IS61WV5128FBLL" H 9100 9524 50  0000 C CNN
 F 2 "Package_SO:TSOP-II-44_10.16x18.41mm_P0.8mm" H 9100 9500 50  0001 C CNN
 F 3 "http://www.issi.com/WW/pdf/61-64WV25616EDBLL.pdf" H 9250 9150 50  0001 C CNN
 	1    9100 8350
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	8550 7550 8150 7550
+Wire Wire Line
+	8550 7650 8150 7650
+Wire Wire Line
+	8550 9150 8150 9150
+Wire Wire Line
+	8550 9250 8150 9250
+Wire Wire Line
+	8550 8950 8150 8950
+Wire Wire Line
+	8550 9050 8150 9050
+Wire Wire Line
+	8550 8750 8150 8750
+Wire Wire Line
+	8550 8850 8150 8850
+Text Label 8300 9250 0    50   ~ 0
+A9
+Text Label 8300 9150 0    50   ~ 0
+A8
+Text Label 8300 9050 0    50   ~ 0
+A7
+Text Label 8300 8950 0    50   ~ 0
+A6
+Text Label 8300 8850 0    50   ~ 0
+A5
+Text Label 8300 8750 0    50   ~ 0
+~WE~
+Text Label 8300 8650 0    50   ~ 0
+IO3
+Text Label 8300 8550 0    50   ~ 0
+IO2
+Wire Wire Line
+	5100 7500 4700 7500
+Wire Wire Line
+	5100 7600 4700 7600
+Wire Wire Line
+	5100 7300 4700 7300
+Wire Wire Line
+	5100 7400 4700 7400
+Wire Wire Line
+	5100 7100 4700 7100
+Wire Wire Line
+	5100 7200 4700 7200
+Text Label 4850 7600 0    50   ~ 0
+A9
+Text Label 4850 7500 0    50   ~ 0
+A8
+Text Label 4850 7400 0    50   ~ 0
+A7
+Text Label 4850 7300 0    50   ~ 0
+A6
+Text Label 4850 7200 0    50   ~ 0
+A5
+Text Label 4850 7100 0    50   ~ 0
+~WE~
+Wire Wire Line
+	8550 8550 8150 8550
+Wire Wire Line
+	8550 8650 8150 8650
+Text Label 7250 8700 0    50   ~ 0
+IO2
+Text Label 7250 8800 0    50   ~ 0
+IO3
+Wire Wire Line
+	7500 8800 7100 8800
+Wire Wire Line
+	7500 8700 7100 8700
+Wire Wire Line
+	8550 7750 8150 7750
+Wire Wire Line
+	8550 7850 8150 7850
+Wire Wire Line
+	8550 7950 8150 7950
+Wire Wire Line
+	8550 8050 8150 8050
+Wire Wire Line
+	8550 8150 8150 8150
+Wire Wire Line
+	8550 8250 8150 8250
+Wire Wire Line
+	10050 7550 9650 7550
+Wire Wire Line
+	10050 7650 9650 7650
+Wire Wire Line
+	10050 7750 9650 7750
+Wire Wire Line
+	10050 7850 9650 7850
+Wire Wire Line
+	10050 7950 9650 7950
+Wire Wire Line
+	10050 8050 9650 8050
+Wire Wire Line
+	10050 8150 9650 8150
+Wire Wire Line
+	10050 8250 9650 8250
+Wire Wire Line
+	10050 8550 9650 8550
+Wire Wire Line
+	10050 8650 9650 8650
+Wire Wire Line
+	10050 8750 9650 8750
+Wire Wire Line
+	10050 8850 9650 8850
+Wire Wire Line
+	10050 8950 9650 8950
+Wire Wire Line
+	10050 9050 9650 9050
+Wire Wire Line
+	10050 9150 9650 9150
+Wire Wire Line
+	10050 9250 9650 9250
+Text Label 8300 8250 0    50   ~ 0
+IO1
+Text Label 8300 8150 0    50   ~ 0
+IO0
+Text Label 8300 8050 0    50   ~ 0
+~CS~
+Text Label 8300 7950 0    50   ~ 0
+A4
+Text Label 8300 7850 0    50   ~ 0
+A3
+Text Label 8300 7750 0    50   ~ 0
+A2
+Text Label 8300 7650 0    50   ~ 0
+A1
+Text Label 8300 7550 0    50   ~ 0
+A0
+Text Label 9800 9250 0    50   ~ 0
+A19
+Text Label 9800 9150 0    50   ~ 0
+A10
+Text Label 9800 9050 0    50   ~ 0
+A11
+Text Label 9800 8950 0    50   ~ 0
+A12
+Text Label 9800 8850 0    50   ~ 0
+A13
+Text Label 9800 8750 0    50   ~ 0
+A14
+Text Label 9800 8650 0    50   ~ 0
+IO4
+Text Label 9800 8550 0    50   ~ 0
+IO5
+Text Label 9800 8250 0    50   ~ 0
+IO6
+Text Label 9800 8150 0    50   ~ 0
+IO7
+Text Label 9800 8050 0    50   ~ 0
+~OE~
+Text Label 9800 7950 0    50   ~ 0
+A15
+Text Label 9800 7850 0    50   ~ 0
+A16
+Text Label 9800 7750 0    50   ~ 0
+A17
+Text Label 9800 7650 0    50   ~ 0
+A18
+Text Label 9800 7550 0    50   ~ 0
+A20
+Wire Wire Line
+	7500 7900 7100 7900
+Wire Wire Line
+	7500 8000 7100 8000
+Wire Wire Line
+	7500 8100 7100 8100
+Wire Wire Line
+	7500 8200 7100 8200
+Wire Wire Line
+	7500 8300 7100 8300
+Wire Wire Line
+	7500 8400 7100 8400
+Wire Wire Line
+	7500 8500 7100 8500
+Wire Wire Line
+	7500 8600 7100 8600
+Text Label 7250 8600 0    50   ~ 0
+IO1
+Text Label 7250 8500 0    50   ~ 0
+IO0
+Text Label 7250 8400 0    50   ~ 0
+~CS~
+Text Label 7250 8300 0    50   ~ 0
+A4
+Text Label 7250 8200 0    50   ~ 0
+A3
+Text Label 7250 8100 0    50   ~ 0
+A2
+Text Label 7250 8000 0    50   ~ 0
+A1
+Text Label 7250 7900 0    50   ~ 0
+A0
+Wire Wire Line
+	7500 7100 7100 7100
+Wire Wire Line
+	7500 7200 7100 7200
+Wire Wire Line
+	7500 7300 7100 7300
+Wire Wire Line
+	7500 7400 7100 7400
+Wire Wire Line
+	7500 7500 7100 7500
+Wire Wire Line
+	7500 7600 7100 7600
+Wire Wire Line
+	7500 7700 7100 7700
+Wire Wire Line
+	7500 7800 7100 7800
+Text Label 7250 7700 0    50   ~ 0
+A19
+Text Label 7250 7800 0    50   ~ 0
+A10
+Text Label 7250 7600 0    50   ~ 0
+A11
+Text Label 7250 7500 0    50   ~ 0
+A12
+Text Label 7250 7400 0    50   ~ 0
+A13
+Text Label 7250 7300 0    50   ~ 0
+A14
+Text Label 7250 7200 0    50   ~ 0
+IO4
+Text Label 7250 7100 0    50   ~ 0
+IO5
+Wire Wire Line
+	11450 7100 11050 7100
+Wire Wire Line
+	11450 7200 11050 7200
+Wire Wire Line
+	11450 7300 11050 7300
+Wire Wire Line
+	11450 7400 11050 7400
+Wire Wire Line
+	11450 7500 11050 7500
+Wire Wire Line
+	11450 7600 11050 7600
+Wire Wire Line
+	11450 7700 11050 7700
+Wire Wire Line
+	11450 7800 11050 7800
+Text Label 11200 7800 0    50   ~ 0
+IO6
+Text Label 11200 7700 0    50   ~ 0
+IO7
+Text Label 11200 7600 0    50   ~ 0
+~OE~
+Text Label 11200 7500 0    50   ~ 0
+A15
+Text Label 11200 7400 0    50   ~ 0
+A16
+Text Label 11200 7300 0    50   ~ 0
+A17
+Text Label 11200 7200 0    50   ~ 0
+A18
+Text Label 11200 7100 0    50   ~ 0
+A20
+Wire Wire Line
+	4400 2300 3800 2300
+$Comp
+L Connector:TestPoint TP401
+U 1 1 6020284D
+P 1500 2300
+F 0 "TP401" V 1695 2372 50  0000 C CNN
+F 1 "TestPoint" V 1604 2372 50  0000 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1700 2300 50  0001 C CNN
+F 3 "~" H 1700 2300 50  0001 C CNN
+	1    1500 2300
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1800 2300 1500 2300
+Text HLabel 14600 8700 2    50   Output ~ 0
+FPGA_LED
+Wire Wire Line
+	13450 8700 14600 8700
+Text HLabel 1500 4100 0    50   Input ~ 0
+I2S1_SCK_IN
+Text HLabel 1500 3400 0    50   Input ~ 0
+I2S2_SCK_IN
+Wire Wire Line
+	14300 5100 14800 5100
+Connection ~ 14700 5400
+Wire Wire Line
+	14700 5400 14400 5400
+Wire Wire Line
+	14300 5200 14900 5200
+Wire Wire Line
+	14300 5300 15000 5300
+Wire Wire Line
+	14700 5400 15300 5400
+Connection ~ 14800 5100
+Wire Wire Line
+	14800 5100 15300 5100
+Connection ~ 14900 5200
+Wire Wire Line
+	14900 5200 15300 5200
+Connection ~ 15000 5300
+Wire Wire Line
+	15000 5300 15300 5300
+Wire Wire Line
+	13800 4250 14700 4250
+Wire Wire Line
+	14500 4400 14800 4400
+Connection ~ 14700 4250
+Wire Wire Line
+	14700 4250 14900 4250
+Text HLabel 14600 8300 2    50   Input ~ 0
+~RST~
+Wire Wire Line
+	14600 8300 13450 8300
+Connection ~ 14000 8600
+Connection ~ 14100 7500
+Wire Wire Line
+	14100 7500 14600 7500
+Wire Wire Line
+	14000 8600 14600 8600
+$Comp
+L Device:R R?
+U 1 1 607EB962
+P 14200 7050
+AR Path="/5DBF9B5A/607EB962" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/607EB962" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/607EB962" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/607EB962" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/607EB962" Ref="R405"  Part="1" 
+F 0 "R405" H 14250 7050 50  0000 L CNN
+F 1 "10k" H 14250 6950 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 14130 7050 50  0001 C CNN
+F 3 "~" H 14200 7050 50  0001 C CNN
+	1    14200 7050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14200 6900 14200 6800
+Connection ~ 14200 6800
+Wire Wire Line
+	14200 6800 14250 6800
+Wire Wire Line
+	14200 7200 14200 7900
+Connection ~ 14200 7900
+Wire Wire Line
+	14200 7900 13450 7900
+Wire Wire Line
+	1800 4100 1500 4100
+Wire Wire Line
+	1800 3900 1500 3900
+Wire Wire Line
+	1800 3800 1500 3800
+Wire Wire Line
+	1800 3600 1500 3600
+Wire Wire Line
+	1800 2900 1500 2900
+Wire Wire Line
+	1500 3100 1800 3100
+Wire Wire Line
+	1800 3200 1500 3200
+Wire Wire Line
+	1500 3400 1800 3400
+$Comp
+L Device:R R?
+U 1 1 60ACDF12
+P 14700 4750
+AR Path="/5DBF9B5A/60ACDF12" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/60ACDF12" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/60ACDF12" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/60ACDF12" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/60ACDF12" Ref="R406"  Part="1" 
+F 0 "R406" H 14500 4750 50  0000 L CNN
+F 1 "10k" H 14500 4650 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 14630 4750 50  0001 C CNN
+F 3 "~" H 14700 4750 50  0001 C CNN
+	1    14700 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60ACE887
+P 14800 4750
+AR Path="/5DBF9B5A/60ACE887" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/60ACE887" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/60ACE887" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/60ACE887" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/60ACE887" Ref="R407"  Part="1" 
+F 0 "R407" H 14600 4750 50  0000 L CNN
+F 1 "10k" H 14600 4650 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 14730 4750 50  0001 C CNN
+F 3 "~" H 14800 4750 50  0001 C CNN
+	1    14800 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60ACE9C8
+P 14900 4750
+AR Path="/5DBF9B5A/60ACE9C8" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/60ACE9C8" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/60ACE9C8" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/60ACE9C8" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/60ACE9C8" Ref="R408"  Part="1" 
+F 0 "R408" H 14700 4750 50  0000 L CNN
+F 1 "10k" H 14700 4650 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 14830 4750 50  0001 C CNN
+F 3 "~" H 14900 4750 50  0001 C CNN
+	1    14900 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60ACEBF0
+P 15000 4750
+AR Path="/5DBF9B5A/60ACEBF0" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/60ACEBF0" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/60ACEBF0" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/60ACEBF0" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/60ACEBF0" Ref="R409"  Part="1" 
+F 0 "R409" H 14800 4750 50  0000 L CNN
+F 1 "10k" H 14800 4650 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 14930 4750 50  0001 C CNN
+F 3 "~" H 15000 4750 50  0001 C CNN
+	1    15000 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14700 4250 14700 4600
+Wire Wire Line
+	14800 4400 14800 4600
+Wire Wire Line
+	14900 4250 14900 4600
+Wire Wire Line
+	15000 4250 15000 4600
+Wire Wire Line
+	15000 4900 15000 5300
+Wire Wire Line
+	14900 4900 14900 5200
+Wire Wire Line
+	14800 4900 14800 5100
+Wire Wire Line
+	14700 4900 14700 5400
+Text Label 14250 6800 0    50   ~ 0
++3V3_IO
+Text Label 15100 4250 0    50   ~ 0
++3V3_IO
+$Comp
+L Device:CP C?
+U 1 1 5DE63A72
+P 13250 1500
+AR Path="/5DBF9B5A/5DE63A72" Ref="C?"  Part="1" 
+AR Path="/5DC88EF1/5DE63A72" Ref="C?"  Part="1" 
+AR Path="/5DCC3140/5DE63A72" Ref="C?"  Part="1" 
+AR Path="/5DD2C0D9/5DE63A72" Ref="C?"  Part="1" 
+AR Path="/5DCFEDFC/5DE63A72" Ref="C?"  Part="1" 
+F 0 "C?" H 12800 1500 50  0000 L CNN
+F 1 "220uF/10V" H 12800 1400 50  0000 L CNN
+F 2 "Capacitor_SMD:C_Elec_8x6.2" H 13288 1350 50  0001 C CNN
+F 3 "~" H 13250 1500 50  0001 C CNN
+F 4 "WURTH WCAP-AS5H Series, Farnell 865230245004" H 13250 1500 50  0001 C CNN "Details"
+	1    13250 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5DE63A78
+P 13250 1650
+F 0 "#PWR?" H 13250 1400 50  0001 C CNN
+F 1 "GND" H 13255 1477 50  0000 C CNN
+F 2 "" H 13250 1650 50  0001 C CNN
+F 3 "" H 13250 1650 50  0001 C CNN
+	1    13250 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13250 1350 13250 1150
+Wire Wire Line
+	13250 1150 13100 1150
+Connection ~ 13250 1150
 $EndSCHEMATC

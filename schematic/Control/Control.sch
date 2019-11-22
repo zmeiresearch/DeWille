@@ -24,9 +24,9 @@ Text HLabel 7500 4000 2    50   Output ~ 0
 ~CS_CLK~
 Text HLabel 7500 4300 2    50   Output ~ 0
 ~RST_CLK~
-Text HLabel 7500 4400 2    50   Output ~ 0
+Text HLabel 4650 4500 0    50   Output ~ 0
 ~RST_DACL~
-Text HLabel 7500 4500 2    50   Output ~ 0
+Text HLabel 4650 4600 0    50   Output ~ 0
 ~RST_DACR~
 Text HLabel 4650 3900 0    50   Output ~ 0
 TX
@@ -117,9 +117,9 @@ Wire Wire Line
 Wire Wire Line
 	7500 4300 7100 4300
 Wire Wire Line
-	7500 4400 7100 4400
+	4650 4500 5050 4500
 Wire Wire Line
-	7500 4500 7100 4500
+	4650 4600 5050 4600
 Wire Wire Line
 	7100 4100 7500 4100
 Text HLabel 7500 4100 2    50   BiDi ~ 0
@@ -130,4 +130,111 @@ Text HLabel 7500 3500 2    50   BiDi ~ 0
 FPGA_DONE
 Wire Wire Line
 	7100 3500 7500 3500
+Text HLabel 4650 3500 0    50   Output ~ 0
+LED1
+Text HLabel 4650 3600 0    50   Output ~ 0
+LED2
+Wire Wire Line
+	5050 3600 4650 3600
+Wire Wire Line
+	4650 3500 5050 3500
+$Comp
+L Switch:SW_DIP_x02 SW301
+U 1 1 60548328
+P 8350 4700
+F 0 "SW301" H 8350 5067 50  0000 C CNN
+F 1 "SW_DIP_x02" H 8350 4976 50  0000 C CNN
+F 2 "Package_DIP:DIP-4_W7.62mm" H 8350 4700 50  0001 C CNN
+F 3 "~" H 8350 4700 50  0001 C CNN
+	1    8350 4700
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	7100 4600 7800 4600
+Wire Wire Line
+	8050 4700 7550 4700
+Wire Wire Line
+	8650 4600 8750 4600
+Wire Wire Line
+	8750 4600 8750 4700
+Wire Wire Line
+	8650 4700 8750 4700
+Connection ~ 8750 4700
+Wire Wire Line
+	8750 4700 8750 4800
+$Comp
+L power:GND #PWR?
+U 1 1 6054AF43
+P 8750 4800
+AR Path="/5DD2C0D9/6054AF43" Ref="#PWR?"  Part="1" 
+AR Path="/6054AF43" Ref="#PWR?"  Part="1" 
+AR Path="/5DDEE9E3/6054AF43" Ref="#PWR0146"  Part="1" 
+F 0 "#PWR0146" H 8750 4550 50  0001 C CNN
+F 1 "GND" H 8755 4627 50  0000 C CNN
+F 2 "" H 8750 4800 50  0001 C CNN
+F 3 "" H 8750 4800 50  0001 C CNN
+	1    8750 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 6055116C
+P 7800 4900
+AR Path="/5DBF9B5A/6055116C" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/6055116C" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/6055116C" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/6055116C" Ref="R?"  Part="1" 
+AR Path="/6055116C" Ref="R?"  Part="1" 
+AR Path="/5DDEE9E3/6055116C" Ref="R302"  Part="1" 
+F 0 "R302" H 7600 4900 50  0000 L CNN
+F 1 "10k" H 7600 4800 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7730 4900 50  0001 C CNN
+F 3 "~" H 7800 4900 50  0001 C CNN
+	1    7800 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 60551616
+P 7550 4900
+AR Path="/5DBF9B5A/60551616" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/60551616" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/60551616" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/60551616" Ref="R?"  Part="1" 
+AR Path="/60551616" Ref="R?"  Part="1" 
+AR Path="/5DDEE9E3/60551616" Ref="R301"  Part="1" 
+F 0 "R301" H 7350 4900 50  0000 L CNN
+F 1 "10k" H 7350 4800 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7480 4900 50  0001 C CNN
+F 3 "~" H 7550 4900 50  0001 C CNN
+	1    7550 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7550 4750 7550 4700
+Connection ~ 7550 4700
+Wire Wire Line
+	7550 4700 7100 4700
+Wire Wire Line
+	7800 4750 7800 4600
+Connection ~ 7800 4600
+Wire Wire Line
+	7800 4600 8050 4600
+Wire Wire Line
+	7100 4900 7300 4900
+Wire Wire Line
+	7300 4900 7300 5100
+Wire Wire Line
+	7300 5100 7550 5100
+Wire Wire Line
+	7800 5100 7800 5050
+Wire Wire Line
+	7550 5050 7550 5100
+Connection ~ 7550 5100
+Wire Wire Line
+	7550 5100 7800 5100
+Text HLabel 4650 4400 0    50   Output ~ 0
+~RST_FPGA~
+Wire Wire Line
+	4650 4400 5050 4400
 $EndSCHEMATC
