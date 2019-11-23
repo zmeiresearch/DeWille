@@ -14,19 +14,19 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text HLabel 7500 3700 2    50   Output ~ 0
-~CS_DACL~
-Text HLabel 7500 3800 2    50   Output ~ 0
-~CS_DACR~
-Text HLabel 7500 3900 2    50   Output ~ 0
-~CS_FPGA~
-Text HLabel 7500 4000 2    50   Output ~ 0
-~CS_CLK~
 Text HLabel 7500 4300 2    50   Output ~ 0
-~RST_CLK~
+~CS_DACL~
+Text HLabel 7500 4100 2    50   Output ~ 0
+~CS_DACR~
 Text HLabel 4650 4500 0    50   Output ~ 0
+~CS_FPGA~
+Text HLabel 7500 3900 2    50   Output ~ 0
+~CS_CLK~
+Text HLabel 7500 3800 2    50   Output ~ 0
+~RST_CLK~
+Text HLabel 7500 4200 2    50   Output ~ 0
 ~RST_DACL~
-Text HLabel 4650 4600 0    50   Output ~ 0
+Text HLabel 7500 4000 2    50   Output ~ 0
 ~RST_DACR~
 Text HLabel 4650 3900 0    50   Output ~ 0
 TX
@@ -122,11 +122,11 @@ Wire Wire Line
 	4650 4600 5050 4600
 Wire Wire Line
 	7100 4100 7500 4100
-Text HLabel 7500 4100 2    50   BiDi ~ 0
+Text HLabel 4650 4700 0    50   BiDi ~ 0
 ~FPGA_PROGRAM~
-Text HLabel 7500 4200 2    50   BiDi ~ 0
+Text HLabel 4650 4000 0    50   BiDi ~ 0
 ~FPGA_INIT~
-Text HLabel 7500 3500 2    50   BiDi ~ 0
+Text HLabel 4650 4600 0    50   BiDi ~ 0
 FPGA_DONE
 Wire Wire Line
 	7100 3500 7500 3500
@@ -237,4 +237,8 @@ Text HLabel 4650 4400 0    50   Output ~ 0
 ~RST_FPGA~
 Wire Wire Line
 	4650 4400 5050 4400
+Wire Wire Line
+	5050 4700 4650 4700
+Wire Wire Line
+	5050 4000 4650 4000
 $EndSCHEMATC
