@@ -825,7 +825,7 @@ Connection ~ 4350 7300
 Connection ~ 4700 7300
 Connection ~ 5050 7300
 Wire Wire Line
-	4350 7300 4700 7300
+	4350 7300 4550 7300
 Wire Wire Line
 	4000 8100 2550 8100
 Wire Wire Line
@@ -1029,4 +1029,76 @@ F 3 "" H 2300 9850 50  0001 C CNN
 	1    2300 9850
 	1    0    0    -1  
 $EndComp
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5DE66F70
+P 6850 8600
+AR Path="/5DCFEDFC/5DE66F70" Ref="TP?"  Part="1" 
+AR Path="/5DE66F70" Ref="TP?"  Part="1" 
+F 0 "TP?" V 7045 8672 50  0000 C CNN
+F 1 "TestPoint_GND" V 6954 8672 50  0000 C CNN
+F 2 "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm" H 7050 8600 50  0001 C CNN
+F 3 "~" H 7050 8600 50  0001 C CNN
+	1    6850 8600
+	0    1    -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5DE78F7B
+P 6850 8000
+AR Path="/5DCFEDFC/5DE78F7B" Ref="TP?"  Part="1" 
+AR Path="/5DE78F7B" Ref="TP?"  Part="1" 
+F 0 "TP?" V 7045 8072 50  0000 C CNN
+F 1 "TestPoint_+3V3" V 6954 8072 50  0000 C CNN
+F 2 "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm" H 7050 8000 50  0001 C CNN
+F 3 "~" H 7050 8000 50  0001 C CNN
+	1    6850 8000
+	0    1    -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5DE8BB1B
+P 6850 8300
+AR Path="/5DCFEDFC/5DE8BB1B" Ref="TP?"  Part="1" 
+AR Path="/5DE8BB1B" Ref="TP?"  Part="1" 
+F 0 "TP?" V 7045 8372 50  0000 C CNN
+F 1 "TestPoint_GND" V 6954 8372 50  0000 C CNN
+F 2 "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm" H 7050 8300 50  0001 C CNN
+F 3 "~" H 7050 8300 50  0001 C CNN
+	1    6850 8300
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5DEB2F33
+P 6750 8700
+AR Path="/5DD2C0D9/5DEB2F33" Ref="#PWR?"  Part="1" 
+AR Path="/5DEB2F33" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 6750 8450 50  0001 C CNN
+F 1 "GND" H 6755 8527 50  0000 C CNN
+F 2 "" H 6750 8700 50  0001 C CNN
+F 3 "" H 6750 8700 50  0001 C CNN
+	1    6750 8700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6750 8700 6750 8600
+Wire Wire Line
+	6750 8300 6850 8300
+Wire Wire Line
+	6850 8600 6750 8600
+Connection ~ 6750 8600
+Wire Wire Line
+	6750 8600 6750 8300
+Wire Wire Line
+	4550 7300 4550 8500
+Wire Wire Line
+	4550 8500 6350 8500
+Wire Wire Line
+	6350 8500 6350 8000
+Wire Wire Line
+	6350 8000 6850 8000
+Connection ~ 4550 7300
+Wire Wire Line
+	4550 7300 4700 7300
 $EndSCHEMATC

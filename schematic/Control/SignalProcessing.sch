@@ -2019,7 +2019,7 @@ L Connector:TestPoint TP401
 U 1 1 6020284D
 P 1500 2300
 F 0 "TP401" V 1695 2372 50  0000 C CNN
-F 1 "TestPoint" V 1604 2372 50  0000 C CNN
+F 1 "TestPoint_UPLLTL" V 1604 2372 50  0000 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1700 2300 50  0001 C CNN
 F 3 "~" H 1700 2300 50  0001 C CNN
 	1    1500 2300
@@ -2372,9 +2372,9 @@ $EndComp
 Wire Wire Line
 	14600 7300 13750 7300
 Wire Wire Line
-	13750 7300 13750 7100
+	13750 7300 13750 7200
 Wire Wire Line
-	13750 7100 13450 7100
+	13750 7200 13450 7200
 Text Label 14650 3100 0    50   ~ 0
 +3V3_IO
 Wire Wire Line
@@ -2579,4 +2579,28 @@ F 3 "~" H 1500 8600 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1650 8600 1850 8600
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5DE115AF
+P 13450 7100
+F 0 "TP?" V 13350 7250 50  0000 C CNN
+F 1 "TP_free1" V 13300 7150 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 13650 7100 50  0001 C CNN
+F 3 "~" H 13650 7100 50  0001 C CNN
+	1    13450 7100
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint TP?
+U 1 1 5DE2E3D0
+P 1650 7900
+F 0 "TP?" V 1650 8200 50  0000 C CNN
+F 1 "TestPoint_free2" V 1550 8050 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1850 7900 50  0001 C CNN
+F 3 "~" H 1850 7900 50  0001 C CNN
+	1    1650 7900
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1850 7900 1650 7900
 $EndSCHEMATC
