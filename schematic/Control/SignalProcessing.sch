@@ -22,18 +22,12 @@ Text HLabel 14600 8400 2    50   Output ~ 0
 MISO
 Text HLabel 14600 8200 2    50   Input ~ 0
 SCLK
-Text HLabel 1450 7800 0    50   Output ~ 0
+Text HLabel 1200 7800 0    50   Output ~ 0
 I2S_LRCKL_OUT
-Text HLabel 1450 7400 0    50   Output ~ 0
+Text HLabel 1200 7400 0    50   Output ~ 0
 I2S_BCKL_OUT
-Text HLabel 1450 7600 0    50   Output ~ 0
+Text HLabel 1200 7600 0    50   Output ~ 0
 I2S_DATAL_OUT
-Wire Wire Line
-	1450 7600 1850 7600
-Wire Wire Line
-	1850 7400 1450 7400
-Wire Wire Line
-	1450 7800 1850 7800
 Text HLabel 4400 2300 2    50   Input ~ 0
 SCK_IN
 $Comp
@@ -226,18 +220,12 @@ Text HLabel 14600 8500 2    50   Input ~ 0
 MOSI
 Wire Wire Line
 	14600 8500 13450 8500
-Text HLabel 1450 8400 0    50   Output ~ 0
+Text HLabel 1200 8400 0    50   Output ~ 0
 I2S_DATAR_OUT
-Wire Wire Line
-	1450 8400 1850 8400
-Text HLabel 1450 8600 0    50   Output ~ 0
+Text HLabel 1200 8600 0    50   Output ~ 0
 I2S_LRCKR_OUT
-Text HLabel 1450 8200 0    50   Output ~ 0
+Text HLabel 1200 8200 0    50   Output ~ 0
 I2S_BCKR_OUT
-Wire Wire Line
-	1850 8200 1450 8200
-Wire Wire Line
-	1450 8600 1850 8600
 Text HLabel 1500 3600 0    50   Input ~ 0
 I2S1_DATA_IN
 Text HLabel 1500 3900 0    50   Input ~ 0
@@ -2471,4 +2459,124 @@ F 3 "FB1608-101Y; Comet 16318" H 13100 3100 50  0001 C CNN
 $EndComp
 Text Label 12200 2250 0    50   ~ 0
 +3V3_FPGA
+Wire Wire Line
+	1200 7400 1350 7400
+Wire Wire Line
+	1200 7600 1350 7600
+Wire Wire Line
+	1200 7800 1350 7800
+Wire Wire Line
+	1200 8200 1350 8200
+Wire Wire Line
+	1200 8400 1350 8400
+Wire Wire Line
+	1200 8600 1350 8600
+$Comp
+L Device:R R?
+U 1 1 5E7FFBA0
+P 1500 7400
+AR Path="/5DBF9B5A/5E7FFBA0" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/5E7FFBA0" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/5E7FFBA0" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/5E7FFBA0" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/5E7FFBA0" Ref="R410"  Part="1" 
+F 0 "R410" V 1450 7150 50  0000 L CNN
+F 1 "39" V 1450 7550 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1430 7400 50  0001 C CNN
+F 3 "~" H 1500 7400 50  0001 C CNN
+	1    1500 7400
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1650 7400 1850 7400
+$Comp
+L Device:R R?
+U 1 1 5E8015F6
+P 1500 7600
+AR Path="/5DBF9B5A/5E8015F6" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/5E8015F6" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/5E8015F6" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/5E8015F6" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/5E8015F6" Ref="R411"  Part="1" 
+F 0 "R411" V 1450 7350 50  0000 L CNN
+F 1 "39" V 1450 7750 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1430 7600 50  0001 C CNN
+F 3 "~" H 1500 7600 50  0001 C CNN
+	1    1500 7600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1650 7600 1850 7600
+$Comp
+L Device:R R?
+U 1 1 5E801972
+P 1500 7800
+AR Path="/5DBF9B5A/5E801972" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/5E801972" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/5E801972" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/5E801972" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/5E801972" Ref="R412"  Part="1" 
+F 0 "R412" V 1450 7550 50  0000 L CNN
+F 1 "39" V 1450 7950 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1430 7800 50  0001 C CNN
+F 3 "~" H 1500 7800 50  0001 C CNN
+	1    1500 7800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1650 7800 1850 7800
+$Comp
+L Device:R R?
+U 1 1 5E801CEE
+P 1500 8200
+AR Path="/5DBF9B5A/5E801CEE" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/5E801CEE" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/5E801CEE" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/5E801CEE" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/5E801CEE" Ref="R413"  Part="1" 
+F 0 "R413" V 1450 7950 50  0000 L CNN
+F 1 "39" V 1450 8350 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1430 8200 50  0001 C CNN
+F 3 "~" H 1500 8200 50  0001 C CNN
+	1    1500 8200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1650 8200 1850 8200
+$Comp
+L Device:R R?
+U 1 1 5E80213C
+P 1500 8400
+AR Path="/5DBF9B5A/5E80213C" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/5E80213C" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/5E80213C" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/5E80213C" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/5E80213C" Ref="R414"  Part="1" 
+F 0 "R414" V 1450 8150 50  0000 L CNN
+F 1 "39" V 1450 8550 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1430 8400 50  0001 C CNN
+F 3 "~" H 1500 8400 50  0001 C CNN
+	1    1500 8400
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1650 8400 1850 8400
+$Comp
+L Device:R R?
+U 1 1 5E80233E
+P 1500 8600
+AR Path="/5DBF9B5A/5E80233E" Ref="R?"  Part="1" 
+AR Path="/5DCC3140/5E80233E" Ref="R?"  Part="1" 
+AR Path="/5DD2C0D9/5E80233E" Ref="R?"  Part="1" 
+AR Path="/5DDC09A7/5E80233E" Ref="R?"  Part="1" 
+AR Path="/5DCFEDFC/5E80233E" Ref="R415"  Part="1" 
+F 0 "R415" V 1450 8350 50  0000 L CNN
+F 1 "39" V 1450 8750 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1430 8600 50  0001 C CNN
+F 3 "~" H 1500 8600 50  0001 C CNN
+	1    1500 8600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1650 8600 1850 8600
 $EndSCHEMATC
