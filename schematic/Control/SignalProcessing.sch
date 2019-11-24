@@ -2580,10 +2580,10 @@ $EndComp
 Wire Wire Line
 	1650 8600 1850 8600
 $Comp
-L Connector:TestPoint TP?
+L Connector:TestPoint TP403
 U 1 1 5DE115AF
 P 13450 7100
-F 0 "TP?" V 13350 7250 50  0000 C CNN
+F 0 "TP403" V 13350 7250 50  0000 C CNN
 F 1 "TP_free1" V 13300 7150 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 13650 7100 50  0001 C CNN
 F 3 "~" H 13650 7100 50  0001 C CNN
@@ -2591,10 +2591,10 @@ F 3 "~" H 13650 7100 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:TestPoint TP?
+L Connector:TestPoint TP402
 U 1 1 5DE2E3D0
 P 1650 7900
-F 0 "TP?" V 1650 8200 50  0000 C CNN
+F 0 "TP402" V 1650 8200 50  0000 C CNN
 F 1 "TestPoint_free2" V 1550 8050 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1850 7900 50  0001 C CNN
 F 3 "~" H 1850 7900 50  0001 C CNN

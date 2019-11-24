@@ -1017,7 +1017,7 @@ F 3 "https://www.vishay.com/docs/88301/15ke.pdf" H 3850 2550 50  0001 C CNN
 $EndComp
 Connection ~ 3850 2400
 Wire Wire Line
-	3850 2400 5800 2400
+	3850 2400 4700 2400
 $Comp
 L Zmei_elements:Logo U101
 U 1 1 5E70F649
@@ -1034,8 +1034,8 @@ L Connector:TestPoint TP?
 U 1 1 5DE66F70
 P 6850 8600
 AR Path="/5DCFEDFC/5DE66F70" Ref="TP?"  Part="1" 
-AR Path="/5DE66F70" Ref="TP?"  Part="1" 
-F 0 "TP?" V 7045 8672 50  0000 C CNN
+AR Path="/5DE66F70" Ref="TP103"  Part="1" 
+F 0 "TP103" V 7045 8672 50  0000 C CNN
 F 1 "TestPoint_GND" V 6954 8672 50  0000 C CNN
 F 2 "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm" H 7050 8600 50  0001 C CNN
 F 3 "~" H 7050 8600 50  0001 C CNN
@@ -1047,8 +1047,8 @@ L Connector:TestPoint TP?
 U 1 1 5DE78F7B
 P 6850 8000
 AR Path="/5DCFEDFC/5DE78F7B" Ref="TP?"  Part="1" 
-AR Path="/5DE78F7B" Ref="TP?"  Part="1" 
-F 0 "TP?" V 7045 8072 50  0000 C CNN
+AR Path="/5DE78F7B" Ref="TP101"  Part="1" 
+F 0 "TP101" V 7045 8072 50  0000 C CNN
 F 1 "TestPoint_+3V3" V 6954 8072 50  0000 C CNN
 F 2 "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm" H 7050 8000 50  0001 C CNN
 F 3 "~" H 7050 8000 50  0001 C CNN
@@ -1060,8 +1060,8 @@ L Connector:TestPoint TP?
 U 1 1 5DE8BB1B
 P 6850 8300
 AR Path="/5DCFEDFC/5DE8BB1B" Ref="TP?"  Part="1" 
-AR Path="/5DE8BB1B" Ref="TP?"  Part="1" 
-F 0 "TP?" V 7045 8372 50  0000 C CNN
+AR Path="/5DE8BB1B" Ref="TP102"  Part="1" 
+F 0 "TP102" V 7045 8372 50  0000 C CNN
 F 1 "TestPoint_GND" V 6954 8372 50  0000 C CNN
 F 2 "TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm" H 7050 8300 50  0001 C CNN
 F 3 "~" H 7050 8300 50  0001 C CNN
@@ -1073,8 +1073,8 @@ L power:GND #PWR?
 U 1 1 5DEB2F33
 P 6750 8700
 AR Path="/5DD2C0D9/5DEB2F33" Ref="#PWR?"  Part="1" 
-AR Path="/5DEB2F33" Ref="#PWR?"  Part="1" 
-F 0 "#PWR?" H 6750 8450 50  0001 C CNN
+AR Path="/5DEB2F33" Ref="#PWR0150"  Part="1" 
+F 0 "#PWR0150" H 6750 8450 50  0001 C CNN
 F 1 "GND" H 6755 8527 50  0000 C CNN
 F 2 "" H 6750 8700 50  0001 C CNN
 F 3 "" H 6750 8700 50  0001 C CNN
@@ -1101,4 +1101,37 @@ Wire Wire Line
 Connection ~ 4550 7300
 Wire Wire Line
 	4550 7300 4700 7300
+$Comp
+L Device:C C?
+U 1 1 5DF13114
+P 4700 2550
+AR Path="/5DBF9B5A/5DF13114" Ref="C?"  Part="1" 
+AR Path="/5DC88EF1/5DF13114" Ref="C?"  Part="1" 
+AR Path="/5DCC3140/5DF13114" Ref="C?"  Part="1" 
+AR Path="/5DD2C0D9/5DF13114" Ref="C?"  Part="1" 
+AR Path="/5DCFEDFC/5DF13114" Ref="C?"  Part="1" 
+AR Path="/5DF13114" Ref="C101"  Part="1" 
+F 0 "C101" H 4800 2550 50  0000 L CNN
+F 1 "1nF" H 4750 2650 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 4738 2400 50  0001 C CNN
+F 3 "~" H 4700 2550 50  0001 C CNN
+	1    4700 2550
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5DF2648F
+P 4700 2700
+AR Path="/5DD2C0D9/5DF2648F" Ref="#PWR?"  Part="1" 
+AR Path="/5DF2648F" Ref="#PWR0151"  Part="1" 
+F 0 "#PWR0151" H 4700 2450 50  0001 C CNN
+F 1 "GND" H 4705 2527 50  0000 C CNN
+F 2 "" H 4700 2700 50  0001 C CNN
+F 3 "" H 4700 2700 50  0001 C CNN
+	1    4700 2700
+	1    0    0    -1  
+$EndComp
+Connection ~ 4700 2400
+Wire Wire Line
+	4700 2400 5800 2400
 $EndSCHEMATC
