@@ -43,19 +43,19 @@ Text Label 7450 3850 0    50   ~ 0
 FPGA_SCK
 Text Label 11100 4250 0    50   ~ 0
 DACR_SCK
-Text Label 11100 4450 0    50   ~ 0
+Text Label 11100 4650 0    50   ~ 0
 DACR_BCK
 Text Label 11100 4550 0    50   ~ 0
 DACR_DATA
-Text Label 11100 4650 0    50   ~ 0
+Text Label 11100 4450 0    50   ~ 0
 DACR_LRCK
 Text Label 11050 3350 0    50   ~ 0
 DACL_DATA
-Text Label 11050 3250 0    50   ~ 0
+Text Label 11050 3450 0    50   ~ 0
 DACL_BCK
 Text Label 11050 3050 0    50   ~ 0
 DACL_SCK
-Text Label 11050 3450 0    50   ~ 0
+Text Label 11050 3250 0    50   ~ 0
 DACL_LRCK
 Text Label 11100 4850 0    50   ~ 0
 MISO

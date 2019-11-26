@@ -22,9 +22,9 @@ Text HLabel 14600 8400 2    50   Output ~ 0
 MISO
 Text HLabel 14600 8200 2    50   Input ~ 0
 SCLK
-Text HLabel 1200 7800 0    50   Output ~ 0
-I2S_LRCKL_OUT
 Text HLabel 1200 7400 0    50   Output ~ 0
+I2S_LRCKL_OUT
+Text HLabel 1200 7800 0    50   Output ~ 0
 I2S_BCKL_OUT
 Text HLabel 1200 7600 0    50   Output ~ 0
 I2S_DATAL_OUT
@@ -222,9 +222,9 @@ Wire Wire Line
 	14600 8500 13450 8500
 Text HLabel 1200 8400 0    50   Output ~ 0
 I2S_DATAR_OUT
-Text HLabel 1200 8600 0    50   Output ~ 0
-I2S_LRCKR_OUT
 Text HLabel 1200 8200 0    50   Output ~ 0
+I2S_LRCKR_OUT
+Text HLabel 1200 8600 0    50   Output ~ 0
 I2S_BCKR_OUT
 Text HLabel 1500 3600 0    50   Input ~ 0
 I2S1_DATA_IN
