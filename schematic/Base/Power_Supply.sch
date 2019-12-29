@@ -15,56 +15,6 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Device:R R202
-U 1 1 5E666198
-P 3750 4550
-F 0 "R202" H 3820 4596 50  0000 L CNN
-F 1 "R" H 3820 4505 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 3680 4550 50  0001 C CNN
-F 3 "~" H 3750 4550 50  0001 C CNN
-	1    3750 4550
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C202
-U 1 1 5E66619E
-P 3750 4950
-F 0 "C202" H 3865 4996 50  0000 L CNN
-F 1 "C" H 3865 4905 50  0000 L CNN
-F 2 "Capacitor_THT:C_Rect_L11.0mm_W5.1mm_P10.00mm_MKT" H 3788 4800 50  0001 C CNN
-F 3 "~" H 3750 4950 50  0001 C CNN
-	1    3750 4950
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3750 4700 3750 4800
-Wire Wire Line
-	3750 5100 3750 5150
-Wire Wire Line
-	3750 4400 3750 4350
-$Comp
-L Zmei_elements:ANG_6VA TR202
-U 1 1 5E6661A7
-P 2050 4450
-F 0 "TR202" H 2050 4875 50  0000 C CNN
-F 1 "ANG_6VA" H 2050 4784 50  0000 C CNN
-F 2 "Zmei_Footprints:TRAF_ANG6VA" H 2050 4450 50  0001 C CNN
-F 3 "" H 2050 4450 50  0001 C CNN
-	1    2050 4450
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Zmei_elements:TRAF_BULTRAF10VA_SINGLE TR201
-U 1 1 5E6661AD
-P 1800 5150
-F 0 "TR201" H 1782 5575 50  0000 C CNN
-F 1 "TRAF_BULTRAF10VA_SINGLE" H 1782 5484 50  0000 C CNN
-F 2 "Zmei_Footprints:TRAF_BULTRAF10VA" H 1800 5150 50  0001 C CNN
-F 3 "" H 1800 5150 50  0001 C CNN
-	1    1800 5150
-	-1   0    0    1   
-$EndComp
-$Comp
 L Zmei_elements:TRAF_DUAL TR204
 U 1 1 5E6661B3
 P 3050 5050
@@ -141,17 +91,7 @@ $EndComp
 Wire Wire Line
 	2100 8000 2100 7800
 Wire Wire Line
-	3250 4950 3400 4950
-Wire Wire Line
 	3400 4550 3250 4550
-Wire Wire Line
-	3400 4350 3750 4350
-Wire Wire Line
-	3400 4550 3400 4350
-Wire Wire Line
-	3400 5150 3750 5150
-Wire Wire Line
-	3400 4950 3400 5150
 $Comp
 L Device:C C205
 U 1 1 5E6661E0
@@ -164,13 +104,7 @@ F 3 "~" H 4600 4500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4950 4750 4600 4750
-Wire Wire Line
-	4350 4750 4350 5150
-Wire Wire Line
-	4350 5150 3750 5150
-Connection ~ 4950 4750
-Connection ~ 3750 5150
+	4350 4750 4350 4950
 Wire Wire Line
 	4600 4850 4600 4750
 Connection ~ 4600 4750
@@ -188,23 +122,13 @@ Wire Wire Line
 	5750 4850 5750 4750
 Connection ~ 5750 4750
 Wire Wire Line
-	5400 4750 5750 4750
-Connection ~ 5400 4750
-Wire Wire Line
 	5750 5150 5750 5200
 Wire Wire Line
 	5750 4350 5750 4300
 Wire Wire Line
-	3750 4350 4350 4350
-Wire Wire Line
-	4350 4350 4350 4100
-Wire Wire Line
-	4350 4100 5950 4100
-Wire Wire Line
 	5950 4100 5950 4750
 Wire Wire Line
 	5950 4750 5750 4750
-Connection ~ 3750 4350
 $Comp
 L Device:CP C217
 U 1 1 5E6661FE
@@ -269,46 +193,6 @@ Wire Wire Line
 Wire Wire Line
 	2600 8650 2800 8650
 $Comp
-L Device:R R203
-U 1 1 5E666220
-P 3750 7350
-F 0 "R203" H 3820 7396 50  0000 L CNN
-F 1 "R" H 3820 7305 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 3680 7350 50  0001 C CNN
-F 3 "~" H 3750 7350 50  0001 C CNN
-	1    3750 7350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C203
-U 1 1 5E666226
-P 3750 7750
-F 0 "C203" H 3865 7796 50  0000 L CNN
-F 1 "C" H 3865 7705 50  0000 L CNN
-F 2 "Capacitor_THT:C_Rect_L11.0mm_W5.1mm_P10.00mm_MKT" H 3788 7600 50  0001 C CNN
-F 3 "~" H 3750 7750 50  0001 C CNN
-	1    3750 7750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3750 7500 3750 7600
-Wire Wire Line
-	3750 7900 3750 7950
-Wire Wire Line
-	3750 7200 3750 7150
-Wire Wire Line
-	3400 7950 3750 7950
-Wire Wire Line
-	4350 7550 4350 7950
-Wire Wire Line
-	4350 7950 3750 7950
-Connection ~ 3750 7950
-Wire Wire Line
-	3750 7150 4350 7150
-Wire Wire Line
-	4350 7150 4350 6900
-Connection ~ 3750 7150
-$Comp
 L Device:CP C218
 U 1 1 5E666236
 P 6500 7550
@@ -324,46 +208,6 @@ Wire Wire Line
 Wire Wire Line
 	6500 7700 6500 8000
 $Comp
-L Device:R R204
-U 1 1 5E66623E
-P 3750 9150
-F 0 "R204" H 3820 9196 50  0000 L CNN
-F 1 "R" H 3820 9105 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal" V 3680 9150 50  0001 C CNN
-F 3 "~" H 3750 9150 50  0001 C CNN
-	1    3750 9150
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C204
-U 1 1 5E666244
-P 3750 9550
-F 0 "C204" H 3865 9596 50  0000 L CNN
-F 1 "C" H 3865 9505 50  0000 L CNN
-F 2 "Capacitor_THT:C_Rect_L11.0mm_W5.1mm_P10.00mm_MKT" H 3788 9400 50  0001 C CNN
-F 3 "~" H 3750 9550 50  0001 C CNN
-	1    3750 9550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3750 9300 3750 9400
-Wire Wire Line
-	3750 9700 3750 9750
-Wire Wire Line
-	3750 9000 3750 8950
-Wire Wire Line
-	3400 8950 3750 8950
-Wire Wire Line
-	4350 9350 4350 9750
-Wire Wire Line
-	4350 9750 3750 9750
-Connection ~ 3750 9750
-Wire Wire Line
-	3750 8950 4350 8950
-Wire Wire Line
-	4350 8950 4350 8700
-Connection ~ 3750 8950
-$Comp
 L Device:CP C219
 U 1 1 5E666254
 P 6500 9350
@@ -378,96 +222,6 @@ Wire Wire Line
 	6500 9200 6500 8900
 Wire Wire Line
 	6500 9500 6500 9800
-Wire Wire Line
-	3200 8350 3400 8350
-Wire Wire Line
-	3400 8350 3400 7950
-Wire Wire Line
-	3200 7950 3200 7150
-Wire Wire Line
-	3200 7150 3750 7150
-Wire Wire Line
-	3200 8550 3400 8550
-Wire Wire Line
-	3400 8550 3400 8950
-Wire Wire Line
-	3200 8950 3200 9750
-Wire Wire Line
-	3200 9750 3750 9750
-$Comp
-L Device:D D201
-U 1 1 5E666264
-P 4950 4500
-F 0 "D201" V 4600 4400 50  0000 C CNN
-F 1 "SR580" V 4700 4500 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 4950 4500 50  0001 C CNN
-F 3 "~" H 4950 4500 50  0001 C CNN
-	1    4950 4500
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4600 5200 4950 5200
-Wire Wire Line
-	4600 4300 4950 4300
-$Comp
-L Device:D D202
-U 1 1 5E66626C
-P 4950 5000
-F 0 "D202" V 5200 4900 50  0000 C CNN
-F 1 "SR580" V 5300 5000 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 4950 5000 50  0001 C CNN
-F 3 "~" H 4950 5000 50  0001 C CNN
-	1    4950 5000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D D208
-U 1 1 5E666272
-P 5400 5000
-F 0 "D208" V 5650 4900 50  0000 C CNN
-F 1 "SR580" V 5750 5000 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 5400 5000 50  0001 C CNN
-F 3 "~" H 5400 5000 50  0001 C CNN
-	1    5400 5000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D D207
-U 1 1 5E666278
-P 5400 4500
-F 0 "D207" V 5050 4400 50  0000 C CNN
-F 1 "SR580" V 5150 4500 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 5400 4500 50  0001 C CNN
-F 3 "~" H 5400 4500 50  0001 C CNN
-	1    5400 4500
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	5400 4650 5400 4750
-Wire Wire Line
-	5400 4350 5400 4300
-Connection ~ 5400 4300
-Wire Wire Line
-	5400 4300 5750 4300
-Wire Wire Line
-	4950 4350 4950 4300
-Connection ~ 4950 4300
-Wire Wire Line
-	4950 4300 5400 4300
-Wire Wire Line
-	4950 4750 4950 4850
-Wire Wire Line
-	4950 5150 4950 5200
-Connection ~ 4950 5200
-Wire Wire Line
-	4950 5200 5400 5200
-Wire Wire Line
-	5400 5200 5400 5150
-Connection ~ 5400 5200
-Wire Wire Line
-	5400 5200 5750 5200
-Wire Wire Line
-	5400 4750 5400 4850
 $Comp
 L Device:C C206
 U 1 1 5E66628D
@@ -513,13 +267,8 @@ F 3 "~" H 4600 7300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4950 7550 4600 7550
-Connection ~ 4950 7550
-Wire Wire Line
 	4600 7650 4600 7550
 Connection ~ 4600 7550
-Wire Wire Line
-	4600 7550 4350 7550
 Wire Wire Line
 	4600 7450 4600 7550
 Wire Wire Line
@@ -532,16 +281,9 @@ Wire Wire Line
 	5750 7650 5750 7550
 Connection ~ 5750 7550
 Wire Wire Line
-	5400 7550 5750 7550
-Connection ~ 5400 7550
-Wire Wire Line
 	5750 7950 5750 8000
 Wire Wire Line
 	5750 7150 5750 7100
-Wire Wire Line
-	4350 6900 5950 6900
-Wire Wire Line
-	5950 6900 5950 7550
 Wire Wire Line
 	5950 7550 5750 7550
 Wire Wire Line
@@ -550,80 +292,6 @@ Connection ~ 5750 7100
 Wire Wire Line
 	5750 8000 6500 8000
 Connection ~ 5750 8000
-$Comp
-L Device:D D203
-U 1 1 5E6662BB
-P 4950 7300
-F 0 "D203" V 4600 7200 50  0000 C CNN
-F 1 "1N5400" V 4700 7300 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 4950 7300 50  0001 C CNN
-F 3 "~" H 4950 7300 50  0001 C CNN
-	1    4950 7300
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4600 8000 4950 8000
-Wire Wire Line
-	4600 7100 4950 7100
-$Comp
-L Device:D D204
-U 1 1 5E6662C3
-P 4950 7800
-F 0 "D204" V 5200 7700 50  0000 C CNN
-F 1 "1N5400" V 5300 7800 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 4950 7800 50  0001 C CNN
-F 3 "~" H 4950 7800 50  0001 C CNN
-	1    4950 7800
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D D210
-U 1 1 5E6662C9
-P 5400 7800
-F 0 "D210" V 5650 7700 50  0000 C CNN
-F 1 "1N5400" V 5750 7800 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 5400 7800 50  0001 C CNN
-F 3 "~" H 5400 7800 50  0001 C CNN
-	1    5400 7800
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D D209
-U 1 1 5E6662CF
-P 5400 7300
-F 0 "D209" V 5050 7200 50  0000 C CNN
-F 1 "1N5400" V 5150 7300 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 5400 7300 50  0001 C CNN
-F 3 "~" H 5400 7300 50  0001 C CNN
-	1    5400 7300
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	5400 7450 5400 7550
-Wire Wire Line
-	5400 7150 5400 7100
-Connection ~ 5400 7100
-Wire Wire Line
-	5400 7100 5750 7100
-Wire Wire Line
-	4950 7150 4950 7100
-Connection ~ 4950 7100
-Wire Wire Line
-	4950 7100 5400 7100
-Wire Wire Line
-	4950 7550 4950 7650
-Wire Wire Line
-	4950 7950 4950 8000
-Connection ~ 4950 8000
-Wire Wire Line
-	4950 8000 5400 8000
-Wire Wire Line
-	5400 8000 5400 7950
-Connection ~ 5400 8000
-Wire Wire Line
-	5400 8000 5750 8000
-Wire Wire Line
-	5400 7550 5400 7650
 $Comp
 L Device:C C208
 U 1 1 5E6662E4
@@ -669,13 +337,8 @@ F 3 "~" H 4600 9100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4950 9350 4600 9350
-Connection ~ 4950 9350
-Wire Wire Line
 	4600 9450 4600 9350
 Connection ~ 4600 9350
-Wire Wire Line
-	4600 9350 4350 9350
 Wire Wire Line
 	4600 9250 4600 9350
 Wire Wire Line
@@ -688,16 +351,9 @@ Wire Wire Line
 	5750 9450 5750 9350
 Connection ~ 5750 9350
 Wire Wire Line
-	5400 9350 5750 9350
-Connection ~ 5400 9350
-Wire Wire Line
 	5750 9750 5750 9800
 Wire Wire Line
 	5750 8950 5750 8900
-Wire Wire Line
-	4350 8700 5950 8700
-Wire Wire Line
-	5950 8700 5950 9350
 Wire Wire Line
 	5950 9350 5750 9350
 Wire Wire Line
@@ -706,80 +362,6 @@ Connection ~ 5750 8900
 Wire Wire Line
 	5750 9800 6500 9800
 Connection ~ 5750 9800
-$Comp
-L Device:D D205
-U 1 1 5E666312
-P 4950 9100
-F 0 "D205" V 4600 9000 50  0000 C CNN
-F 1 "1N5400" V 4700 9100 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 4950 9100 50  0001 C CNN
-F 3 "~" H 4950 9100 50  0001 C CNN
-	1    4950 9100
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	4600 9800 4950 9800
-Wire Wire Line
-	4600 8900 4950 8900
-$Comp
-L Device:D D206
-U 1 1 5E66631A
-P 4950 9600
-F 0 "D206" V 5200 9500 50  0000 C CNN
-F 1 "1N5400" V 5300 9600 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 4950 9600 50  0001 C CNN
-F 3 "~" H 4950 9600 50  0001 C CNN
-	1    4950 9600
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D D212
-U 1 1 5E666320
-P 5400 9600
-F 0 "D212" V 5650 9500 50  0000 C CNN
-F 1 "1N5400" V 5750 9600 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 5400 9600 50  0001 C CNN
-F 3 "~" H 5400 9600 50  0001 C CNN
-	1    5400 9600
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:D D211
-U 1 1 5E666326
-P 5400 9100
-F 0 "D211" V 5050 9000 50  0000 C CNN
-F 1 "1N5400" V 5150 9100 50  0000 C CNN
-F 2 "Diode_THT:D_DO-27_P15.24mm_Horizontal" H 5400 9100 50  0001 C CNN
-F 3 "~" H 5400 9100 50  0001 C CNN
-	1    5400 9100
-	0    1    1    0   
-$EndComp
-Wire Wire Line
-	5400 9250 5400 9350
-Wire Wire Line
-	5400 8950 5400 8900
-Connection ~ 5400 8900
-Wire Wire Line
-	5400 8900 5750 8900
-Wire Wire Line
-	4950 8950 4950 8900
-Connection ~ 4950 8900
-Wire Wire Line
-	4950 8900 5400 8900
-Wire Wire Line
-	4950 9350 4950 9450
-Wire Wire Line
-	4950 9750 4950 9800
-Connection ~ 4950 9800
-Wire Wire Line
-	4950 9800 5400 9800
-Wire Wire Line
-	5400 9800 5400 9750
-Connection ~ 5400 9800
-Wire Wire Line
-	5400 9800 5750 9800
-Wire Wire Line
-	5400 9350 5400 9450
 $Comp
 L Device:C C210
 U 1 1 5E66633B
@@ -813,12 +395,6 @@ F 3 "~" H 5750 9100 50  0001 C CNN
 	1    5750 9100
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4950 7450 4950 7550
-Wire Wire Line
-	4950 9250 4950 9350
-Wire Wire Line
-	4950 4650 4950 4750
 $Comp
 L power:GND #PWR?
 U 1 1 5E666350
@@ -2069,4 +1645,117 @@ F 3 "" H 8900 1300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Connection ~ 8900 1300
+$Comp
+L Diode_Bridge:KBU8M D216
+U 1 1 5E45095B
+P 5200 7550
+F 0 "D216" H 5100 7000 50  0000 L CNN
+F 1 "KBU8M" H 5100 6900 50  0000 L CNN
+F 2 "Diode_THT:Diode_Bridge_Vishay_KBU" H 5350 7675 50  0001 L CNN
+F 3 "http://www.vishay.com/docs/88656/kbu8.pdf" H 5200 7550 50  0001 C CNN
+	1    5200 7550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4600 7550 4900 7550
+Wire Wire Line
+	5500 7550 5750 7550
+Wire Wire Line
+	5200 7250 5200 7100
+Connection ~ 5200 7100
+Wire Wire Line
+	5200 7850 5200 8000
+Connection ~ 5200 8000
+Wire Wire Line
+	4600 7100 5200 7100
+Wire Wire Line
+	5200 7100 5750 7100
+Wire Wire Line
+	4600 8000 5200 8000
+Wire Wire Line
+	5200 8000 5750 8000
+Wire Wire Line
+	4600 9800 5200 9800
+Wire Wire Line
+	4600 8900 5200 8900
+$Comp
+L Diode_Bridge:KBU8M D202
+U 1 1 5E53F18C
+P 5200 9350
+F 0 "D202" H 5100 8800 50  0000 L CNN
+F 1 "KBU8M" H 5100 8700 50  0000 L CNN
+F 2 "Diode_THT:Diode_Bridge_Vishay_KBU" H 5350 9475 50  0001 L CNN
+F 3 "http://www.vishay.com/docs/88656/kbu8.pdf" H 5200 9350 50  0001 C CNN
+	1    5200 9350
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4900 9350 4600 9350
+Wire Wire Line
+	5500 9350 5750 9350
+Wire Wire Line
+	5200 9050 5200 8900
+Connection ~ 5200 8900
+Wire Wire Line
+	5200 8900 5750 8900
+Wire Wire Line
+	5200 9650 5200 9800
+Connection ~ 5200 9800
+Wire Wire Line
+	5200 9800 5750 9800
+Wire Wire Line
+	4600 4300 5200 4300
+Wire Wire Line
+	4600 5200 5200 5200
+$Comp
+L Diode_Bridge:KBU8M D201
+U 1 1 5E5C061F
+P 5200 4750
+F 0 "D201" H 5100 4200 50  0000 L CNN
+F 1 "KBU8M" H 5100 4100 50  0000 L CNN
+F 2 "Diode_THT:Diode_Bridge_Vishay_KBU" H 5350 4875 50  0001 L CNN
+F 3 "http://www.vishay.com/docs/88656/kbu8.pdf" H 5200 4750 50  0001 C CNN
+	1    5200 4750
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4900 4750 4600 4750
+Wire Wire Line
+	5200 5050 5200 5200
+Connection ~ 5200 5200
+Wire Wire Line
+	5200 5200 5750 5200
+Wire Wire Line
+	5200 4450 5200 4300
+Connection ~ 5200 4300
+Wire Wire Line
+	5200 4300 5750 4300
+Wire Wire Line
+	5500 4750 5750 4750
+Wire Wire Line
+	5950 8350 5950 7550
+Wire Wire Line
+	3200 8350 5950 8350
+Wire Wire Line
+	3200 7950 3300 7950
+Wire Wire Line
+	3300 7950 3300 7550
+Wire Wire Line
+	3300 7550 4600 7550
+Wire Wire Line
+	5950 8550 5950 9350
+Wire Wire Line
+	3200 8550 5950 8550
+Wire Wire Line
+	3200 8950 3300 8950
+Wire Wire Line
+	3300 8950 3300 9350
+Wire Wire Line
+	3300 9350 4600 9350
+Wire Wire Line
+	3400 4100 5950 4100
+Wire Wire Line
+	3400 4100 3400 4550
+Wire Wire Line
+	3250 4950 4350 4950
 $EndSCHEMATC

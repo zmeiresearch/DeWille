@@ -843,4 +843,15 @@ F 3 "" H 3500 2650 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	3400 2050 4100 2050
+$Comp
+L Isolator:Si8640BB-B-IS U304
+U 1 1 5E904E33
+P 7800 2300
+F 0 "U304" H 7800 2967 50  0000 C CNN
+F 1 "Si8640BB-B-IS" H 7800 2876 50  0000 C CNN
+F 2 "Package_SO:SOIC-16W_7.5x10.3mm_P1.27mm" H 7800 1750 50  0001 C CIN
+F 3 "https://www.silabs.com/documents/public/data-sheets/si864x-datasheet.pdf" H 7800 2700 50  0001 C CNN
+	1    7800 2300
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
