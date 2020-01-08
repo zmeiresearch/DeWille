@@ -535,4 +535,103 @@ Connection ~ 9350 6900
 Wire Wire Line
 	9350 6900 9350 7100
 Connection ~ 9250 7000
+$Comp
+L Mechanical:MountingHole H102
+U 1 1 5E150DBB
+P 2300 10500
+F 0 "H102" H 2400 10546 50  0000 L CNN
+F 1 "MountingHole" H 2400 10455 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 2300 10500 50  0001 C CNN
+F 3 "~" H 2300 10500 50  0001 C CNN
+	1    2300 10500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H101
+U 1 1 5E15181F
+P 2300 10200
+F 0 "H101" H 2400 10246 50  0000 L CNN
+F 1 "MountingHole" H 2400 10155 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 2300 10200 50  0001 C CNN
+F 3 "~" H 2300 10200 50  0001 C CNN
+	1    2300 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H103
+U 1 1 5E151E05
+P 3100 10200
+F 0 "H103" H 3200 10246 50  0000 L CNN
+F 1 "MountingHole" H 3200 10155 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 3100 10200 50  0001 C CNN
+F 3 "~" H 3100 10200 50  0001 C CNN
+	1    3100 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H104
+U 1 1 5E15203C
+P 3100 10500
+F 0 "H104" H 3200 10546 50  0000 L CNN
+F 1 "MountingHole" H 3200 10455 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 3100 10500 50  0001 C CNN
+F 3 "~" H 3100 10500 50  0001 C CNN
+	1    3100 10500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H105
+U 1 1 5E15241C
+P 3850 10200
+F 0 "H105" H 3950 10246 50  0000 L CNN
+F 1 "MountingHole" H 3950 10155 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 3850 10200 50  0001 C CNN
+F 3 "~" H 3850 10200 50  0001 C CNN
+	1    3850 10200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H106
+U 1 1 5E1527A7
+P 3850 10500
+F 0 "H106" H 3950 10546 50  0000 L CNN
+F 1 "MountingHole" H 3950 10455 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 3850 10500 50  0001 C CNN
+F 3 "~" H 3850 10500 50  0001 C CNN
+	1    3850 10500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H107
+U 1 1 5E152AFF
+P 4450 10150
+F 0 "H107" H 4550 10196 50  0000 L CNN
+F 1 "MountingHole" H 4550 10105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 4450 10150 50  0001 C CNN
+F 3 "~" H 4450 10150 50  0001 C CNN
+	1    4450 10150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H108
+U 1 1 5E152E9B
+P 4450 10450
+F 0 "H108" H 4550 10496 50  0000 L CNN
+F 1 "MountingHole" H 4550 10405 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 4450 10450 50  0001 C CNN
+F 3 "~" H 4450 10450 50  0001 C CNN
+	1    4450 10450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H109
+U 1 1 5E6AD862
+P 5200 10150
+F 0 "H109" H 5300 10196 50  0000 L CNN
+F 1 "MountingHole" H 5300 10105 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad" H 5200 10150 50  0001 C CNN
+F 3 "~" H 5200 10150 50  0001 C CNN
+	1    5200 10150
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

@@ -13,3 +13,8 @@ Parts for first two prototypes ordered from [Comet](http://www.comet.bg) and [Mo
 ## 17-Dec-2019
 Parts arrived
 
+## 02-Jan-2020
+Boards arrived
+
+## 08-Jan-2020
+Started soldering one Control board.
