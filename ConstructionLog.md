@@ -18,3 +18,15 @@ Boards arrived
 
 ## 08-Jan-2020
 Started soldering one Control board.
+
+## 09-Jan-2020
+One BaseBoard sent to [Selectra](http://www.selectrapcb.com) for fabrication
+
+## 11-Jan-2020
+Control board soldering complete, with the exception of the FPGA, the Si5344 and the non-washable components (SMA 
+connectors and DIP switces). Applied power and verified that all supply voltages are correct. Gave a final wash
+to the Control board to clean flux residue.
+
+## 12-Jan-2020
+Soldered two DAC boards without the DAC chips. Applied power and verified supply voltages.
+Soldered the rest of the components on the Control board.
