@@ -17,3 +17,13 @@
 * Increase via diameter below Si5344
 * Add silk text to the two TH testpads - 3.3 and far right GND
 * Switch to 30pin ESP32 DevKit
+
+## DeWille_Base_Rev_1.0
+* The GNDD polygon is not correctly manufactured. Check with PCB house whether
+  the issue is with the gerbers or with them
+* Add Silkscreen and Zmei Research logo
+* Remove silkscreen from Top GND tracks separating transformers and the rest of
+  the circuit
+* Change big filtering capacitors to snap-in ones
+* Mark R220 DNP or change R212 to 1.5k
+* Add LEDs indicating power status
