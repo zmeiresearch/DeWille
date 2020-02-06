@@ -27,10 +27,12 @@ One BaseBoard sent to [Selectra](http://www.selectrapcb.com) for fabrication
 Control board soldering complete, with the exception of the FPGA, the Si5344 and the non-washable components (SMA 
 connectors and DIP switces). Applied power and verified that all supply voltages are correct. Gave a final wash
 to the Control board to clean flux residue.
+![Control Soldering](Media/DeWille_02_ControlSoldering.jpg)
 
 ## 12-Jan-2020
 Soldered two DAC boards without the DAC chips. Applied power and verified supply voltages.
 Soldered the rest of the components on the Control board.
+![Control done](Media/DeWille_03_ControlDone.jpg)
 
 ## 25-Jan-2020
 BaseBoard received from PCB house
@@ -45,3 +47,4 @@ it may have potentially damaged the rest of the circuit) - probably need to reco
 
 Because of the above, decided to use the analog supplies in capacitance multiplier mode rather than regulator, so 
 removed U201, U202 and the resistors around them.
+![Base test](Media/DeWille_04_BaseTest.jpg)
