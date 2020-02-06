@@ -19,6 +19,7 @@ Control and DAC Boards arrived
 
 ## 08-Jan-2020
 Started soldering one Control board.
+![Control Soldering](Media/DeWille_02_ControlSoldering.jpg)
 
 ## 09-Jan-2020
 One BaseBoard sent to [Selectra](http://www.selectrapcb.com) for fabrication
@@ -27,7 +28,6 @@ One BaseBoard sent to [Selectra](http://www.selectrapcb.com) for fabrication
 Control board soldering complete, with the exception of the FPGA, the Si5344 and the non-washable components (SMA 
 connectors and DIP switces). Applied power and verified that all supply voltages are correct. Gave a final wash
 to the Control board to clean flux residue.
-![Control Soldering](Media/DeWille_02_ControlSoldering.jpg)
 
 ## 12-Jan-2020
 Soldered two DAC boards without the DAC chips. Applied power and verified supply voltages.
