@@ -108,53 +108,54 @@ static SPIClass * spi = NULL;
 //  Local function definitions
 //==============================================================================
 // define two tasks for Blink & AnalogRead
-void TaskBlink( void *pvParameters );
+static void TaskBlink( void *pvParameters );
 
 //==============================================================================
 //  Local functions
 //==============================================================================
-uint8_t spiTransferByte(const tSpiDev dev, const uint8_t tx)
+static uint8_t spiTransferByte(const tSpiDev dev, const uint8_t tx)
 {
   return 0;
+}
+
+static void setupHardware()
+{
+    DebugSerial->begin(DEBUG_SERIAL_BAUD, SERIAL_8N1, DEBUG_SERIAL_RX, DEBUG_SERIAL_TX);
+
+    // SPI
+    spi = new SPIClass(VSPI);
+    spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, SPI_DUMMY_CS); //SCLK, MISO, MOSI, SS
+  
+    INIT_DO_HIGH(DO_nCS_FPGA);
+    INIT_DO_HIGH(DO_nCS_DACR);
+    INIT_DO_HIGH(DO_nCS_DACL);
+    INIT_DO_HIGH(DO_nCS_CLK);
+
+    // Hold all devices in reset
+    INIT_DO_LOW(DO_nRST_FPGA);
+    INIT_DO_LOW(DO_nRST_DACR);
+    INIT_DO_LOW(DO_nRST_DACL);
+    INIT_DO_LOW(DO_nRST_CLK);
+
+    // LED1 and LED2 off
+    INIT_DO_HIGH(DO_LED_1);
+    INIT_DO_HIGH(DO_LED_2);
 }
 
 //==============================================================================
 //  Exported functions
 //==============================================================================
-//int LED_BUILTIN = 4;
 
 void setup() {
   // put your setup code here, to run once:
-  DebugSerial->begin(DEBUG_SERIAL_BAUD, SERIAL_8N1, DEBUG_SERIAL_RX, DEBUG_SERIAL_TX);
-
-  // SPI
-  spi = new SPIClass(VSPI);
-  spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, SPI_DUMMY_CS); //SCLK, MISO, MOSI, SS
+  setupHardware();
   
-  /*INIT_DO_HIGH(DO_nCS_FPGA);
-  INIT_DO_HIGH(DO_nCS_DACR);
-  INIT_DO_HIGH(DO_nCS_DACL);
-  INIT_DO_HIGH(DO_nCS_CLK;
-
-  // Hold all devices in reset
-  INIT_DO_LOW(DO_nRST_FPGA);
-  INIT_DO_LOW(DO_nRST_DACR);
-  INIT_DO_LOW(DO_nRST_DACL);
-  INIT_DO_LOW(DO_nRST_CLK);*/
-
-  // LED1 on, LED2 off
-  INIT_DO_HIGH(DO_LED_1);
-  INIT_DO_LOW(DO_LED_2);
-  //pinMode(DO_LED1, OUTPUT);
-  //pinMode(DO_LED2, OUTPUT);
-
-  // Now set up two tasks to run independently.
   xTaskCreatePinnedToCore(
     TaskBlink
-    ,  "TaskBlink"   // A name just for humans
-    ,  1024  // This stack size can be checked & adjusted by reading the Stack Highwater
+    ,  "TaskBlink"  // A name just for humans
+    ,  1024         // Stack size
     ,  NULL
-    ,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+    ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  NULL 
     ,  ARDUINO_RUNNING_CORE);
 
@@ -165,14 +166,14 @@ void loop() {
 
 }
 
-void TaskBlink(void *pvParameters)  // This is a task.
+void TaskBlink(void *pvParameters)
 {
     (void) pvParameters;
     for (;;) // A Task shall never return or exit.
     {
         digitalWrite(DO_LED_1, HIGH);
-        vTaskDelay(500);  // one tick delay (15ms) in between reads for stability
+        vTaskDelay(500); 
         digitalWrite(DO_LED_1, LOW);
-        vTaskDelay(500);  // one tick delay (15ms) in between reads for stability
+        vTaskDelay(500);
     }
 }
