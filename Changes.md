@@ -17,6 +17,10 @@
 * Increase via diameter below Si5344
 * Add silk text to the two TH testpads - 3.3 and far right GND
 * Switch to 30pin ESP32 DevKit
+* Add a protection diode + jumper for ESP32. Current ESP board connects Vin
+  directly to Vusb, which is convenient during development, allowing stand-
+  alone operation, but may possibly damage board and/or computer if power
+  is applied on both sides
 
 ## DeWille_Base_Rev_1.0
 * The GNDD polygon is not correctly manufactured. Check with PCB house whether
