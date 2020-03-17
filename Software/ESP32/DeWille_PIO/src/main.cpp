@@ -154,7 +154,7 @@ void setup()
     xTaskCreatePinnedToCore(
         TaskBlink
         ,  "TaskBlink"  // A name just for humans
-        ,  1024         // Stack size
+        ,  512          // Stack size - blinking does not need a lot, but with 256 the whole system does not start
         ,  NULL
         ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
         ,  NULL 
