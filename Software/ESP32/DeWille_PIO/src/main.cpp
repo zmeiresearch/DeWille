@@ -40,50 +40,50 @@
 
 
 #if CONFIG_FREERTOS_UNICORE
-#define ARDUINO_RUNNING_CORE 0
+#define ARDUINO_RUNNING_CORE    0
 #else
-#define ARDUINO_RUNNING_CORE 1
+#define ARDUINO_RUNNING_CORE    1
 #endif
 
-#define   INIT_DO_HIGH(x)   { pinMode((x), OUTPUT); digitalWrite((x), HIGH); }
-#define   INIT_DO_LOW(x)    { pinMode((x), OUTPUT); digitalWrite((x), LOW); }
+#define   INIT_DO_HIGH(x)       { pinMode((x), OUTPUT); digitalWrite((x), HIGH); }
+#define   INIT_DO_LOW(x)        { pinMode((x), OUTPUT); digitalWrite((x), LOW); }
 
 
 // LEDs
 // conflict with Tx/Rx USB?
-#define   DO_LED_1          2
-#define   DO_LED_2          0
+#define   DO_LED_1              2
+#define   DO_LED_2              0
 
 // Digital Configuration Inputs 
-#define   DI_CFG_1          39
-#define   DI_CFG_2          36
+#define   DI_CFG_1              39
+#define   DI_CFG_2              36
 
 // Peripheral control
-#define   DO_nRST_CLK       14
-#define   DO_nRST_DACR      26
-#define   DO_nRST_DACL      33
-#define   DO_nRST_FPGA      21
+#define   DO_nRST_CLK           14
+#define   DO_nRST_DACR          26
+#define   DO_nRST_DACL          33
+#define   DO_nRST_FPGA          21
 
-#define   DO_nFPGA_INIT     5
-#define   DO_nFPGA_PROGRAM  22
-#define   DI_FPGA_DONE      1
+#define   DO_nFPGA_INIT         5
+#define   DO_nFPGA_PROGRAM      22
+#define   DI_FPGA_DONE          1
 
 // SPI
-#define   DO_nCS_CLK        27
-#define   DO_nCS_DACR       25
-#define   DO_nCS_DACL       32
-#define   DO_nCS_FPGA       3
+#define   DO_nCS_CLK            27
+#define   DO_nCS_DACR           25
+#define   DO_nCS_DACL           32
+#define   DO_nCS_FPGA           3
 
-#define   SPI_MISO          19 
-#define   SPI_MOSI          23
-#define   SPI_SCLK          18
-#define   SPI_DUMMY_CS      12
+#define   SPI_MISO              19 
+#define   SPI_MOSI              23
+#define   SPI_SCLK              18
+#define   SPI_DUMMY_CS          12
 
 // FT2232 serial interface
-#define   DebugSerial       (&(Serial2))
-#define   DEBUG_SERIAL_RX   16
-#define   DEBUG_SERIAL_TX   17
-#define   DEBUG_SERIAL_BAUD 115200
+#define   DebugSerial           (&(Serial2))
+#define   DEBUG_SERIAL_RX       16
+#define   DEBUG_SERIAL_TX       17
+#define   DEBUG_SERIAL_BAUD     115200
 
 
 
@@ -92,11 +92,11 @@
 //==============================================================================
 typedef enum _tSpiDev 
 {
-  eSpiDevFPGA,
-  eSpiDevDACR,
-  eSpiDevDACL,
-  eSpiDevCLK,
-  eSpiDevNum,
+    eSpiDevFPGA,
+    eSpiDevDACR,
+    eSpiDevDACL,
+    eSpiDevCLK,
+    eSpiDevNum,
 } tSpiDev;
 
 //==============================================================================
@@ -115,7 +115,7 @@ static void TaskBlink( void *pvParameters );
 //==============================================================================
 static uint8_t spiTransferByte(const tSpiDev dev, const uint8_t tx)
 {
-  return 0;
+    return 0;
 }
 
 static void setupHardware()
@@ -146,22 +146,23 @@ static void setupHardware()
 //  Exported functions
 //==============================================================================
 
-void setup() {
+void setup() 
+{
   // put your setup code here, to run once:
-  setupHardware();
+    setupHardware();
   
-  xTaskCreatePinnedToCore(
-    TaskBlink
-    ,  "TaskBlink"  // A name just for humans
-    ,  1024         // Stack size
-    ,  NULL
-    ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-    ,  NULL 
-    ,  ARDUINO_RUNNING_CORE);
-
+    xTaskCreatePinnedToCore(
+        TaskBlink
+        ,  "TaskBlink"  // A name just for humans
+        ,  1024         // Stack size
+        ,  NULL
+        ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+        ,  NULL 
+        ,  ARDUINO_RUNNING_CORE);
 }
 
-void loop() {
+void loop() 
+{
   // put your main code here, to run repeatedly:
 
 }
