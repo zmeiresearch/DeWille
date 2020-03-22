@@ -27,12 +27,11 @@
 //==============================================================================
 #include <Arduino.h>
 
+#include "logger.h"
+
 #include <WString.h>
 #include <pgmspace.h>
 
-#include <HardwareSerial.h>
-
-#include <SPI.h>
 
 //==============================================================================
 //  Defines
@@ -102,29 +101,23 @@ typedef enum _tSpiDev
 //==============================================================================
 //  Local data
 //==============================================================================
-static SPIClass * spi = NULL;
 
 //==============================================================================
 //  Local function definitions
 //==============================================================================
-// define two tasks for Blink & AnalogRead
 static void TaskBlink( void *pvParameters );
 
 //==============================================================================
 //  Local functions
 //==============================================================================
-static uint8_t spiTransferByte(const tSpiDev dev, const uint8_t tx)
-{
-    return 0;
-}
 
 static void setupHardware()
 {
-    DebugSerial->begin(DEBUG_SERIAL_BAUD, SERIAL_8N1, DEBUG_SERIAL_RX, DEBUG_SERIAL_TX);
+    //DebugSerial->begin(DEBUG_SERIAL_BAUD, SERIAL_8N1, DEBUG_SERIAL_RX, DEBUG_SERIAL_TX);
 
     // SPI
-    spi = new SPIClass(VSPI);
-    spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, SPI_DUMMY_CS); //SCLK, MISO, MOSI, SS
+    //spi = new SPIClass(VSPI);
+    //spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, SPI_DUMMY_CS); //SCLK, MISO, MOSI, SS
   
     INIT_DO_HIGH(DO_nCS_FPGA);
     INIT_DO_HIGH(DO_nCS_DACR);
@@ -142,15 +135,8 @@ static void setupHardware()
     INIT_DO_HIGH(DO_LED_2);
 }
 
-//==============================================================================
-//  Exported functions
-//==============================================================================
-
-void setup() 
+static void setupTasks()
 {
-  // put your setup code here, to run once:
-    setupHardware();
-  
     xTaskCreatePinnedToCore(
         TaskBlink
         ,  "TaskBlink"  // A name just for humans
@@ -159,11 +145,26 @@ void setup()
         ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
         ,  NULL 
         ,  ARDUINO_RUNNING_CORE);
+
+}
+
+//==============================================================================
+//  Exported functions
+//==============================================================================
+
+void setup() 
+{
+    // put your setup code here, to run once:
+    setupHardware();
+
+    setupTasks();
+
+    LogStart();
 }
 
 void loop() 
 {
-  // put your main code here, to run repeatedly:
+    // put your main code here, to run repeatedly:
 
 }
 
@@ -172,8 +173,10 @@ void TaskBlink(void *pvParameters)
     (void) pvParameters;
     for (;;) // A Task shall never return or exit.
     {
+        Log(eLogDebug, "TaskBlink", "Turning LED ON");
         digitalWrite(DO_LED_1, HIGH);
-        vTaskDelay(500); 
+        vTaskDelay(500);
+        Log(eLogDebug, "TaskBlink", "Turning LED OFF");
         digitalWrite(DO_LED_1, LOW);
         vTaskDelay(500);
     }
