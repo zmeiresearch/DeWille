@@ -65,13 +65,13 @@
 
 #define   DO_nFPGA_INIT         5
 #define   DO_nFPGA_PROGRAM      22
-#define   DI_FPGA_DONE          1
+//#define   DI_FPGA_DONE          1
 
 // SPI
 #define   DO_nCS_CLK            27
 #define   DO_nCS_DACR           25
 #define   DO_nCS_DACL           32
-#define   DO_nCS_FPGA           3
+//#define   DO_nCS_FPGA           3
 
 #define   SPI_MISO              19 
 #define   SPI_MOSI              23
@@ -79,10 +79,10 @@
 #define   SPI_DUMMY_CS          12
 
 // FT2232 serial interface
-#define   DebugSerial           (&(Serial2))
-#define   DEBUG_SERIAL_RX       16
-#define   DEBUG_SERIAL_TX       17
-#define   DEBUG_SERIAL_BAUD     115200
+//#define   DebugSerial           (&(Serial2))
+//#define   DEBUG_SERIAL_RX       16
+//#define   DEBUG_SERIAL_TX       17
+//#define   DEBUG_SERIAL_BAUD     115200
 
 
 
@@ -119,7 +119,7 @@ static void setupHardware()
     //spi = new SPIClass(VSPI);
     //spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, SPI_DUMMY_CS); //SCLK, MISO, MOSI, SS
   
-    INIT_DO_HIGH(DO_nCS_FPGA);
+    //INIT_DO_HIGH(DO_nCS_FPGA);
     INIT_DO_HIGH(DO_nCS_DACR);
     INIT_DO_HIGH(DO_nCS_DACL);
     INIT_DO_HIGH(DO_nCS_CLK);
@@ -140,7 +140,7 @@ static void setupTasks()
     xTaskCreatePinnedToCore(
         TaskBlink
         ,  "TaskBlink"  // A name just for humans
-        ,  512          // Stack size - blinking does not need a lot, but with 256 the whole system does not start
+        ,  4096          // Stack size - resets after some time with 1024, apparently an overflow
         ,  NULL
         ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
         ,  NULL 
@@ -160,6 +160,7 @@ void setup()
     setupTasks();
 
     LogStart();
+    LogSetMinLevel(eLogInfo);
 }
 
 void loop() 
@@ -173,7 +174,7 @@ void TaskBlink(void *pvParameters)
     (void) pvParameters;
     for (;;) // A Task shall never return or exit.
     {
-        Log(eLogDebug, "TaskBlink", "Turning LED ON");
+        stat = Log(eLogDebug, "TaskBlink", "Turning LED ON");
         digitalWrite(DO_LED_1, HIGH);
         vTaskDelay(500);
         Log(eLogDebug, "TaskBlink", "Turning LED OFF");

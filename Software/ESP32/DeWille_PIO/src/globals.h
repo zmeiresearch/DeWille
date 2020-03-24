@@ -37,10 +37,10 @@
 //==============================================================================
 //  Defines
 //==============================================================================
-#define     LOG_SERIAL_PORT         1
+#define     LOG_SERIAL_PORT         2
 #define     LOG_SERIAL_BAUD         115200
-#define     LOG_SERIAL_RX_PIN       UART_PIN_NO_CHANGE
-#define     LOG_SERIAL_TX_PIN       UART_PIN_NO_CHANGE
+#define     LOG_SERIAL_RX_PIN       16 //UART_PIN_NO_CHANGE
+#define     LOG_SERIAL_TX_PIN       17 //UART_PIN_NO_CHANGE
 
 //==============================================================================
 //  Exported types
@@ -52,6 +52,7 @@ typedef enum _eStatus
     eINVALIDARG,
     eUNSUPPORTED,
     eBUSY,
+    eNOTINITIALIZED,
     eStatusCount
 } eStatus;
 

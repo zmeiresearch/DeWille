@@ -49,6 +49,7 @@ static eLogLevel currentLevel = eLogInfo;
 static uint8_t logBuffer[LOG_BUFFER_SIZE] = { 0 };
 static size_t readPtr = 0;
 static size_t writePtr = 0;
+static bool initialized = false;
 
 //==============================================================================
 //  Local functions
@@ -97,14 +98,40 @@ void writeTask(void * params)
     }
 }
 
+const char getLevelChar(const eLogLevel level)
+{
+    const char chars[eLogLevelCount+1] = {
+        'D',    // []ebug
+        'I',    // []nfo
+        'W',    // []arning
+        'E',    // []rror
+        'C',    // []itical
+        'X'     // Unknown
+    };
+
+    if ((level >= 0) && (level < eLogLevelCount))
+    {
+        return chars[level];
+    }
+    else 
+    {
+        Log(eLogWarn, CMP_NAME, "getLevelsChar: Unknown level: %d", level);
+        return chars[eLogLevelCount];
+    }
+}
+
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus Log(eLogLevel level, const char * const component, ...)
+eStatus Log(const eLogLevel level, const char * const component, ...)
 {
     eStatus retVal = eOK;
 
-    if (LogPortInISR())
+    if (!initialized) 
+    {
+        retVal = eNOTINITIALIZED;
+    } 
+    else if (LogPortInISR())
     {
         // not a good idea to call prinf and friends inside an ISR
         retVal = eUNSUPPORTED;
@@ -123,7 +150,7 @@ eStatus Log(eLogLevel level, const char * const component, ...)
             if (LogPortLock(LOG_MAX_WAIT))
             {
                 // first print the time
-                i = snprintf((char *)&logBuffer[writePtr], getFree(), "%08d|%s|", LogPortGetTime(), component);
+                i = snprintf((char *)&logBuffer[writePtr], getFree(), "%08d|%c|%s|", LogPortGetTime(), getLevelChar(level), component);
 
                 if (i < 0)
                 {
@@ -131,6 +158,7 @@ eStatus Log(eLogLevel level, const char * const component, ...)
                 } 
                 else 
                 {
+                    writePtr += i;
                     // if that went well, append the actual message as well
                     va_list args;
                     va_start(args, component);
@@ -138,7 +166,6 @@ eStatus Log(eLogLevel level, const char * const component, ...)
                     
                     int i = vsnprintf((char *)&logBuffer[writePtr], getFree(), fmt, args);
                     va_end(args);
-                    LogPortUnlock();
                 
                     if (i < 0) 
                     {
@@ -146,12 +173,17 @@ eStatus Log(eLogLevel level, const char * const component, ...)
                     } 
                     else
                     {
+                        writePtr += i;
                         // add a newline
-                        i = snprintf((char *)&logBuffer[writePtr], getFree(), "\n");
+                        i = snprintf((char *)&logBuffer[writePtr], getFree(), "\r\n");
                         if (i < 0)
                         {
                             retVal = eFAIL;
-                        }               
+                        }
+                        else
+                        {
+                            writePtr += i;
+                        }
                     }
                 }
                 
@@ -167,9 +199,10 @@ eStatus Log(eLogLevel level, const char * const component, ...)
     return retVal;
 }
 
-eStatus LogSetMinLevel(eLogLevel level)
+eStatus LogSetMinLevel(const eLogLevel level)
 {
     eStatus retVal = eINVALIDARG;
+
     if (level < eLogLevelCount)
     {
         currentLevel = level;
@@ -192,6 +225,8 @@ eStatus LogStart()
     readPtr = writePtr = 0;
     
     retVal = LogPortInit(writeTask);
+
+    initialized = true;
 
     return retVal;
 }

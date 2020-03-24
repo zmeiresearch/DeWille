@@ -37,7 +37,7 @@
 //==============================================================================
 //  Defines
 //==============================================================================
-#define LOG_BUFFER_SIZE     1024
+#define LOG_BUFFER_SIZE     2048
 
 
 //==============================================================================
@@ -60,8 +60,8 @@ typedef enum _eLogLevel
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus Log(eLogLevel level, const char * const component, ...);
-eStatus LogSetMinLevel(eLogLevel level);
+eStatus Log(const eLogLevel level, const char * const component, ...);
+eStatus LogSetMinLevel(const eLogLevel level);
 eStatus LogStart();
 
 #endif // INC_LOGGER_H

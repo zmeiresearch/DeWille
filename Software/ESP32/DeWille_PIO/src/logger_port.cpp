@@ -92,7 +92,7 @@ eStatus LogPortInit(void (*task)(void*) )
     {
         TaskHandle_t    taskHandle;
         xTaskCreate((*task), "Log Task", 
-                1024,   // Stack size
+                2048,   // Stack size
                 NULL,   // no params
                 configMAX_PRIORITIES - 1,
                 &taskHandle);
