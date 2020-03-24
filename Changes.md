@@ -22,6 +22,8 @@
   directly to Vusb, which is convenient during development, allowing stand-
   alone operation, but may possibly damage board and/or computer if power
   is applied on both sides
+* Move nCS_FPGA and FGPA_DONE away from the UART0 pins
+* Check why RX LED is on when the ESP is transmitting and vice versa
 
 ## DeWille_Base_Rev_1.0
 * The GNDD polygon is not correctly manufactured. Check with PCB house whether
