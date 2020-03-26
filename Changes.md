@@ -24,6 +24,11 @@
   is applied on both sides
 * Move nCS_FPGA and FGPA_DONE away from the UART0 pins
 * Check why RX LED is on when the ESP is transmitting and vice versa
+* Increase resistors on Green LEDs
+* Move FPGA (and maybe the clock as well) to the other SPI bus so that 
+  hardware SPI CS can be used
+* Fix the ESP32 symbols mix-up (pin25 duplicated, 36 missing)
+
 
 ## DeWille_Base_Rev_1.0
 * The GNDD polygon is not correctly manufactured. Check with PCB house whether

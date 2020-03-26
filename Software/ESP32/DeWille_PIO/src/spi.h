@@ -23,111 +23,45 @@
   ============================================================================*/
 
 //==============================================================================
-//  Includes
+//  Multi-include guard
 //==============================================================================
-#include <Arduino.h>
+#ifndef INC_SPI_PORT_H
+#define INC_SPI_PORT_H
 
-#include "logger.h"
+//==============================================================================
+//  Multi-include guard
+//==============================================================================
+#include <stdint.h>
 
-#include <WString.h>
-#include <pgmspace.h>
-
-#include "si5344.h"
 
 //==============================================================================
 //  Defines
 //==============================================================================
-
-
-#if CONFIG_FREERTOS_UNICORE
-#define ARDUINO_RUNNING_CORE    0
-#else
-#define ARDUINO_RUNNING_CORE    1
-#endif
-
-#define   INIT_DO_HIGH(x)       { pinMode((x), OUTPUT); digitalWrite((x), HIGH); }
-#define   INIT_DO_LOW(x)        { pinMode((x), OUTPUT); digitalWrite((x), LOW); }
+#define SPI_CLK_FREQ        100000
 
 
 //==============================================================================
-//  Local types
+//  Exported types
 //==============================================================================
-
-//==============================================================================
-//  Local data
-//==============================================================================
-
-//==============================================================================
-//  Local function definitions
-//==============================================================================
-static void TaskBlink( void *pvParameters );
-
-//==============================================================================
-//  Local functions
-//==============================================================================
-
-static void setupHardware()
+typedef enum _eSpiDevice 
 {
-    // Hold all devices in reset
-    INIT_DO_LOW(DO_nRST_FPGA);
-    INIT_DO_LOW(DO_nRST_DACR);
-    INIT_DO_LOW(DO_nRST_DACL);
-    INIT_DO_HIGH(DO_nRST_CLK);
+    eSpiDevCLK,
+    eSpiDevDACR,
+    eSpiDevDACL,
+    eSpiDevFPGA,
+    eSpiDevNum,
+} eSpiDevice;
 
-    // LED1 and LED2 off
-    INIT_DO_HIGH(DO_LED_1);
-    INIT_DO_HIGH(DO_LED_2);
-}
-
-static void setupTasks()
-{
-    xTaskCreatePinnedToCore(
-        TaskBlink
-        ,  "TaskBlink"  // A name just for humans
-        ,  4096          // Stack size - resets after some time with 1024, apparently an overflow
-        ,  NULL
-        ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-        ,  NULL 
-        ,  ARDUINO_RUNNING_CORE);
-
-}
+//==============================================================================
+//  Exported data
+//==============================================================================
 
 //==============================================================================
 //  Exported functions
 //==============================================================================
-
-void setup() 
-{
-    // put your setup code here, to run once:
-    setupHardware();
-
-    setupTasks();
-
-    LogStart();
-    LogSetMinLevel(eLogDebug);
-
-    Si534xInit();
-
-}
-
-void loop() 
-{
-    // put your main code here, to run repeatedly:
-    Si534xReadId();
+eStatus SpiTransfer(eSpiDevice device, uint8_t * buffer, const uint8_t size);
+eStatus SpiInit();
 
 
-}
+#endif // INC_SPI_PORT_H
 
-void TaskBlink(void *pvParameters)
-{
-    (void) pvParameters;
-    for (;;) // A Task shall never return or exit.
-    {
-        Log(eLogDebug, "TaskBlink", "Turning LED ON");
-        digitalWrite(DO_LED_1, HIGH);
-        vTaskDelay(500);
-        Log(eLogDebug, "TaskBlink", "Turning LED OFF");
-        digitalWrite(DO_LED_1, LOW);
-        vTaskDelay(500);
-    }
-}

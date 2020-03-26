@@ -37,10 +37,46 @@
 //==============================================================================
 //  Defines
 //==============================================================================
+
+//==============================================================================
+// Peripherals
+//==============================================================================
+
+// Debug UART
 #define     LOG_SERIAL_PORT         2
 #define     LOG_SERIAL_BAUD         115200
-#define     LOG_SERIAL_RX_PIN       16 //UART_PIN_NO_CHANGE
-#define     LOG_SERIAL_TX_PIN       17 //UART_PIN_NO_CHANGE
+#define     LOG_SERIAL_RX_PIN       16 
+#define     LOG_SERIAL_TX_PIN       17
+
+// LEDs
+#define   DO_LED_1                  2
+#define   DO_LED_2                  0
+
+// Digital Configuration Inputs 
+#define   DI_CFG_1                  39
+#define   DI_CFG_2                  36
+
+// Peripheral control
+#define   DO_nRST_CLK               27
+#define   DO_nRST_DACR              25
+#define   DO_nRST_DACL              32
+#define   DO_nRST_FPGA              21
+
+#define   DO_nFPGA_INIT             5
+#define   DO_nFPGA_PROGRAM          22
+//#define   DI_FPGA_DONE            1   // TODO: fix on the board
+
+// SPI
+#define   DO_nCS_CLK                26
+#define   DO_nCS_DACR               33
+#define   DO_nCS_DACL               35
+//#define   DO_nCS_FPGA             3   // TODO: fix on the board
+#define   DO_nCS_DUMMY              12  // Dummy CS to provide to the driver.
+
+#define   SPI_MISO                  19 
+#define   SPI_MOSI                  23
+#define   SPI_SCLK                  18
+
 
 //==============================================================================
 //  Exported types
