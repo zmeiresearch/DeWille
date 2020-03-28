@@ -89,6 +89,7 @@ typedef enum _eStatus
     eUNSUPPORTED,
     eBUSY,
     eNOTINITIALIZED,
+    eOUTOFMEMORY,
     eStatusCount
 } eStatus;
 
