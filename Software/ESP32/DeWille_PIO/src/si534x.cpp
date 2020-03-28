@@ -38,7 +38,7 @@
 //==============================================================================
 //  Defines
 //==============================================================================
-#define CMP_NAME                "SI5344"
+#define CMP_NAME                "SI534x"
 #define ALWAYS_SET_PAGE         false
 
 // Si5342/44/45 commands - pg. 53 Si5345-44-42-D-RM.pdf
@@ -94,7 +94,10 @@ static eStatus setPage(uint8_t page)
 {
     eStatus retVal = eOK;
     // Valid pages are 0-5 and 9, Si5345-44-42-D-RM pg. 81
-    if (((0 <= page) && (page <= 5)) || (page == 9))
+    // However, there are also pg. A and pg. B - the same
+    // Ref manual, pg. 122 and 123
+    if (((0 <= page) && (page <= 5)) ||
+        ((9 <= page) && (page <= 0xb)))
     {
         if ((page != currentPage) || ALWAYS_SET_PAGE)
         {
