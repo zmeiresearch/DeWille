@@ -60,10 +60,11 @@
 //  Local data
 //==============================================================================
 
+static eSi534xType clkType = eSiTypeUnknown;
 static bool initialized = false;
 static uint8_t currentPage = 0xDE;
 
-static uint8_t buffer[32];      // adjust accordingly
+//static uint8_t buffer[32];      // adjust accordingly
 
 //==============================================================================
 //  Local functions
@@ -262,20 +263,55 @@ static eStatus writeReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
 //  Exported functions
 //==============================================================================
 
-void Si534xReadId()
+eStatus Si534xReadId(eSi534xType * const type)
 {
-    readReg(Reg_BasePartNumber, buffer, 32);
-    //readReg(Reg_DeviceGrade, buffer, 32);
-    //readReg(Reg_DeviceRevision, buffer, 32);
+    eStatus retVal = eOK;
+    uint16_t buf;
+
+    if (NULL == type)
+    {
+        retVal = eINVALIDARG;
+    }
+    else
+    {
+        *type = eSiTypeUnknown;
+
+        readReg(Reg_BasePartNumber, (uint8_t *)&buf, 2);
+
+        if ((buf == (uint16_t)eSi5342) || 
+            (buf == (uint16_t)eSi5344) ||
+            (buf == (uint16_t)eSi5345))
+        {
+            retVal = eOK;
+            *type = (eSi534xType)buf;
+            Log(eLogInfo, CMP_NAME, "Si534xReadId: Found Si%4x", buf);
+        }
+        else
+        {
+            retVal = eFAIL;
+            Log(eLogWarn, CMP_NAME, "Si534xReadId: Unable to read type, got: 0x4X", buf);
+        }
+    }
+
+    return retVal;
 }
 
 eStatus Si534xInit()
 {
     eStatus retVal = eOK;
-
+    
     SpiInit();
 
-    initialized = true;
+    retVal = Si534xReadId(&clkType);
+
+    if (eOK == retVal)
+    {
+        initialized = true;
+    }
+    else
+    {
+        Log(eLogWarn, CMP_NAME, "Si534xInit Failed!");
+    }
 
     return retVal;
 }

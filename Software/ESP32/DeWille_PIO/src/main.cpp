@@ -113,7 +113,7 @@ void setup()
 void loop() 
 {
     // put your main code here, to run repeatedly:
-    Si534xReadId();
+    //Si534xReadId();
 
 
 }
