@@ -1,8 +1,9 @@
 /*==============================================================================
    DeWille ESP32 firmware
 
-   A simple SPI bus arbiter. Deliberately uses Arduino SPI driver to allow 
-   easier switch to a different module if required later on.
+   A simple SPI bus arbiter. Deliberately uses Arduino SPI/GPIO rather the
+   more feature-rich esp-idf one to allow easier switch to a different module if
+   required later on.
 
    Copyright 2020 Ivan Vasilev, Zmei Research Ltd.
 
@@ -39,14 +40,20 @@
 //==============================================================================
 //  Defines
 //==============================================================================#
-#define   INIT_DO_HIGH(x)       { pinMode((x), OUTPUT); digitalWrite((x), HIGH); }
-#define   INIT_DO_LOW(x)        { pinMode((x), OUTPUT); digitalWrite((x), LOW); }
+#define     INIT_DO_HIGH(x)         { pinMode((x), OUTPUT); digitalWrite((x), HIGH); }
+#define     INIT_DO_LOW(x)          { pinMode((x), OUTPUT); digitalWrite((x), LOW); }
+
+#define     SPI_MAX_BLOCK_TIME      (uint32_t)250   // max time to wait for the SPI
+                                                    // bus to become available
 
 //==============================================================================
 //  Local data
 //==============================================================================#
+static const char * CMP = "SPI";
+
 static SPIClass *spi = NULL;
 static bool initialized = false;
+static SemaphoreHandle_t   spiSemaphore = NULL;
 
 static const uint8_t csPins[eSpiDevNum] = { 
     DO_nCS_CLK, 
@@ -69,21 +76,32 @@ eStatus SpiTransfer(eSpiDevice device, uint8_t * buffer, const uint8_t size)
     {
         retVal = eINVALIDARG;
     }
+    else if (!initialized)
+    {
+        retVal = eNOTINITIALIZED;
+    }
     else
     {   
-        delay(1);
-        spi->beginTransaction(SPISettings(SPI_CLK_FREQ, MSBFIRST, SPI_MODE0));
-        digitalWrite(csPins[device], LOW);
-        for (int i = 0; i < size; i++)
+        if (xSemaphoreTake(spiSemaphore, SPI_MAX_BLOCK_TIME / portTICK_PERIOD_MS))
         {
-            uint8_t tmp = spi->transfer(*buffer);
-            *buffer++ = tmp;
+            spi->beginTransaction(SPISettings(SPI_CLK_FREQ, MSBFIRST, SPI_MODE0));
+            digitalWrite(csPins[device], LOW);
+            for (int i = 0; i < size; i++)
+            {
+                uint8_t tmp = spi->transfer(*buffer);
+                *buffer++ = tmp;
+            }
+            digitalWrite(csPins[device], HIGH);
+            spi->endTransaction();
+            xSemaphoreGive(spiSemaphore);
         }
-        digitalWrite(csPins[device], HIGH);
-        spi->endTransaction();
-        delay(1);
+        else
+        {
+            retVal = eBUSY;
+        }
     }
 
+    if (eOK != retVal) Log(eLogWarn, CMP, "SpiTransfer returned %d", retVal);
 
     return retVal;
 }
@@ -92,16 +110,27 @@ eStatus SpiInit()
 {
     eStatus retVal = eOK;
 
-    INIT_DO_HIGH(DO_nCS_CLK);
-    INIT_DO_HIGH(DO_nCS_DACR);
-    INIT_DO_HIGH(DO_nCS_DACL);
+    spiSemaphore = xSemaphoreCreateMutex();
 
-    //pinMode(SPI_MOSI, INPUT);
+    if (NULL == spiSemaphore)
+    {
+        Log(eLogCrit, CMP, "SPI Initialization failed!");
+        retVal = eFAIL;
+    } 
+    else 
+    {
+        INIT_DO_HIGH(DO_nCS_CLK);
+        INIT_DO_HIGH(DO_nCS_DACR);
+        INIT_DO_HIGH(DO_nCS_DACL);
 
-    spi = new SPIClass(VSPI);
-    spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, DO_nCS_DUMMY);
+        //pinMode(SPI_MOSI, INPUT);
 
-    initialized = true;
+        spi = new SPIClass(VSPI);
+        spi->begin(SPI_SCLK, SPI_MISO, SPI_MOSI, DO_nCS_DUMMY);
+
+        initialized = true;
+        Log(eLogDebug, CMP, "SPI Initialized");
+    }
 
     return retVal;
 }

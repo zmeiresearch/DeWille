@@ -26,7 +26,7 @@
 //  Includes
 //==============================================================================
 #include <stdio.h>
-
+#include <stdlib.h>
 
 #include "si5344.h"
 
@@ -179,18 +179,57 @@ static uint8_t buffer[32];      // adjust accordingly
 //==============================================================================
 //  Local functions
 //==============================================================================
-static eStatus readReg(const tSiReg reg, uint8_t * buf)
+static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
 {
-    buffer[0] = CMD_SET_ADDRESS;
-    buffer[1] = reg.address;
-    SpiTransfer(eSpiDevCLK, &buffer[0], 2);
+    eStatus retVal = eOK;
+    uint8_t tmp[3];
 
-    buffer[0] = CMD_READ_DATA;
-    buffer[1] = DATA_DUMMY;
-    SpiTransfer(eSpiDevCLK, &buffer[0], 2);
-    Log(eLogDebug, CMP_NAME, 
-            "Reading Si534x register: page: %d, address: %x, got: %x", 
-            reg.page, reg.address, buffer[1]);
+    if ((NULL == buf) || (0 == bufferSize))
+    {
+        retVal = eINVALIDARG;
+    }
+    else if (bufferSize < reg.len)
+    {
+        retVal = eFAIL; 
+    }
+    else
+    {
+        tmp[0] = CMD_SET_ADDRESS;
+        tmp[1] = reg.address;
+        SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+
+        for (int i = 0; i < reg.len; i++)
+        {
+            tmp[0] = CMD_READ_INCREMENT;
+            tmp[1] = DATA_DUMMY;
+            SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+            buf[i] = tmp[1];
+        }
+
+        char * printBuf = (char *)malloc(reg.len * 5);    // 0xXX,0xYY + zero termination
+
+        if (NULL == printBuf)
+        {
+            retVal = eOUTOFMEMORY;
+            Log(eLogError, CMP_NAME, "readReg: Memory allocation failed!");
+        }
+        else
+        {
+            sprintf(&printBuf[0], "0x%02X", buf[0]);
+            for (int i = 1; i < reg.len; i++)
+            {
+                sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
+            }
+            
+            Log(eLogDebug, CMP_NAME, 
+                "Reading Si534x register: page: %d, address: %x, got: %s", 
+                reg.page, reg.address, printBuf);
+            
+            free(printBuf);
+        }
+    }
+
+    return retVal;
 }
 
 //==============================================================================
@@ -199,9 +238,9 @@ static eStatus readReg(const tSiReg reg, uint8_t * buf)
 
 void Si534xReadId()
 {
-    readReg(Reg_BasePartNumber, NULL);
-    readReg(Reg_DeviceGrade, NULL);
-    readReg(Reg_DeviceRevision, NULL);
+    readReg(Reg_BasePartNumber, buffer, 32);
+    //readReg(Reg_DeviceGrade, buffer, 32);
+    //readReg(Reg_DeviceRevision, buffer, 32);
 }
 
 eStatus Si534xInit()
