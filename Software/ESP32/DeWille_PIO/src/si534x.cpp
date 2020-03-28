@@ -39,6 +39,7 @@
 //  Defines
 //==============================================================================
 #define CMP_NAME                "SI5344"
+#define ALWAYS_SET_PAGE         false
 
 // Si5342/44/45 commands - pg. 53 Si5345-44-42-D-RM.pdf
 #define CMD_SET_ADDRESS         (uint8_t)0x0    // 000x xxxx
@@ -49,6 +50,7 @@
 #define CMD_WRITE_BURST         (uint8_t)0xe0   // 1110 0000
 
 #define DATA_DUMMY              (uint8_t)0xA5
+#define DEVICE_READY            (uint8_t)0xF0   // RM pg.182
 
 //==============================================================================
 //  Local types
@@ -59,13 +61,65 @@
 //==============================================================================
 
 static bool initialized = false;
-static uint8_t currentBank = 0;
+static uint8_t currentPage = 0xDE;
 
 static uint8_t buffer[32];      // adjust accordingly
 
 //==============================================================================
 //  Local functions
 //==============================================================================
+
+static bool isReady()
+{
+    bool retVal = false;
+    
+    // DEVICE_READY is accessible on every page
+    uint8_t tmp[2] = { CMD_SET_ADDRESS, Reg_DeviceReady.address };
+    SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+    
+    tmp[0] = CMD_READ_DATA;
+    tmp[1] = DATA_DUMMY;
+
+    if (tmp[1] == DEVICE_READY)
+    {
+        retVal = true;
+    }
+
+    Log(eLogDebug, CMP_NAME, "isReady: %d", retVal);
+
+    return retVal;
+}
+
+static eStatus setPage(uint8_t page)
+{
+    eStatus retVal = eOK;
+    // Valid pages are 0-5 and 9, Si5345-44-42-D-RM pg. 81
+    if (((0 <= page) && (page <= 5)) || (page == 9))
+    {
+        if ((page != currentPage) || ALWAYS_SET_PAGE)
+        {
+            // the page-setting address is accessible from every page
+            uint8_t tmp[2];
+            tmp[0] = CMD_SET_ADDRESS;
+            tmp[1] = Reg_Page.address; 
+            SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+
+            tmp[0] = CMD_WRITE_DATA;
+            tmp[1] = page;
+            SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+            currentPage = page;
+            Log(eLogDebug, CMP_NAME, "setPage: %d", page);
+        }
+    }
+    else
+    {
+        Log(eLogWarn, CMP_NAME, "setPage: Tried setting invalid page %d", page);
+        retVal = eINVALIDARG;
+    }
+
+    return retVal;
+}
+
 static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
 {
     eStatus retVal = eOK;
@@ -81,44 +135,49 @@ static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
     }
     else
     {
-        // First set address to start reading from
-        tmp[0] = CMD_SET_ADDRESS;
-        tmp[1] = reg.address;
-        SpiTransfer(eSpiDevCLK, &tmp[0], 2);
-
-        // Then read as many bytes as required
-        for (int i = 0; i < reg.len; i++)
+        // Switch to  the correct page
+        retVal = setPage(reg.page);
+        if (eOK == retVal)
         {
-            // needs to be set on each iteration as SpiTransfer overwrites the buffer
-            tmp[0] = CMD_READ_INCREMENT;
-            tmp[1] = DATA_DUMMY;
+            // Set address to start reading from
+            tmp[0] = CMD_SET_ADDRESS;
+            tmp[1] = reg.address;
             SpiTransfer(eSpiDevCLK, &tmp[0], 2);
-            buf[i] = tmp[1];
-        }
 
-        // everything below is for debug purposes
-        char * printBuf = (char *)malloc(reg.len * 5);    // 0xXX,0xYY + zero termination
-
-        if (NULL == printBuf)
-        {
-            retVal = eOUTOFMEMORY;
-            Log(eLogError, CMP_NAME, "readReg: Memory allocation failed!");
-        }
-        else
-        {
-            // print the first byte
-            sprintf(&printBuf[0], "0x%02X", buf[0]);
-            for (int i = 1; i < reg.len; i++)
+            // Then read as many bytes as required
+            for (int i = 0; i < reg.len; i++)
             {
-                // overwrite the null-termination of the previous sprintf
-                sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
+                // needs to be set on each iteration as SpiTransfer overwrites the buffer
+                tmp[0] = CMD_READ_INCREMENT;
+                tmp[1] = DATA_DUMMY;
+                SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+                buf[i] = tmp[1];
             }
-            
-            Log(eLogDebug, CMP_NAME, 
-                "readReg: Reading Si534x register: page: %d, address: 0x%02X, got: %s", 
-                reg.page, reg.address, printBuf);
-            
-            free(printBuf);
+
+            // everything below is for debug purposes
+            char * printBuf = (char *)malloc(reg.len * 5);    // 0xXX,0xYY + zero termination
+
+            if (NULL == printBuf)
+            {
+                retVal = eOUTOFMEMORY;
+                Log(eLogError, CMP_NAME, "readReg: Memory allocation failed!");
+            }
+            else
+            {
+                // print the first byte
+                sprintf(&printBuf[0], "0x%02X", buf[0]);
+                for (int i = 1; i < reg.len; i++)
+                {
+                    // overwrite the null-termination of the previous sprintf
+                    sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
+                }
+                
+                Log(eLogDebug, CMP_NAME, 
+                    "readReg: Reading Si534x register: page: %d, address: 0x%02X, got: %s", 
+                    reg.page, reg.address, printBuf);
+                
+                free(printBuf);
+            }
         }
     }
 
@@ -147,43 +206,48 @@ static eStatus writeReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
     }
     else
     {
-        // First set address to start reading from
-        tmp[0] = CMD_SET_ADDRESS;
-        tmp[1] = reg.address;
-        SpiTransfer(eSpiDevCLK, &tmp[0], 2);
-
-        // Then write as many bytes as required
-        for (int i = 0; i < reg.len; i++)
+        // Switch to  the correct page
+        retVal = setPage(reg.page);
+        if (eOK == retVal)
         {
-            // needs to be set on each iteration as SpiTransfer overwrites the buffer
-            tmp[0] = CMD_WRITE_INCREMENT;
-            tmp[1] = buf[i];
+            // Set the address to start writing to
+            tmp[0] = CMD_SET_ADDRESS;
+            tmp[1] = reg.address;
             SpiTransfer(eSpiDevCLK, &tmp[0], 2);
-        }
 
-        // everything below is for debug purposes
-        char * printBuf = (char *)malloc(reg.len * 5);    // 0xXX,0xYY + zero termination
-
-        if (NULL == printBuf)
-        {
-            retVal = eOUTOFMEMORY;
-            Log(eLogError, CMP_NAME, "readReg: Memory allocation failed!");
-        }
-        else
-        {
-            // print the first byte
-            sprintf(&printBuf[0], "0x%02X", buf[0]);
-            for (int i = 1; i < reg.len; i++)
+            // Then write as many bytes as required
+            for (int i = 0; i < reg.len; i++)
             {
-                // overwrite the null-termination of the previous sprintf
-                sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
+                // needs to be set on each iteration as SpiTransfer overwrites the buffer
+                tmp[0] = CMD_WRITE_INCREMENT;
+                tmp[1] = buf[i];
+                SpiTransfer(eSpiDevCLK, &tmp[0], 2);
             }
-            
-            Log(eLogDebug, CMP_NAME, 
-                "writeReg: Written Si534x register: page: %d, address: 0x%02X, got: %s", 
-                reg.page, reg.address, printBuf);
-            
-            free(printBuf);
+
+            // everything below is for debug purposes
+            char * printBuf = (char *)malloc(reg.len * 5);    // 0xXX,0xYY + zero termination
+
+            if (NULL == printBuf)
+            {
+                retVal = eOUTOFMEMORY;
+                Log(eLogError, CMP_NAME, "readReg: Memory allocation failed!");
+            }
+            else
+            {
+                // print the first byte
+                sprintf(&printBuf[0], "0x%02X", buf[0]);
+                for (int i = 1; i < reg.len; i++)
+                {
+                    // overwrite the null-termination of the previous sprintf
+                    sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
+                }
+                
+                Log(eLogDebug, CMP_NAME, 
+                    "writeReg: Written Si534x register: page: %d, address: 0x%02X, got: %s", 
+                    reg.page, reg.address, printBuf);
+                
+                free(printBuf);
+            }
         }
     }
 
