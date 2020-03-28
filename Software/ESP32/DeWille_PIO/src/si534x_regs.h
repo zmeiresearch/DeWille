@@ -58,7 +58,7 @@ typedef struct _tSiReg
 const tSiReg Reg_Page =                 { 0x0, 0x01, 1, false };
 const tSiReg Reg_DeviceReady =          { 0x0, 0xfe, 1, true  };
 
-// Page 0 registers
+// Page 0 registers - Alarms, interrupts, reset, other config
 // Control and status
 const tSiReg Reg_BasePartNumber =       { 0x0, 0x02, 2, true };
 const tSiReg Reg_DeviceGrade =          { 0x0, 0x04, 1, true };
@@ -159,6 +159,249 @@ const tSiReg Reg_F7_Intr =              { 0x0, 0xf7, 1, true };
 const tSiReg Reg_F8_Intr =              { 0x0, 0xf8, 1, true };
 const tSiReg Reg_F9_Intr =              { 0x0, 0xf9, 1, true };
 
+
+// Page 1 registers - Clock output configuration
+const tSiReg Reg_GlobalOeGating =       { 0x1, 0x02, 1, false };
+
+// Clock 0
+const tSiReg Reg_ClockOut0DriverCfg =   { 0x1, 0x08, 1, false };
+const tSiReg Reg_ClockOut0FormatSync =  { 0x1, 0x09, 1, false };
+const tSiReg Reg_ClockOut0SwingAmpl =   { 0x1, 0x0a, 1, false };
+const tSiReg Reg_ClockOut0MuxSel =      { 0x1, 0x0b, 1, false };
+
+// Clock 1
+const tSiReg Reg_ClockOut1DriverCfg =   { 0x1, 0x0d, 1, false };
+const tSiReg Reg_ClockOut1FormatSync =  { 0x1, 0x0e, 1, false };
+const tSiReg Reg_ClockOut1SwingAmpl =   { 0x1, 0x0f, 1, false };
+const tSiReg Reg_ClockOut1MuxSel =      { 0x1, 0x10, 1, false };
+
+// Clock 2
+const tSiReg Reg_ClockOut2DriverCfg =   { 0x1, 0x12, 1, false };
+const tSiReg Reg_ClockOut2FormatSync =  { 0x1, 0x13, 1, false };
+const tSiReg Reg_ClockOut2SwingAmpl =   { 0x1, 0x14, 1, false };
+const tSiReg Reg_ClockOut2MuxSel =      { 0x1, 0x15, 1, false };
+
+// Clock 3
+const tSiReg Reg_ClockOut3DriverCfg =   { 0x1, 0x17, 1, false };
+const tSiReg Reg_ClockOut3FormatSync =  { 0x1, 0x18, 1, false };
+const tSiReg Reg_ClockOut3SwingAmpl =   { 0x1, 0x19, 1, false };
+const tSiReg Reg_ClockOut3MuxSel =      { 0x1, 0x1a, 1, false };
+
+// Clock 4
+const tSiReg Reg_ClockOut4DriverCfg =   { 0x1, 0x1c, 1, false };
+const tSiReg Reg_ClockOut4FormatSync =  { 0x1, 0x1d, 1, false };
+const tSiReg Reg_ClockOut4SwingAmpl =   { 0x1, 0x1e, 1, false };
+const tSiReg Reg_ClockOut4MuxSel =      { 0x1, 0x1f, 1, false };
+
+// Clock 5
+const tSiReg Reg_ClockOut5DriverCfg =   { 0x1, 0x21, 1, false };
+const tSiReg Reg_ClockOut5FormatSync =  { 0x1, 0x22, 1, false };
+const tSiReg Reg_ClockOut5SwingAmpl =   { 0x1, 0x23, 1, false };
+const tSiReg Reg_ClockOut5MuxSel =      { 0x1, 0x24, 1, false };
+
+// Clock 6
+const tSiReg Reg_ClockOut6DriverCfg =   { 0x1, 0x26, 1, false };
+const tSiReg Reg_ClockOut6FormatSync =  { 0x1, 0x27, 1, false };
+const tSiReg Reg_ClockOut6SwingAmpl =   { 0x1, 0x28, 1, false };
+const tSiReg Reg_ClockOut6MuxSel =      { 0x1, 0x29, 1, false };
+
+// Clock 7
+const tSiReg Reg_ClockOut7DriverCfg =   { 0x1, 0x2b, 1, false };
+const tSiReg Reg_ClockOut7FormatSync =  { 0x1, 0x2c, 1, false };
+const tSiReg Reg_ClockOut7SwingAmpl =   { 0x1, 0x2d, 1, false };
+const tSiReg Reg_ClockOut7MuxSel =      { 0x1, 0x2e, 1, false };
+
+// Clock 8
+const tSiReg Reg_ClockOut8DriverCfg =   { 0x1, 0x30, 1, false };
+const tSiReg Reg_ClockOut8FormatSync =  { 0x1, 0x31, 1, false };
+const tSiReg Reg_ClockOut8SwingAmpl =   { 0x1, 0x32, 1, false };
+const tSiReg Reg_ClockOut8MuxSel =      { 0x1, 0x33, 1, false };
+
+// Clock 9 - address not consecutive to Clk8!
+const tSiReg Reg_ClockOut9DriverCfg =   { 0x1, 0x3a, 1, false };
+const tSiReg Reg_ClockOut9FormatSync =  { 0x1, 0x3b, 1, false };
+const tSiReg Reg_ClockOut9SwingAmpl =   { 0x1, 0x3c, 1, false };
+const tSiReg Reg_ClockOut9MuxSel =      { 0x1, 0x3d, 1, false };
+
+const tSiReg Reg_OutXAlwaysOn =         { 0x1, 0x3f, 2, false };
+const tSiReg Reg_OutputDisableLos =     { 0x1, 0x41, 1, false };
+const tSiReg Reg_OutputDisableLol =     { 0x1, 0x42, 1, false };
+const tSiReg Reg_PowerDownAll =         { 0x1, 0x45, 1, false };
+
+
+// Page 2 registers - P,R dividers, scratch area
+const tSiReg Reg_RefPrescaleDivRatio =  { 0x2, 0x06, 1, false };
+
+// Input (P) dividers
+const tSiReg Reg_P0DivNum =             { 0x2, 0x08, 6, false };
+const tSiReg Reg_P0DivDen =             { 0x2, 0x0e, 4, false };
+
+const tSiReg Reg_P1DivNum =             { 0x2, 0x12, 6, false };
+const tSiReg Reg_P1DivDen =             { 0x2, 0x18, 4, false };
+
+const tSiReg Reg_P2DivNum =             { 0x2, 0x1c, 6, false };
+const tSiReg Reg_P2DivDen =             { 0x2, 0x22, 4, false };
+
+const tSiReg Reg_P3DivNum =             { 0x2, 0x26, 6, false };
+const tSiReg Reg_P3DivDen =             { 0x2, 0x2c, 4, false };
+
+const tSiReg Reg_PxUpdate =             { 0x2, 0x30, 1, false };
+
+const tSiReg Reg_P0FracDivEnable =      { 0x2, 0x31, 1, false };
+const tSiReg Reg_P1FracDivEnable =      { 0x2, 0x32, 1, false };
+const tSiReg Reg_P2FracDivEnable =      { 0x2, 0x33, 1, false };
+const tSiReg Reg_P3FracDivEnable =      { 0x2, 0x34, 1, false };
+
+// Reference input - XAXB divider
+const tSiReg Reg_MXaxbDivNum =          { 0x2, 0x35, 6, false };
+const tSiReg Reg_MXaxbDivDen =          { 0x2, 0x3b, 4, false };
+const tSiReg Reg_MXaxbUpdate =          { 0x2, 0x3f, 1, false };
+
+// Output (R) clokc dividers 
+const tSiReg Reg_R0Divider =            { 0x2, 0x4a, 3, false };
+const tSiReg Reg_R1Divider =            { 0x2, 0x4d, 3, false };
+const tSiReg Reg_R2Divider =            { 0x2, 0x50, 3, false };
+const tSiReg Reg_R3Divider =            { 0x2, 0x53, 3, false };
+const tSiReg Reg_R4Divider =            { 0x2, 0x56, 3, false };
+const tSiReg Reg_R5Divider =            { 0x2, 0x59, 3, false };
+const tSiReg Reg_R6Divider =            { 0x2, 0x5c, 3, false };
+const tSiReg Reg_R7Divider =            { 0x2, 0x5f, 3, false };
+const tSiReg Reg_R8Divider =            { 0x2, 0x62, 3, false };
+const tSiReg Reg_R9Divider =            { 0x2, 0x68, 3, false };
+
+// Scratch pad and OPN
+const tSiReg Reg_ScratchPad =           { 0x2, 0x6b, 8, false };
+const tSiReg Reg_OpnIdent =             { 0x2, 0x78, 5, false };
+const tSiReg Reg_OpnRevision =          { 0x2, 0x7d, 1, false };
+const tSiReg Reg_BaselineId =           { 0x2, 0x7e, 1, false };
+
+// Out-of-frequency detection - don't know the difference between 
+// this and e.g. Oof0ClearThresh
+const tSiReg Reg_Oof0TrigThreshExt =    { 0x2, 0x8a, 1, false };
+const tSiReg Reg_Oof1TrigThreshExt =    { 0x2, 0x8b, 1, false };
+const tSiReg Reg_Oof2TrigThreshExt =    { 0x2, 0x8c, 1, false };
+const tSiReg Reg_Oof3TrigThreshExt =    { 0x2, 0x8d, 1, false };
+const tSiReg Reg_Oof0ClearThreshExt =   { 0x2, 0x8e, 1, false };
+const tSiReg Reg_Oof1ClearThreshExt =   { 0x2, 0x8f, 1, false };
+const tSiReg Reg_Oof2ClearThreshExt =   { 0x2, 0x90, 1, false };
+const tSiReg Reg_Oof3ClearThreshExt =   { 0x2, 0x91, 1, false };
+
+const tSiReg Reg_FastlockExtendScale =  { 0x2, 0x94, 1, false };
+const tSiReg Reg_LolSlwValwinSelx =     { 0x2, 0x96, 1, false };
+const tSiReg Reg_FastlockDelayOnSwEn =  { 0x2, 0x97, 1, false };
+const tSiReg Reg_FastlockDelayOnLolEn = { 0x2, 0x99, 1, false };
+const tSiReg Reg_FastlockDelayOnLol =   { 0x2, 0x9d, 3, false };
+const tSiReg Reg_FastlockDelayOnSw =    { 0x2, 0xa9, 3, false };
+const tSiReg Reg_LolDelayOnLos =        { 0x2, 0xb7, 1, false };
+const tSiReg Reg_LolLosRefclk =         { 0x2, 0xb8, 1, true }; // is it really RO?
+
+
+// Page 3 registers - Output N dividers, N divider Finc/Fdec
+const tSiReg Reg_N0Num =                { 0x3, 0x02, 6, false };
+const tSiReg Reg_N0Den =                { 0x3, 0x08, 4, false };
+const tSiReg Reg_N0Update =             { 0x3, 0x0c, 1, false };
+
+const tSiReg Reg_N1Num =                { 0x3, 0x0d, 6, false };
+const tSiReg Reg_N1Den =                { 0x3, 0x13, 4, false };
+const tSiReg Reg_N1Update =             { 0x3, 0x17, 1, false };
+
+const tSiReg Reg_N2Num =                { 0x3, 0x18, 6, false };
+const tSiReg Reg_N2Den =                { 0x3, 0x1e, 4, false };
+const tSiReg Reg_N2Update =             { 0x3, 0x22, 1, false };
+
+const tSiReg Reg_N3Num =                { 0x3, 0x23, 6, false };
+const tSiReg Reg_N3Den =                { 0x3, 0x29, 4, false };
+const tSiReg Reg_N3Update =             { 0x3, 0x2d, 1, false };
+
+const tSiReg Reg_N4Num =                { 0x3, 0x2e, 6, false };
+const tSiReg Reg_N4Den =                { 0x3, 0x34, 4, false };
+
+const tSiReg Reg_N4NGlobalUpdate =      { 0x3, 0x38, 1, false };
+
+const tSiReg Reg_FincFdecMasks =        { 0x3, 0x39, 1, false };
+const tSiReg Reg_N0FrequencyStep =      { 0x3, 0x3b, 6, false };
+const tSiReg Reg_N1FrequencyStep =      { 0x3, 0x41, 6, false };
+const tSiReg Reg_N2FrequencyStep =      { 0x3, 0x47, 6, false };
+const tSiReg Reg_N3FrequencyStep =      { 0x3, 0x4d, 6, false };
+const tSiReg Reg_N4FrequencyStep =      { 0x3, 0x53, 6, false };
+
+
+// Page 4 registers - Zero Delay mode configuration
+const tSiReg Reg_ZdModeSetup =          { 0x4, 0x87, 1, false };
+
+
+// Page 5 registers - M divider, BW, holdover, input switch, FINC/DEC
+const tSiReg Reg_ActiveInput =          { 0x5, 0x07, 1, true };
+const tSiReg Reg_LoopBandwidth =        { 0x5, 0x08, 6, false };
+const tSiReg Reg_FastLockLoopBandwidth ={ 0x5, 0x0e, 6, false };
+const tSiReg Reg_BandwidthUpdate =      { 0x5, 0x14, 1, false };
+const tSiReg Reg_MNum =                 { 0x5, 0x15, 7, false };
+const tSiReg Reg_MDen =                 { 0x5, 0x1c, 4, false };
+const tSiReg Reg_MDivUpdate =           { 0x5, 0x20, 1, false };
+const tSiReg Reg_MDivFracEnable =       { 0x5, 0x21, 1, false };
+const tSiReg Reg_InputClockSelect =     { 0x5, 0x2a, 1, false };
+const tSiReg Reg_FastLockControl =      { 0x5, 0x2b, 1, false };
+
+// Holdover
+const tSiReg Reg_HoldoverExitControl =  { 0x5, 0x2c, 1, false };
+const tSiReg Reg_HoldoverRampBypass =   { 0x5, 0x2d, 1, false };
+const tSiReg Reg_HoldoverHistoryLength ={ 0x5, 0x2e, 1, false };
+const tSiReg Reg_HoldoverHistoryDelay = { 0x5, 0x2f, 1, false };
+const tSiReg Reg_HoldoverRefCountFrac = { 0x5, 0x31, 1, false }; // ???
+const tSiReg Reg_Holdover15MCycCount =  { 0x5, 0x32, 3, false };
+const tSiReg Reg_HoldoverForce =        { 0x5, 0x35, 1, false };
+
+const tSiReg Reg_InputClockSwControl =  { 0x5, 0x36, 1, false };
+const tSiReg Reg_InputAlarmMask =       { 0x5, 0x37, 1, false };
+const tSiReg Reg_Clk0Clk1Priority =     { 0x5, 0x38, 1, false };
+const tSiReg Reg_Clk2Clk3Priority =     { 0x5, 0x39, 1, false };
+
+const tSiReg Reg_HitlessSwitchMode =    { 0x5, 0x3a, 1, false }; 
+const tSiReg Reg_HitlessSwThresh =      { 0x5, 0x3b, 2, false };
+const tSiReg Reg_HitlessSwCoarsePmLen = { 0x5, 0x3d, 1, false };
+const tSiReg Reg_HitlessSwCoarsePmDly = { 0x5, 0x3e, 1, false };
+
+const tSiReg Reg_HoldHistValFastLockSt= { 0x5, 0x3f, 1, true };
+const tSiReg Reg_540Reserved =          { 0x5, 0x40, 1, false }; // ??
+
+const tSiReg Reg_HitlessSwFinePmLen =   { 0x5, 0x88, 1, false };
+const tSiReg Reg_PfdEnableDelay =       { 0x5, 0x89, 2, false };
+
+const tSiReg Reg_HoldoverExit =         { 0x5, 0x9b, 1, false };
+const tSiReg Reg_HoldoverExitBw =       { 0x5, 0x9d, 6, false };
+const tSiReg Reg_HitlessSwControl =     { 0x5, 0xa6, 1, false };
+
+
+// Page 9 registers - IO Configuration control
+const tSiReg Reg_XaxbConfig =           { 0x9, 0x0e, 1, false };
+const tSiReg Reg_ControlVoltageSel =    { 0x9, 0x43, 1, false };
+const tSiReg Reg_ClockInputConfig =     { 0x9, 0x49, 1, false };
+const tSiReg Reg_InputClockDspllEn =    { 0x9, 0x4a, 1, false };
+const tSiReg Reg_InputClockBufHyst =    { 0x9, 0x4e, 1, false };
+const tSiReg Reg_MxaxbFracMode =        { 0x9, 0x5e, 1, false };
+
+
+// Page A registers - Not listed on pg 81 but on pg. 122
+const tSiReg Reg_NDiv05x =              { 0xa, 0x02, 1, false };
+const tSiReg Reg_NClkOutxEnable =       { 0xa, 0x03, 1, false };
+const tSiReg Reg_NClkIntDivMode =       { 0xa, 0x04, 1, false };
+const tSiReg Reg_NClkDivPowerDown =     { 0xa, 0x05, 1, false };
+const tSiReg Reg_N0HighFreq =           { 0xa, 0x14, 1, false };
+const tSiReg Reg_N1HighFreq =           { 0xa, 0x1a, 1, false };
+const tSiReg Reg_N2HighFreq =           { 0xa, 0x20, 1, false };
+const tSiReg Reg_N3HighFreq =           { 0xa, 0x26, 1, false };
+const tSiReg Reg_N4HighFreq =           { 0xa, 0x2c, 1, false };
+
+
+// Page B registers
+const tSiReg Reg_B24Reserved =          { 0xb, 0x24, 1, false };
+const tSiReg Reg_B25Reserved =          { 0xb, 0x25, 1, false };
+const tSiReg Reg_FracDivClkDis =        { 0xb, 0x44, 1, false };
+const tSiReg Reg_LosClkDis =            { 0xb, 0x46, 1, false };
+const tSiReg Reg_OofClkDis =            { 0xb, 0x47, 1, false };
+const tSiReg Reg_OofDivClkDis =         { 0xb, 0x48, 1, false };
+const tSiReg Reg_NDivClkDis =           { 0xb, 0x4a, 1, false };
+const tSiReg Reg_VcoCalCode =           { 0xb, 0x57, 2, false };
 
 //==============================================================================
 //  Exported functions
