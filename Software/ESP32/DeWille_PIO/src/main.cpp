@@ -32,7 +32,7 @@
 #include <WString.h>
 #include <pgmspace.h>
 
-#include "si5344.h"
+#include "si534x.h"
 
 //==============================================================================
 //  Defines
