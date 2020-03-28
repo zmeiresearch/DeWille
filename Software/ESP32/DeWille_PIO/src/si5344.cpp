@@ -194,10 +194,12 @@ static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
     }
     else
     {
+        // First set address to start reading from
         tmp[0] = CMD_SET_ADDRESS;
         tmp[1] = reg.address;
         SpiTransfer(eSpiDevCLK, &tmp[0], 2);
 
+        // Then read as many bytes as required
         for (int i = 0; i < reg.len; i++)
         {
             tmp[0] = CMD_READ_INCREMENT;
@@ -206,6 +208,7 @@ static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
             buf[i] = tmp[1];
         }
 
+        // everything below is for debug purposes
         char * printBuf = (char *)malloc(reg.len * 5);    // 0xXX,0xYY + zero termination
 
         if (NULL == printBuf)
@@ -215,9 +218,11 @@ static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
         }
         else
         {
+            // print the first byte
             sprintf(&printBuf[0], "0x%02X", buf[0]);
             for (int i = 1; i < reg.len; i++)
             {
+                // overwrite the null-termination of the previous sprintf
                 sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
             }
             
