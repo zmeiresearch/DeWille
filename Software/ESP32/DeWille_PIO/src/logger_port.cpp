@@ -44,8 +44,8 @@
 //==============================================================================
 //  Local data
 //==============================================================================
-SemaphoreHandle_t   LogSemaphore;
-HardwareSerial      serial(LOG_SERIAL_PORT);
+static SemaphoreHandle_t    LogSemaphore;
+static HardwareSerial       serial(LOG_SERIAL_PORT);
 
 //==============================================================================
 //  Local functions
