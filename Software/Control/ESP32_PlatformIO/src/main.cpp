@@ -108,6 +108,15 @@ void setup()
 
     Si534xInit();
 
+    const char * configList[10];
+    uint8_t configCount;
+    eStatus retVal = Si534xListConfigs(10, &configCount, configList);
+    Log(eLogInfo, "Main", "Si534xListConfigs returned: %d, got %d configs", retVal, configCount);
+    for (int i = 0; i < configCount; i++)
+    {
+        Log(eLogInfo, "Main", "config ID: %d, name: %s", i, configList[i]);
+    }
+
 }
 
 void loop() 

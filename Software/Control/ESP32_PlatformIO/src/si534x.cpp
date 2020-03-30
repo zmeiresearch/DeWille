@@ -31,6 +31,8 @@
 #include "si534x.h"
 #include "si534x_regs.h"
 
+#include "../../Si5344_ClockBuilder/Si5344_RevD_DeWille01.h" 
+
 #include "logger.h"
 
 #include "spi.h"
@@ -290,6 +292,43 @@ eStatus Si534xReadId(eSi534xType * const type)
         {
             retVal = eFAIL;
             Log(eLogWarn, CMP_NAME, "Si534xReadId: Unable to read type, got: 0x4X", buf);
+        }
+    }
+
+    return retVal;
+}
+
+// Fills-in a list of available configs
+eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * configList[])
+{
+    eStatus retVal = eOK;
+
+    if ((NULL == configList) || (NULL == count))
+    {
+        retVal = eINVALIDARG;
+    }
+    else
+    {
+        *count = 0;
+
+        for (int i = 0; i < sizeof(si534xConfig)/sizeof(si534xConfig[0]); i++)
+        {
+            if (*count < maxCount)
+            {
+                (*count)++;
+                configList[i] = si534xConfig[i].name;
+                Log(eLogDebug, CMP_NAME,
+                        "Si534xListConfigs: Config id: %d, name: %s",
+                        i, si534xConfig[i].name);
+            }
+            else
+            {
+                retVal = eOUTOFMEMORY;
+                Log(eLogWarn, CMP_NAME, 
+                        "Si534xListConfigs: Too many configs! Config count: %d, array size: %d", 
+                        sizeof(si534xConfig)/sizeof(si534xConfig[0]),
+                        maxCount);
+            }
         }
     }
 

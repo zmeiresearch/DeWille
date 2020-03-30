@@ -49,7 +49,6 @@ typedef enum _eSi534xType
     eSi5345 = 0x5345
 } eSi534xType;
 
-
 //==============================================================================
 //  Exported data
 //==============================================================================
@@ -57,7 +56,8 @@ typedef enum _eSi534xType
 //==============================================================================
 //  Exported functions
 //==============================================================================
-void Si534xReadId();
+eStatus Si534xReadId(eSi534xType * const type);
+eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * configList[]);
 eStatus Si534xInit();
 
 

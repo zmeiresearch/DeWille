@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import re
 import datetime
 
@@ -70,8 +71,9 @@ def extractRegisters(infile, outfile, arrayName):
         outfile.write("    /* " + match.group() + " */")
         outfile.write("\n};\n\n")
     
-def printFooter(outfile):
-    
+def printFooter(outfile, extractedRegs):
+    #TODO
+    pass 
 
 def getArrayName(filename):
     # Si5344-RevD-DeWille01-Registers_225792_SingleIn.h =>
@@ -83,7 +85,10 @@ def getArrayName(filename):
     return filename
 
 # It starts here
-if (len(argv) < 3):
+if sys.version_info[0] < 3:
+    print("Please use python3 to run this script!")
+    quit()
+if len(argv) < 3:
     printUsage()
     quit()
 
@@ -104,7 +109,7 @@ with open(argv[1], "w") as outfile:
     for i in range(2, len(argv)):
         print("Extracting register configuration from " + argv[i] + "\n")
         arrayName = getArrayName(argv[i])
-        extractedRegs.push(arrayName)
+        extractedRegs.append(arrayName)
         with open(argv[i], errors="ignore") as infile:
             extractRegisters(infile, outfile, arrayName)
 
