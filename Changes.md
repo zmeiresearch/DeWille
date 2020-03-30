@@ -28,7 +28,8 @@
 * Move FPGA (and maybe the clock as well) to the other SPI bus so that 
   hardware SPI CS can be used
 * Fix the ESP32 symbols mix-up (pin25 duplicated, 36 missing)
-
+* Route nINTR Si5344 output to ESP32 so that status polling is not needed
+* Make the Clock chip and power supply heat-sinks larger
 
 ## DeWille_Base_Rev_1.0
 * The GNDD polygon is not correctly manufactured. Check with PCB house whether
