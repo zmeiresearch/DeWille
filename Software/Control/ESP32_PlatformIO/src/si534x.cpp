@@ -43,6 +43,8 @@
 #define CMP_NAME                "SI534x"
 #define ALWAYS_SET_PAGE         false
 
+#define ARRAY_SIZE(x)           (sizeof(x)/sizeof(x[0]))
+
 // Si5342/44/45 commands - pg. 53 Si5345-44-42-D-RM.pdf
 #define CMD_SET_ADDRESS         (uint8_t)0x0    // 000x xxxx
 #define CMD_WRITE_DATA          (uint8_t)0x40   // 010x xxxx
@@ -311,7 +313,7 @@ eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * 
     {
         *count = 0;
 
-        for (int i = 0; i < sizeof(si534xConfig)/sizeof(si534xConfig[0]); i++)
+        for (int i = 0; i < ARRAY_SIZE(si534xConfig); i++)
         {
             if (*count < maxCount)
             {
@@ -326,10 +328,28 @@ eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * 
                 retVal = eOUTOFMEMORY;
                 Log(eLogWarn, CMP_NAME, 
                         "Si534xListConfigs: Too many configs! Config count: %d, array size: %d", 
-                        sizeof(si534xConfig)/sizeof(si534xConfig[0]),
+                        ARRAY_SIZE(si534xConfig),
                         maxCount);
             }
         }
+    }
+
+    return retVal;
+}
+
+eStatus Si534xSetConfig(const uint8_t configId)
+{
+    eStatus retVal = eOK;
+
+    if (configId >= ARRAY_SIZE(si534xConfig))
+    {
+        retVal = eINVALIDARG;
+    }
+    else
+    {
+        writeConfigArray(&si5344_preamble[0], ARRAY_SIZE(si5344_preamble));
+        writeConfigArray(si534xConfig[configId].configArr, si534xConfig[configId].configLen);
+        writeConfigArray(&si5344_postamble[1], ARRAY_SIZE(si5344_postamble));
     }
 
     return retVal;
