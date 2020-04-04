@@ -34,7 +34,7 @@
 //  Defines
 //==============================================================================
 #define CMP_NAME            "Logger"
-#define SEND_SLEEP_TIME     (uint32_t)5     // time to sleep between write attempts
+#define SEND_SLEEP_TIME     (uint32_t)1     // time to sleep between write attempts
 #define LOG_MAX_WAIT        (uint32_t)100   // max time to wait for synchronization
 
 //==============================================================================
