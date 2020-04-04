@@ -4,7 +4,7 @@
  *
  * Inputs: Si5344-RevD-DeWille01-Registers_225792_SingleIn.h,Si5344-RevD-DeWille01-Registers_24576_SingleIn.h
  *
- * Timestamp: 2020-03-29 19:03:31
+ * Timestamp: 2020-04-04 18:09:22
  *
  *****************************************************************************/
 
@@ -14,13 +14,6 @@ typedef struct
 	unsigned char value; /* 8-bit register data */
 
 } si5344_revd_register_t;
-
-typedef struct 
-{
-    const char * name;
-    const si5344_revd_register_t * const configArr;
-    const size_t configLen;
-} si534x_config_t;
 
 si5344_revd_register_t const si5344_preamble[] = {
     /* Start configuration preamble */
@@ -964,13 +957,21 @@ si5344_revd_register_t const si5344_revd_dewille01_registers_24576_single[] = {
 	/* End configuration registers */
 };
 
+
+typedef struct 
+{
+    const char * name;
+    const si5344_revd_register_t * const configArr;
+    const size_t configLen;
+} si534x_config_t;
+
 si534x_config_t si534xConfig[] = {
-    { "si5344_revd_dewille01_registers_225792_single", 
-        si5344_revd_dewille01_registers_225792_single, 
+    { "si5344_revd_dewille01_registers_225792_single",
+        si5344_revd_dewille01_registers_225792_single,
         sizeof(si5344_revd_dewille01_registers_225792_single)/sizeof(si5344_revd_register_t)
     },
     { "si5344_revd_dewille01_registers_24576_single",
-        si5344_revd_dewille01_registers_24576_single, 
+        si5344_revd_dewille01_registers_24576_single,
         sizeof(si5344_revd_dewille01_registers_24576_single)/sizeof(si5344_revd_register_t)
-    }
+    },
 };

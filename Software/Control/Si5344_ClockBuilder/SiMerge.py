@@ -72,8 +72,24 @@ def extractRegisters(infile, outfile, arrayName):
         outfile.write("\n};\n\n")
     
 def printFooter(outfile, extractedRegs):
-    #TODO
-    pass 
+    outfile.write("""
+typedef struct 
+{
+    const char * name;
+    const si5344_revd_register_t * const configArr;
+    const size_t configLen;
+} si534x_config_t;
+
+si534x_config_t si534xConfig[] = {""")
+    for reg in extractedRegs:
+        outfile.write("\n    { \"" + reg + "\",\n")
+        outfile.write("        " + reg +",\n")
+        outfile.write("        sizeof(" + reg + ")/sizeof(si5344_revd_register_t)\n    },")
+
+    outfile.write("\n};\n")
+
+
+
 
 def getArrayName(filename):
     # Si5344-RevD-DeWille01-Registers_225792_SingleIn.h =>
