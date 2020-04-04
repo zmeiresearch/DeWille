@@ -35,7 +35,7 @@
 #include "globals.h"
 #include "logger.h"
 
-#include "spi.h"
+#include "spi_mux.h"
 
 //==============================================================================
 //  Defines
