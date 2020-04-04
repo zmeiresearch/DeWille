@@ -31,7 +31,7 @@
 #include "si534x.h"
 #include "si534x_regs.h"
 
-#include "../../Si5344_ClockBuilder/Si5344_RevD_DeWille01.h" 
+#include "../../Si5344_ClockBuilder/Si5344_RevD_DeWille01.h"
 
 #include "logger.h"
 
@@ -42,6 +42,9 @@
 //==============================================================================
 #define CMP_NAME                "SI534x"
 #define ALWAYS_SET_PAGE         false
+
+#define MAX_CONSECUTIVE_REGS    64  // maximal number of config registers to try
+                                    // writing consecutively
 
 #define ARRAY_SIZE(x)           (sizeof(x)/sizeof(x[0]))
 
@@ -77,11 +80,11 @@ static uint8_t currentPage = 0xDE;
 static bool isReady()
 {
     bool retVal = false;
-    
+
     // DEVICE_READY is accessible on every page
     uint8_t tmp[2] = { CMD_SET_ADDRESS, Reg_DeviceReady.address };
     SpiTransfer(eSpiDevCLK, &tmp[0], 2);
-    
+
     tmp[0] = CMD_READ_DATA;
     tmp[1] = DATA_DUMMY;
 
@@ -109,7 +112,7 @@ static eStatus setPage(uint8_t page)
             // the page-setting address is accessible from every page
             uint8_t tmp[2];
             tmp[0] = CMD_SET_ADDRESS;
-            tmp[1] = Reg_Page.address; 
+            tmp[1] = Reg_Page.address;
             SpiTransfer(eSpiDevCLK, &tmp[0], 2);
 
             tmp[0] = CMD_WRITE_DATA;
@@ -139,7 +142,7 @@ static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
     }
     else if (bufferSize < reg.len)
     {
-        retVal = eFAIL; 
+        retVal = eFAIL;
     }
     else
     {
@@ -179,11 +182,11 @@ static eStatus readReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
                     // overwrite the null-termination of the previous sprintf
                     sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
                 }
-                
-                Log(eLogDebug, CMP_NAME, 
-                    "readReg: Reading Si534x register: page: %d, address: 0x%02X, got: %s", 
+
+                Log(eLogDebug, CMP_NAME,
+                    "readReg: Reading Si534x register: page: %d, address: 0x%02X, got: %s",
                     reg.page, reg.address, printBuf);
-                
+
                 free(printBuf);
             }
         }
@@ -203,13 +206,13 @@ static eStatus writeReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
     }
     else if (bufferSize < reg.len)
     {
-        retVal = eFAIL; 
+        retVal = eFAIL;
     }
     else if (reg.readonly)
     {
         retVal = eUNSUPPORTED;
-        Log(eLogWarn, CMP_NAME, 
-                "writeReg: Attempted to write read-only register: page %d, address: 0x%02X", 
+        Log(eLogWarn, CMP_NAME,
+                "writeReg: Attempted to write read-only register: page %d, address: 0x%02X",
                 reg.page, reg.address);
     }
     else
@@ -238,7 +241,7 @@ static eStatus writeReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
             if (NULL == printBuf)
             {
                 retVal = eOUTOFMEMORY;
-                Log(eLogError, CMP_NAME, "readReg: Memory allocation failed!");
+                Log(eLogError, CMP_NAME, "writeReg: Memory allocation failed!");
             }
             else
             {
@@ -249,14 +252,105 @@ static eStatus writeReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
                     // overwrite the null-termination of the previous sprintf
                     sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
                 }
-                
-                Log(eLogDebug, CMP_NAME, 
-                    "writeReg: Written Si534x register: page: %d, address: 0x%02X, got: %s", 
+
+                Log(eLogDebug, CMP_NAME,
+                    "writeReg: Written Si534x register: page: %d, address: 0x%02X, got: %s",
                     reg.page, reg.address, printBuf);
-                
+
                 free(printBuf);
             }
         }
+    }
+
+    return retVal;
+}
+
+static eStatus writeBuffer(const uint16_t addr, const uint8_t * const buf, size_t bufferLen)
+{
+    eStatus retVal = eOK;
+    uint8_t tmp[2];
+    const uint8_t address = (uint8_t)(addr & 0xff);
+    const uint8_t page = (uint8_t)((addr >> 16) & 0x0f);
+
+
+    // Switch to  the correct page
+    retVal = setPage(page);
+    if (eOK == retVal)
+    {
+        // Set the address to start writing to
+        tmp[0] = CMD_SET_ADDRESS;
+        tmp[1] = address;
+        SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+
+        // Then write as many bytes as required
+        for (int i = 0; i < bufferLen; i++)
+        {
+            // needs to be set on each iteration as SpiTransfer overwrites the buffer
+            tmp[0] = CMD_WRITE_INCREMENT;
+            tmp[1] = buf[i];
+            SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+        }
+
+        // everything below is for debug purposes
+        char * printBuf = (char *)malloc(bufferLen * 5);    // 0xXX,0xYY + zero termination
+
+        if (NULL == printBuf)
+        {
+            retVal = eOUTOFMEMORY;
+            Log(eLogError, CMP_NAME, "writeBuffer: Memory allocation failed!");
+        }
+        else
+        {
+            // print the first byte
+            sprintf(&printBuf[0], "0x%02X", buf[0]);
+            for (int i = 1; i < bufferLen; i++)
+            {
+                // overwrite the null-termination of the previous sprintf
+                sprintf(&printBuf[((i - 1)*5) + 4], ",0x%02X", buf[i]);
+            }
+
+            Log(eLogDebug, CMP_NAME,
+                "writeBuffer: Written Si534x buffer: address: 0x%04X, got: %s",
+                addr, printBuf);
+
+            free(printBuf);
+        }
+    }
+
+    return retVal;
+}
+
+static eStatus writeConfigArray(const si5344_revd_register_t * const config,
+        const size_t configLen)
+{
+    eStatus retVal = eOK;
+
+    uint8_t tempBuf[MAX_CONSECUTIVE_REGS];
+    size_t tempCount = 0;
+    uint16_t address = 0;
+    size_t written = 0;
+
+    Log(eLogDebug, CMP_NAME,
+            "writeConfigArray: writing config: %08X, len: %d",
+            config, configLen);
+
+    address = config[0].address;
+    while ((written < configLen) && (eOK == retVal))
+    {
+        tempBuf[tempCount] = config[written].value;
+        tempCount++;
+
+        // check whether the next value is for the next address and append
+        // it to tempBuf if so
+        while ( ((written + tempCount) < configLen) &&
+                (tempCount < MAX_CONSECUTIVE_REGS) &&
+                (   config[written + tempCount].address ==
+                    (address + tempCount)) )
+        {
+            tempBuf[tempCount] = config[written + tempCount].value;
+            tempCount++;
+        }
+        retVal = writeBuffer(address, &tempBuf[0], tempCount);
     }
 
     return retVal;
@@ -282,7 +376,7 @@ eStatus Si534xReadId(eSi534xType * const type)
 
         readReg(Reg_BasePartNumber, (uint8_t *)&buf, 2);
 
-        if ((buf == (uint16_t)eSi5342) || 
+        if ((buf == (uint16_t)eSi5342) ||
             (buf == (uint16_t)eSi5344) ||
             (buf == (uint16_t)eSi5345))
         {
@@ -326,8 +420,8 @@ eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * 
             else
             {
                 retVal = eOUTOFMEMORY;
-                Log(eLogWarn, CMP_NAME, 
-                        "Si534xListConfigs: Too many configs! Config count: %d, array size: %d", 
+                Log(eLogWarn, CMP_NAME,
+                        "Si534xListConfigs: Too many configs! Config count: %d, array size: %d",
                         ARRAY_SIZE(si534xConfig),
                         maxCount);
             }
@@ -358,7 +452,7 @@ eStatus Si534xSetConfig(const uint8_t configId)
 eStatus Si534xInit()
 {
     eStatus retVal = eOK;
-    
+
     SpiInit();
 
     retVal = Si534xReadId(&clkType);
