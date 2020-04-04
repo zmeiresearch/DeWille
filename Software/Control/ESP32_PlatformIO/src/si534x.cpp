@@ -398,6 +398,30 @@ eStatus Si534xReadId(eSi534xType * const type)
     return retVal;
 }
 
+eStatus Si534xDumpStatus()
+{
+    eStatus retVal = eOK;
+
+    uint8_t buf;
+
+    readReg(Reg_InternalStatus, &buf, 1);
+    Log(eLogDebug, CMP_NAME, "DumpStatus: InternalStatus:0x%2x", buf);
+    
+    readReg(Reg_OofLosAlarms, &buf, 1);
+    Log(eLogDebug, CMP_NAME, "DumpStatus: OofLosAlarms:0x%2x", buf);
+
+    readReg(Reg_HoldoverLolStatus, &buf, 1);
+    Log(eLogDebug, CMP_NAME, "DumpStatus: HoldoverLolStatus:0x%2x", buf);
+
+    readReg(Reg_CalibrationStatus, &buf, 1);
+    Log(eLogDebug, CMP_NAME, "DumpStatus: CalibrationStatus:0x%2x", buf);
+
+    readReg(Reg_InternalError, &buf, 1);
+    Log(eLogDebug, CMP_NAME, "DumpStatus: InternalError:0x%2x", buf);
+
+    return retVal;
+}
+
 // Fills-in a list of available configs
 eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * configList[])
 {
