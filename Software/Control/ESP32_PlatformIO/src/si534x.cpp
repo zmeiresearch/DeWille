@@ -254,7 +254,7 @@ static eStatus writeReg(const tSiReg& reg, uint8_t * buf, uint8_t bufferSize)
                 }
 
                 Log(eLogDebug, CMP_NAME,
-                    "writeReg: Written Si534x register: page: %d, address: 0x%02X, got: %s",
+                    "writeReg: Written Si534x register: page: %d, address: 0x%02X: %s",
                     reg.page, reg.address, printBuf);
 
                 free(printBuf);
@@ -310,8 +310,8 @@ static eStatus writeBuffer(const uint16_t addr, const uint8_t * const buf, size_
             }
 
             Log(eLogDebug, CMP_NAME,
-                "writeBuffer: Written Si534x buffer: address: 0x%04X, got: %s",
-                addr, printBuf);
+                "writeBuffer: Written: 0x%04X: %s (%d bytes)",
+                addr, printBuf, bufferLen);
 
             free(printBuf);
         }
@@ -334,9 +334,10 @@ static eStatus writeConfigArray(const si5344_revd_register_t * const config,
             "writeConfigArray: writing config: %08X, len: %d",
             config, configLen);
 
-    address = config[0].address;
     while ((written < configLen) && (eOK == retVal))
     {
+        address = config[written].address;
+
         tempBuf[tempCount] = config[written].value;
         tempCount++;
 
@@ -351,7 +352,10 @@ static eStatus writeConfigArray(const si5344_revd_register_t * const config,
             tempCount++;
         }
         retVal = writeBuffer(address, &tempBuf[0], tempCount);
+        written += tempCount;
+        tempCount = 0;
     }
+    Log(eLogDebug, CMP_NAME, "writeConfigArray: Done!");
 
     return retVal;
 }
@@ -438,12 +442,14 @@ eStatus Si534xSetConfig(const uint8_t configId)
     if (configId >= ARRAY_SIZE(si534xConfig))
     {
         retVal = eINVALIDARG;
+        Log(eLogWarn, CMP_NAME, "Si534xSetConfig: Trying to set invalid config id %d", configId);
     }
     else
     {
+        Log(eLogDebug, CMP_NAME, "Si534xSetConfig: Setting config %s", si534xConfig[configId].name);
         writeConfigArray(&si5344_preamble[0], ARRAY_SIZE(si5344_preamble));
         writeConfigArray(si534xConfig[configId].configArr, si534xConfig[configId].configLen);
-        writeConfigArray(&si5344_postamble[1], ARRAY_SIZE(si5344_postamble));
+        writeConfigArray(&si5344_postamble[0], ARRAY_SIZE(si5344_postamble));
     }
 
     return retVal;

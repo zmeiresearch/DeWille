@@ -116,6 +116,7 @@ void setup()
     {
         Log(eLogInfo, "Main", "config ID: %d, name: %s", i, configList[i]);
     }
+    retVal = Si534xSetConfig(0);
 
 }
 
@@ -132,10 +133,10 @@ void TaskBlink(void *pvParameters)
     (void) pvParameters;
     for (;;) // A Task shall never return or exit.
     {
-        Log(eLogDebug, "TaskBlink", "Turning LED ON");
+        Log(eLogDebug, "TaskBlink", "Still alive!");
+        
         digitalWrite(DO_LED_1, HIGH);
         vTaskDelay(500);
-        Log(eLogDebug, "TaskBlink", "Turning LED OFF");
         digitalWrite(DO_LED_1, LOW);
         vTaskDelay(500);
     }
