@@ -104,7 +104,7 @@ void setup()
     setupTasks();
 
     LogStart();
-    LogSetMinLevel(eLogDebug);
+    LogSetMinLevel(eLogInfo);
 
     Si534xInit();
 
@@ -116,7 +116,11 @@ void setup()
     {
         Log(eLogInfo, "Main", "config ID: %d, name: %s", i, configList[i]);
     }
-    retVal = Si534xSetConfig(0);
+
+    Si534xDumpStatus();
+    retVal = Si534xSetConfig(1);
+
+    Si534xDumpStatus();
 
 }
 
@@ -130,10 +134,28 @@ void loop()
 
 void TaskBlink(void *pvParameters)
 {
+    uint16_t cnt = 0;
     (void) pvParameters;
     for (;;) // A Task shall never return or exit.
     {
         Log(eLogDebug, "TaskBlink", "Still alive!");
+        cnt++;
+
+        if (cnt == 3) 
+        {
+            Si534xDumpStatus();
+        }
+
+        if (cnt == 5)
+        {
+            Si534xSoftReset();
+        }
+
+        if (cnt == 7)
+        {
+            Si534xDumpStatus();
+        }
+
         
         digitalWrite(DO_LED_1, HIGH);
         vTaskDelay(500);

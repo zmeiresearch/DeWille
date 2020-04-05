@@ -60,7 +60,8 @@ eStatus Si534xReadId(eSi534xType * const type);
 eStatus Si534xListConfigs(const uint8_t maxCount, uint8_t * count, const char * configList[]);
 eStatus Si534xSetConfig(const uint8_t configId);
 eStatus Si534xInit();
-
+eStatus Si534xDumpStatus();
+eStatus Si534xSoftReset();
 
 
 #endif // INC_SI534x_H

@@ -104,8 +104,10 @@ static eStatus setPage(uint8_t page)
     // Valid pages are 0-5 and 9, Si5345-44-42-D-RM pg. 81
     // However, there are also pg. A and pg. B - the same
     // Ref manual, pg. 122 and 123
+    // And finally, ClockBuilderPro generates settings for 
+    // page 8 as well.
     if (((0 <= page) && (page <= 5)) ||
-        ((9 <= page) && (page <= 0xb)))
+        ((8 <= page) && (page <= 0xb)))
     {
         if ((page != currentPage) || ALWAYS_SET_PAGE)
         {
@@ -270,8 +272,7 @@ static eStatus writeBuffer(const uint16_t addr, const uint8_t * const buf, size_
     eStatus retVal = eOK;
     uint8_t tmp[2];
     const uint8_t address = (uint8_t)(addr & 0xff);
-    const uint8_t page = (uint8_t)((addr >> 16) & 0x0f);
-
+    const uint8_t page = (uint8_t)((addr >> 8) & 0x0f);
 
     // Switch to  the correct page
     retVal = setPage(page);
@@ -398,26 +399,44 @@ eStatus Si534xReadId(eSi534xType * const type)
     return retVal;
 }
 
+eStatus Si534xSoftReset()
+{
+    uint8_t buf = 0x01;
+
+    Log(eLogInfo, CMP_NAME, "Si534xSoftReset()");
+    writeReg(Reg_SoftResetCalib, &buf, 1);
+
+    return eOK;
+}
+
 eStatus Si534xDumpStatus()
 {
     eStatus retVal = eOK;
 
-    uint8_t buf;
+    uint8_t buf[10];
 
-    readReg(Reg_InternalStatus, &buf, 1);
-    Log(eLogDebug, CMP_NAME, "DumpStatus: InternalStatus:0x%2x", buf);
+    readReg(Reg_InternalStatus, &buf[0], 1);
+    Log(eLogInfo, CMP_NAME, "DumpStatus: InternalStatus:0x%02x", (uint8_t)*buf);
     
-    readReg(Reg_OofLosAlarms, &buf, 1);
-    Log(eLogDebug, CMP_NAME, "DumpStatus: OofLosAlarms:0x%2x", buf);
+    //readReg(Reg_OofLosAlarms, &buf[0], 1);
+    //Log(eLogInfo, CMP_NAME, "DumpStatus: OofLosAlarms:0x%02x", buf);
 
-    readReg(Reg_HoldoverLolStatus, &buf, 1);
-    Log(eLogDebug, CMP_NAME, "DumpStatus: HoldoverLolStatus:0x%2x", buf);
+    //readReg(Reg_HoldoverLolStatus, &buf[0], 1);
+    //Log(eLogInfo, CMP_NAME, "DumpStatus: HoldoverLolStatus:0x%02x", buf);
 
-    readReg(Reg_CalibrationStatus, &buf, 1);
-    Log(eLogDebug, CMP_NAME, "DumpStatus: CalibrationStatus:0x%2x", buf);
+    //readReg(Reg_CalibrationStatus, &buf[0], 1);
+    //Log(eLogInfo, CMP_NAME, "DumpStatus: CalibrationStatus:0x%02x", buf);
 
-    readReg(Reg_InternalError, &buf, 1);
-    Log(eLogDebug, CMP_NAME, "DumpStatus: InternalError:0x%2x", buf);
+    readReg(Reg_InternalError, &buf[0], 1);
+    Log(eLogInfo, CMP_NAME, "DumpStatus: InternalError:0x%02x", (uint8_t)*buf);
+
+    readReg(Reg_ActiveInput, &buf[0], 1);
+    Log(eLogInfo, CMP_NAME, "DumpStatus: ActiveInput:0x%02x", (uint8_t)*buf);
+
+    readReg(Reg_ScratchPad, &buf[0], 8);
+    buf[8] = 0;
+    Log(eLogInfo, CMP_NAME, "DumpStatus: ScrachPad: %s", &buf[0]);
+    
 
     return retVal;
 }
@@ -470,7 +489,7 @@ eStatus Si534xSetConfig(const uint8_t configId)
     }
     else
     {
-        Log(eLogDebug, CMP_NAME, "Si534xSetConfig: Setting config %s", si534xConfig[configId].name);
+        Log(eLogInfo, CMP_NAME, "Si534xSetConfig: Setting config %s", si534xConfig[configId].name);
         writeConfigArray(&si5344_preamble[0], ARRAY_SIZE(si5344_preamble));
         writeConfigArray(si534xConfig[configId].configArr, si534xConfig[configId].configLen);
         writeConfigArray(&si5344_postamble[0], ARRAY_SIZE(si5344_postamble));
