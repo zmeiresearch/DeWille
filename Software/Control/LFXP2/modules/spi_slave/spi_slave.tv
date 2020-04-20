@@ -1,0 +1,36 @@
+// Test vector file for spi_slave
+// Format is:
+// "Clock Cycle N"_"CSn"_"MOSI"_"I_DBG_BYTE"_"MISO"_"O_DBG_BYTE"
+//     47:40       39:32  31:24     23:16     15:8     7:0
+00_01_00_zz_xx_xx
+01_00_01_zz_xx_xx   // Transition CS to 0
+02_00_01_zz_xx_xx
+03_00_01_zz_xx_xx
+04_00_01_zz_xx_xx
+05_00_00_zz_xx_xx
+06_00_00_zz_xx_xx
+07_00_00_zz_xx_xx
+08_00_00_zz_xx_xx   // first byte trasferred, check O_DBG_BYTE and clock in MSb of byte 2
+09_00_01_zz_xx_f0
+0a_00_00_zz_xx_f0
+0b_00_01_zz_xx_f0
+0c_00_00_zz_xx_f0
+0d_00_01_zz_xx_f0
+0e_00_00_zz_xx_f0
+0f_00_01_zz_xx_f0   
+10_00_00_zz_xx_f0
+11_00_00_zz_xx_aa   // 2nd byte complete
+12_00_00_zz_xx_aa
+13_00_00_zz_xx_aa
+14_00_00_zz_xx_aa
+15_00_00_zz_xx_aa
+16_00_00_zz_xx_aa
+17_00_00_zz_xx_aa
+18_00_00_zz_xx_aa
+19_00_00_zz_xx_xx
+1a_00_00_zz_xx_xx
+1b_00_00_zz_xx_xx
+1c_00_00_zz_xx_xx
+1d_00_00_zz_xx_xx
+1e_00_00_zz_xx_xx
+1f_00_00_zz_xx_xx
