@@ -12,11 +12,12 @@
 #
 ###############################################################################
 
+OBJDIR = sim
 # Per-module sources. Change these 
 SOURCES = spi_slave.v
-OUTPUT = spi_slave
+OUTPUT = $(OBJDIR)/spi_slave
 TESTBENCH = spi_slave_tb.v
-WAVEFORMS = spi_slave.lxt2	# adjust in spi_slave_tb.v
+WAVEFORMS = $(OBJDIR)/spi_slave.lxt2	# adjust in spi_slave_tb.v
 
 # Tools - probably should not be changed
 COMPILER = iverilog
@@ -24,12 +25,12 @@ SIMULATOR = vvp
 VIEWER = gtkwave
 
 # Options
-COFLAGS = -o			# COmpiler flags
-SIMFLAGS = 				# Simulator flags - before the simulated file
-SIMARGS = -lxt2			# Simulator arguments - after the simulated file 
+COFLAGS = -o							# COmpiler flags
+SIMFLAGS = 								# Simulator flags - before the simulated file
+SIMARGS = -lxt2 +Waveout=$(WAVEFORMS)	# Simulator arguments - after the simulated file 
 
 # Rules
-build : $(TESTBENCH) $(SOURCES)
+build: $(TESTBENCH) $(SOURCES) | $(OBJDIR) 
 	$(COMPILER) $(COFLAGS) $(OUTPUT) $(TESTBENCH) $(SOURCES)
 
 test: $(OUTPUT)
@@ -39,12 +40,14 @@ display: $(WAVEFORMS)
 	$(VIEWER) $(WAVEFORMS) 1>/dev/null 2>/dev/null &
 
 clean:
-	rm -f $(OUTPUT) $(WAVEFORMS)
+	rm -rf $(OBJDIR)
 
 # Dependancies
-$(WAVEFORMS): $(OUTPUT)
+$(WAVEFORMS): $(OUTPUT) | $(OBJDIR)
 	$(SIMULATOR) $(SIMFLAGS) $(OUTPUT) $(SIMARGS)
 
-$(OUTPUT): $(TESTBENCH) $(SOURCES)
+$(OUTPUT): $(TESTBENCH) $(SOURCES) | $(OBJDIR)
 	$(COMPILER) $(COFLAGS) $(OUTPUT) $(TESTBENCH) $(SOURCES)
 
+$(OBJDIR):
+	mkdir $@

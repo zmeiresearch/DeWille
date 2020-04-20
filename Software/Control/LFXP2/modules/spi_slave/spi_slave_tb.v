@@ -1,11 +1,12 @@
 `timescale 1ns/1ns
 
-`define TEST_VECTOR_SIZE = 1000
+`define TEST_VECTOR_SIZE 1000
+`define TEST_VECTOR_FILE "spi_slave.tv"
 
 module spi_slave_test();
-
-
-    reg [47:0]  test_vector[1000:0];
+    
+    reg [256:0] waveform_file; 
+    reg [47:0]  test_vector[`TEST_VECTOR_SIZE:0];
     reg         o_miso_expected;
     reg [7:0]   o_dbg_byte_expected;
     reg [31:0]  test_step;
@@ -31,22 +32,23 @@ module spi_slave_test();
         in_sck = 0; #5; in_sck = 1; #5; // 10 ns clock
     end
 
-    initial // load testvector
-    begin
-        $readmemh("spi_slave.tv", test_vector);
+    initial begin   // load testvector
+        $readmemh(`TEST_VECTOR_FILE, test_vector);
         error_count = 0;
         test_step = 0;
-        $display("spi_slave.tv: loaded: ");
+        $display("Test vectors loaded from: $s ", `TEST_VECTOR_FILE);
         for (test_step=0;test_step<10;test_step++) 
             $display("%d:%h", test_step, test_vector[test_step]);
         test_step = 0;
     end
 		
-    initial
-    begin
-        // dump everything for inspection
-        $dumpfile("spi_slave.lxt2");
-        $dumpvars(0, spi_slave_test);
+    initial begin
+        if ($value$plusargs("Waveout=%s", waveform_file))
+        begin
+         // dump everything for inspection
+            $dumpfile(waveform_file);
+            $dumpvars(0, spi_slave_test);
+        end
     end
 
     always @(posedge in_sck)
