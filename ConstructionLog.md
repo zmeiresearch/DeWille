@@ -48,3 +48,25 @@ it may have potentially damaged the rest of the circuit) - probably need to reco
 Because of the above, decided to use the analog supplies in capacitance multiplier mode rather than regulator, so 
 removed U201, U202 and the resistors around them.
 ![Base test](Media/DeWille_04_BaseTest.jpg)
+
+## 5-Apr-2020
+Some work on the software for the Control board:
+ * Settled on using the Espressif-supplied version of FreeRTOS along with [PlatformIO](https://platformio.org/) 
+ as a base for the software.
+ * Implemented a (mostly) platform-independent logger and routed it through the secondary UART of FT2232
+ * Implemented a SPI bus arbitrator, to allow multiple components to communicate with the multiple slaves on the
+ SPI bus.
+ * Added Si553x-specific pseudo-driver that allow read/write of specific registers and bulk set-up based on. 
+ [ClockBuilderPro](https://www.silabs.com/products/development-tools/software/clockbuilder-pro-software) exports
+ * Added a small script (SiMerge.py) to automatically merge multiple CBP exports into a single file.
+
+After some trial&error, Si5344 started outputting clock signals. Next I'm shifting to the FPGA to try and get some
+actual audio data going.
+
+## 20-Apr-2020
+After spending some time in Lattice Diamond, I've decided to switch as much as possible to an open/free toolset. All
+FPGA modules will be developed in simulation, using Icarus [Verilog](http://iverilog.icarus.com/) &
+[GTKWave](http://gtkwave.sourceforge.net/). Only the final synthesis and verification will be done within Diamond (or
+another tool if/when the FPGA is changed).
+So far, a dummy (as in not doing much) SPI slave module is implemented, along with a testbench and support
+infrastructure - I am able to execute the testbench and check the signals/data visually in a single command
