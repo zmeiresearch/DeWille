@@ -4,7 +4,10 @@
 * Change SMA connector with bigger pads
 * Polygon fill on the top layer (better color!)
 * Add GND and power testpads
-* Consider strategic cuts in the GND polygon to separate GND current glow
+* Consider strategic cuts in the GND polygon to separate GND current flow
+* The JFET pin-out has Source and Drain swapped
+* The JFET CCS circuit is wrong
+
 
 ## DeWille_Control_Rev_1_0
 * Change SMA connector with bigger pads
