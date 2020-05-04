@@ -43,3 +43,4 @@
 * Change big filtering capacitors to snap-in ones
 * Mark R220 DNP or change R212 to 1.5k
 * Add LEDs indicating power status
+* Make input connections for I2S fit the standard XMOS/BT board layouts
