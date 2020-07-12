@@ -1,0 +1,39 @@
+// Test vector file for dp_ram
+// Format is:
+//Test  _  Cycle  _  rst  _  addr  _  dat_m2s  _  we  _  cyc  _  stb  _  ack  _  dat_s2m
+//79:72 _ 71:64  _ 63:56    55:48     47:40    39:32   31:24   23:16   15:8       7:0
+
+// Test 0 - ACK should be de-asserted when no activity on the bus
+00_00_00_00_zz_00_00_00_00_zz
+00_01_01_00_zz_00_00_00_00_zz
+00_02_01_00_zz_00_00_00_00_zz
+00_03_00_00_zz_00_00_00_00_zz
+00_04_00_00_zz_00_00_00_00_zz
+00_05_00_00_zz_00_00_00_00_zz
+
+// Test 1 - Simple read of address 0 - expect 0x5a from the preload file
+01_00_00_00_zz_00_01_01_00_zz // Cycle 0 - master sets ADR, asserts CYC and STB and de-asserts WE
+01_01_00_00_zz_00_01_01_01_5a // Cycle 1 - slave asserts ACK and presents valid data on dat
+// Add test for Slave throttling here!
+01_02_00_00_zz_00_00_00_00_5a // Cycle 2 - master de-asserts CYC and STB, slave de-asserts ACK
+01_03_00_00_zz_00_00_00_00_5a // Cycle 3 - nothing to do here!
+
+// Test 2 - Simple read of address 0x7 - should get 0x34
+02_00_00_06_zz_00_01_01_00_5a
+02_01_00_06_zz_00_01_01_01_34
+02_02_00_00_zz_00_00_00_00_34
+02_03_00_00_zz_00_00_00_00_34
+
+// Test 3 - Simple write of 0x1f to address 0x0 
+03_00_00_00_1f_01_01_01_00_34 // Cycle 0 - master sets ADR, DAT, WE, CYC, STB
+03_01_00_00_1f_01_01_01_01_5a // Cycle 1 - slave asserts ACK
+03_02_00_00_1f_00_00_00_00_5a // Cycle 2 - master de-asserts CYC and STB, slave de-asserts ACK
+03_03_00_00_zz_00_00_00_00_5a // Cycle 3 - nothing to do!
+
+// Test 4 - Simple read of address 0 - expect 0x1f from the previous write
+04_00_00_00_zz_00_01_01_00_5a
+04_01_00_00_zz_00_01_01_01_1f
+04_02_00_00_zz_00_00_00_00_1f
+04_03_00_00_zz_00_00_00_00_1f
+
+
