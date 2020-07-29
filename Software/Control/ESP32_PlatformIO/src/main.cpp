@@ -33,6 +33,7 @@
 #include <pgmspace.h>
 
 #include "si534x.h"
+#include "pcm1792.h"
 
 //==============================================================================
 //  Defines
@@ -122,6 +123,11 @@ void setup()
 
     Si534xDumpStatus();
 
+    retVal = Pcm1792CheckDevice();
+    if (eOK == retVal)
+    {
+        retVal = Pcm1792Init();
+    }
 }
 
 void loop() 
