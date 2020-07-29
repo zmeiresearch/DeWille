@@ -435,7 +435,7 @@ eStatus Si534xDumpStatus()
 
     readReg(Reg_ScratchPad, &buf[0], 8);
     buf[8] = 0;
-    Log(eLogInfo, CMP_NAME, "DumpStatus: ScrachPad: %s", &buf[0]);
+    Log(eLogInfo, CMP_NAME, "DumpStatus: ScratchPad: %s", &buf[0]);
     
 
     return retVal;
