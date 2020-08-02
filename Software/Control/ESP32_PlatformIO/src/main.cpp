@@ -32,6 +32,8 @@
 #include <WString.h>
 #include <pgmspace.h>
 
+#include "webserver.h"
+
 #include "si534x.h"
 #include "pcm1792.h"
 
@@ -61,7 +63,7 @@
 //==============================================================================
 //  Local function definitions
 //==============================================================================
-static void TaskBlink( void *pvParameters );
+static void TaskBlink(void *pvParams);
 
 //==============================================================================
 //  Local functions
@@ -128,6 +130,9 @@ void setup()
     {
         retVal = Pcm1792Init();
     }
+
+    retVal = DewilleWebserverSetup();
+
 }
 
 void loop() 
@@ -138,30 +143,15 @@ void loop()
 
 }
 
-void TaskBlink(void *pvParameters)
+void TaskBlink(void *pvParams)
 {
     uint16_t cnt = 0;
-    (void) pvParameters;
-    for (;;) // A Task shall never return or exit.
+    (void) pvParams;
+    
+    while(1)
     {
         Log(eLogDebug, "TaskBlink", "Still alive!");
         cnt++;
-
-        if (cnt == 3) 
-        {
-            Si534xDumpStatus();
-        }
-
-        if (cnt == 5)
-        {
-            Si534xSoftReset();
-        }
-
-        if (cnt == 7)
-        {
-            Si534xDumpStatus();
-        }
-
         
         digitalWrite(DO_LED_1, HIGH);
         vTaskDelay(500);
@@ -169,3 +159,5 @@ void TaskBlink(void *pvParameters)
         vTaskDelay(500);
     }
 }
+
+
