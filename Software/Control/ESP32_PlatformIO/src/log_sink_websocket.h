@@ -1,6 +1,8 @@
 /*==============================================================================
    DeWille ESP32 firmware
 
+   Web socket logging on ESP32
+
    Copyright 2020 Ivan Vasilev, Zmei Research Ltd.
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,49 +24,22 @@
    SOFTWARE.
   ============================================================================*/
 
-//==============================================================================
-//  Multi-include guard
-//==============================================================================
-#ifndef INC_LOGGER_H
-#define INC_LOGGER_H
+// No multi-include guard - this file is supposed to be include by logger.c only
 
 //==============================================================================
 //  Multi-include guard
 //==============================================================================
+#include <stdio.h>
+
 #include "globals.h"
-
 
 //==============================================================================
 //  Defines
 //==============================================================================
 
-
 //==============================================================================
 //  Exported types
 //==============================================================================
-typedef enum _eLogLevel
-{
-    eLogDebug,
-    eLogInfo,
-    eLogWarn,
-    eLogError,
-    eLogCrit,
-    eLogLevelCount,
-} eLogLevel;
-
-// Function pointers to different log sinks. Would've been cleaner with an 
-// interface, but I want to keep it as C as possible
-typedef eStatus (*LogSinkInitFn)();
-typedef size_t  (*LogSinkGetWriteSizeFn)();
-typedef size_t  (*LogSinkWriteFn)(const uint8_t * const buffer, const size_t toSend);
-
-typedef struct _LogSink
-{
-    const char*             Name;
-    LogSinkInitFn           Init;
-    LogSinkGetWriteSizeFn   GetWriteSize;
-    LogSinkWriteFn          Write;
-} LogSink;
 
 //==============================================================================
 //  Exported data
@@ -73,8 +48,6 @@ typedef struct _LogSink
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus Log(const eLogLevel level, const char * const component, ...);
-eStatus LogSetMinLevel(const eLogLevel level);
-eStatus LogStart();
-
-#endif // INC_LOGGER_H
+size_t      LogSinkWebsocketGetWriteSize();
+size_t      LogSinkWebsocketWrite(const uint8_t * const buffer, const size_t toSend);
+eStatus     LogSinkWebsocketInit();

@@ -23,16 +23,14 @@
   ============================================================================*/
 
 //==============================================================================
-//  Multi-include guard
-//==============================================================================
-#ifndef INC_LOGGER_H
-#define INC_LOGGER_H
-
-//==============================================================================
-//  Multi-include guard
+//  Includes
 //==============================================================================
 #include "globals.h"
+#include "log_sink_serial.h"
 
+#include "driver/uart.h"    // for UART_PIN_NO_CHANGE
+
+#include "HardwareSerial.h"
 
 //==============================================================================
 //  Defines
@@ -40,41 +38,38 @@
 
 
 //==============================================================================
-//  Exported types
+//  Local types
 //==============================================================================
-typedef enum _eLogLevel
-{
-    eLogDebug,
-    eLogInfo,
-    eLogWarn,
-    eLogError,
-    eLogCrit,
-    eLogLevelCount,
-} eLogLevel;
-
-// Function pointers to different log sinks. Would've been cleaner with an 
-// interface, but I want to keep it as C as possible
-typedef eStatus (*LogSinkInitFn)();
-typedef size_t  (*LogSinkGetWriteSizeFn)();
-typedef size_t  (*LogSinkWriteFn)(const uint8_t * const buffer, const size_t toSend);
-
-typedef struct _LogSink
-{
-    const char*             Name;
-    LogSinkInitFn           Init;
-    LogSinkGetWriteSizeFn   GetWriteSize;
-    LogSinkWriteFn          Write;
-} LogSink;
 
 //==============================================================================
-//  Exported data
+//  Local data
 //==============================================================================
+static HardwareSerial       serial(LOG_SERIAL_PORT);
+
+//==============================================================================
+//  Local functions
+//==============================================================================
+
 
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus Log(const eLogLevel level, const char * const component, ...);
-eStatus LogSetMinLevel(const eLogLevel level);
-eStatus LogStart();
 
-#endif // INC_LOGGER_H
+size_t LogSinkSerialGetWriteSize()
+{
+    return serial.availableForWrite();
+}
+
+size_t LogSinkSerialWrite(const uint8_t * const buffer, const size_t toSend)
+{
+    return serial.write(buffer, toSend);
+}
+
+eStatus LogSinkSerialInit()
+{
+    serial.begin(LOG_SERIAL_BAUD, SERIAL_8N1, LOG_SERIAL_RX_PIN, LOG_SERIAL_TX_PIN); 
+
+    return eOK;
+}
+
+

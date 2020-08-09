@@ -28,10 +28,6 @@
 #include "globals.h"
 #include "logger_port.h"
 
-#include "driver/uart.h"    // for UART_PIN_NO_CHANGE
-
-#include "HardwareSerial.h"
-
 //==============================================================================
 //  Defines
 //==============================================================================
@@ -45,7 +41,6 @@
 //  Local data
 //==============================================================================
 static SemaphoreHandle_t    LogSemaphore;
-static HardwareSerial       serial(LOG_SERIAL_PORT);
 
 //==============================================================================
 //  Local functions
@@ -64,17 +59,6 @@ bool LogPortLock(size_t waitTime)
 void LogPortUnlock()
 {
     xSemaphoreGive(LogSemaphore);
-}
-
-
-size_t LogPortGetWriteSize()
-{
-    return serial.availableForWrite();
-}
-
-size_t LogPortWrite(const uint8_t * const buffer, const size_t toSend)
-{
-    return serial.write(buffer, toSend);
 }
 
 eStatus LogPortInit(void (*task)(void*) )
@@ -101,12 +85,6 @@ eStatus LogPortInit(void (*task)(void*) )
         {
             retVal = eFAIL;
         }
-    }
-
-    if (eOK == retVal)
-    {
-        // init serial port. Nothing should go wrong here
-        serial.begin(LOG_SERIAL_BAUD, SERIAL_8N1, LOG_SERIAL_RX_PIN, LOG_SERIAL_TX_PIN); 
     }
 
     return retVal;

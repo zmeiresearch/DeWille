@@ -23,16 +23,11 @@
   ============================================================================*/
 
 //==============================================================================
-//  Multi-include guard
+//  Includes
 //==============================================================================
-#ifndef INC_LOGGER_H
-#define INC_LOGGER_H
+#include "log_sink_websocket.h"
 
-//==============================================================================
-//  Multi-include guard
-//==============================================================================
-#include "globals.h"
-
+#include "ESPAsyncWebServer.h"
 
 //==============================================================================
 //  Defines
@@ -40,41 +35,55 @@
 
 
 //==============================================================================
-//  Exported types
+//  Local types
 //==============================================================================
-typedef enum _eLogLevel
+
+//==============================================================================
+//  Local data
+//==============================================================================
+static AsyncWebServer server(LOG_SOCKET_PORT);
+static AsyncWebSocket socket("/log");
+
+//==============================================================================
+//  Local functions
+//==============================================================================
+void notFound(AsyncWebServerRequest *request)
 {
-    eLogDebug,
-    eLogInfo,
-    eLogWarn,
-    eLogError,
-    eLogCrit,
-    eLogLevelCount,
-} eLogLevel;
+    request->send(404);
+}
 
-// Function pointers to different log sinks. Would've been cleaner with an 
-// interface, but I want to keep it as C as possible
-typedef eStatus (*LogSinkInitFn)();
-typedef size_t  (*LogSinkGetWriteSizeFn)();
-typedef size_t  (*LogSinkWriteFn)(const uint8_t * const buffer, const size_t toSend);
-
-typedef struct _LogSink
+void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, 
+        AwsEventType type, void * arg, uint8_t *data, size_t len)
 {
-    const char*             Name;
-    LogSinkInitFn           Init;
-    LogSinkGetWriteSizeFn   GetWriteSize;
-    LogSinkWriteFn          Write;
-} LogSink;
-
-//==============================================================================
-//  Exported data
-//==============================================================================
+    // Nothing to do?
+}
 
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus Log(const eLogLevel level, const char * const component, ...);
-eStatus LogSetMinLevel(const eLogLevel level);
-eStatus LogStart();
 
-#endif // INC_LOGGER_H
+size_t LogSinkWebsocketGetWriteSize()
+{
+    return 1024;                // Arbitrary size, no idea how much it can handle
+}
+
+size_t LogSinkWebsocketWrite(const uint8_t * const buffer, const size_t toSend)
+{
+    // Cast needed as there's no const uint8_t *, size_t overload
+    socket.textAll((const char* )buffer, toSend); 
+    
+    // No method seems to return any information on how much data was actually 
+    // written, just assume everything is OK 
+    return toSend;
+}
+
+eStatus LogSinkWebsocketInit()
+{
+    socket.onEvent(onEvent);
+    server.addHandler(&socket);
+    server.onNotFound(notFound);
+
+    return eOK;
+}
+
+

@@ -44,6 +44,11 @@
 // Peripherals
 //==============================================================================
 
+// Log configuration
+#define     LOG_LEVEL_DEFAULT       eLogWarn
+#define     LOG_BUFFER_SIZE         8192
+#define     LOG_SOCKET_PORT         81
+
 // Debug UART
 #define     LOG_SERIAL_PORT         2
 #define     LOG_SERIAL_BAUD         115200

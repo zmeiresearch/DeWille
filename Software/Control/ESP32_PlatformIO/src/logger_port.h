@@ -37,7 +37,6 @@
 //  Defines
 //==============================================================================
 
-
 // FreeRTOS provided functionality
 #define LogPortSleep(x)     vTaskDelay(x / portTICK_PERIOD_MS)
 #define LogPortInISR()      xPortInIsrContext()
@@ -54,8 +53,6 @@
 //==============================================================================
 //  Exported functions
 //==============================================================================
-size_t      LogPortGetWriteSize();
-size_t      LogPortWrite(const uint8_t * const buffer, const size_t toSend);
 eStatus     LogPortInit(void (*taks)(void*));
 bool        LogPortLock(size_t waitTime);
 void        LogPortUnlock();

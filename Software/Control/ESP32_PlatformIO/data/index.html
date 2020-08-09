@@ -9,6 +9,7 @@
         <link rel='stylesheet' href='static/main.css'></link>
         <script src='static/jquery-3.5.1.min.js'></script>
         <script src='static/update.js'></script>
+        <script src='static/logsocket.js'></script>
     </head>
     <body>
         <main class='wrapper'>
@@ -21,7 +22,11 @@
             </nav>
             <div class='container'>
                 <div class='row'>
-                    <fieldset class='column column-50 column-offset-50 rounded'>
+                    <fieldset class='column column-50 rounded'>
+                        <legend>Debug log</legend>
+                        <textarea style='overflow: scroll; height:80%' id='debugLog'></textarea>
+                    </fieldset>
+                    <fieldset class='column column-50 rounded'>
                         <legend>Firmware Update</legend>
                         <form method='POST' action='#' enctype='multipart/form-data' id='updateFirmware'>
                             <fieldset>

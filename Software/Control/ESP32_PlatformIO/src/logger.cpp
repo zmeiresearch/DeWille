@@ -29,6 +29,8 @@
 
 #include "logger.h"
 #include "logger_port.h"
+#include "log_sink_serial.h"
+#include "log_sink_websocket.h"
 
 //==============================================================================
 //  Defines
@@ -45,21 +47,58 @@
 //==============================================================================
 //  Local data
 //==============================================================================
-static eLogLevel currentLevel = eLogInfo;
-static uint8_t logBuffer[LOG_BUFFER_SIZE] = { 0 };
-static size_t readPtr = 0;
-static size_t writePtr = 0;
-static bool initialized = false;
+static eLogLevel    currentLevel = eLogInfo;
+static uint8_t      logBuffer[LOG_BUFFER_SIZE] = { 0 };
+static size_t       readPtr = 0;
+static size_t       writePtr = 0;
+static bool         initialized = false;
+
+// Log sinks
+static const LogSink sinks[] = {
+    { "Serial", LogSinkSerialInit, LogSinkSerialGetWriteSize, LogSinkSerialWrite },
+    { "Websocket", LogSinkWebsocketInit, LogSinkWebsocketGetWriteSize, LogSinkWebsocketWrite }
+};
 
 //==============================================================================
 //  Local functions
 //==============================================================================
-size_t getFree() 
+static size_t getFree() 
 {
     return (LOG_BUFFER_SIZE - writePtr);
 }
 
-void writeTask(void * params)
+static size_t getSinksSmallestWriteSize()
+{
+    size_t writeSize = 0xffffffff;
+    for (int i = 0; i < ARRAY_SIZE(sinks); i++)
+    {
+        int tmp = sinks[i].GetWriteSize();
+        if (tmp < writeSize) 
+        {
+            writeSize = tmp;
+        }
+    }
+    return writeSize;
+}
+
+static size_t sinksWrite(const uint8_t * const buffer, const size_t toSend)
+{
+    size_t written = toSend;
+    
+    for (int i = 0; i < ARRAY_SIZE(sinks); i++)
+    {
+        int tmp = sinks[i].Write(buffer, toSend);
+        if (tmp != written) 
+        {
+            Log(eLogWarn, CMP_NAME, "Failure writing to sink %s: tried to write: %d, written: %d", 
+                    sinks[i].Name, toSend, tmp);
+        }
+    }
+    return written;
+}
+
+
+static void writeTask(void * params)
 {
     while(1)
     {
@@ -67,7 +106,7 @@ void writeTask(void * params)
         if (readPtr < writePtr)
         {
             // is some space available?
-            size_t toSend = LogPortGetWriteSize();
+            size_t toSend = getSinksSmallestWriteSize();
             if (toSend > 0)
             {
                 if (LogPortLock(LOG_MAX_WAIT))
@@ -80,7 +119,7 @@ void writeTask(void * params)
                         toSend = writePtr - readPtr;
                     }
                 
-                    size_t sent = LogPortWrite(&logBuffer[readPtr], toSend);
+                    size_t sent = sinksWrite(&logBuffer[readPtr], toSend);
                     readPtr += sent;
 
                     if (readPtr == writePtr)
@@ -98,7 +137,7 @@ void writeTask(void * params)
     }
 }
 
-const char getLevelChar(const eLogLevel level)
+static const char getLevelChar(const eLogLevel level)
 {
     const char chars[eLogLevelCount+1] = {
         'D',    // []ebug
@@ -219,12 +258,31 @@ eStatus LogSetMinLevel(const eLogLevel level)
 eStatus LogStart()
 {
     eStatus retVal = eOK;
+    bool oneSinkOk = false;
 
-    currentLevel = eLogWarn;    // default log level
+    currentLevel = LOG_LEVEL_DEFAULT;   // default log level
     
     readPtr = writePtr = 0;
     
     retVal = LogPortInit(writeTask);
+
+    if (eOK == retVal)
+    {
+        for (int i = 0; i < ARRAY_SIZE(sinks); i++)
+        {
+            retVal = sinks[i].Init();
+            if (eOK == retVal)
+            {
+                oneSinkOk = true;
+            }
+            else
+            {
+                Log(eLogWarn, CMP_NAME, "Error initializing %s sink", sinks[i].Name);
+            }
+        }
+
+        retVal = (oneSinkOk) ? eOK : eFAIL;
+    }
 
     initialized = true;
 
