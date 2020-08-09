@@ -45,9 +45,6 @@
 
 #define MAX_CONSECUTIVE_REGS    64  // maximal number of config registers to try
                                     // writing consecutively
-
-#define ARRAY_SIZE(x)           (sizeof(x)/sizeof(x[0]))
-
 // Si5342/44/45 commands - pg. 53 Si5345-44-42-D-RM.pdf
 #define CMD_SET_ADDRESS         (uint8_t)0x0    // 000x xxxx
 #define CMD_WRITE_DATA          (uint8_t)0x40   // 010x xxxx
@@ -58,6 +55,7 @@
 
 #define DATA_DUMMY              (uint8_t)0xA5
 #define DEVICE_READY            (uint8_t)0xF0   // RM pg.182
+
 
 //==============================================================================
 //  Local types

@@ -40,8 +40,6 @@
 //==============================================================================
 #define CMP_NAME                "PCM1792"
 
-#define ARRAY_SIZE(x)           (sizeof(x)/sizeof(x[0]))
-
 #define PCM_READ_FLAG           (uint8_t)0x80
 #define DATA_DUMMY              (uint8_t)0xA5
 
