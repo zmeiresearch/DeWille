@@ -154,6 +154,7 @@ void DewilleWebserverSetup(void)
     // Wait for connection
     while (WiFi.status() != WL_CONNECTED) 
     {
+        // IVA: TODO: Use FreeRTOS primitives!
         delay(500);
         Serial.print(".");
     }

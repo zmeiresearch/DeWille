@@ -48,6 +48,7 @@
 #define     LOG_LEVEL_DEFAULT       eLogWarn
 #define     LOG_BUFFER_SIZE         8192
 #define     LOG_SOCKET_PORT         81
+#define     LOG_SOCKET_PATH         "/log"
 
 // Debug UART
 #define     LOG_SERIAL_PORT         2

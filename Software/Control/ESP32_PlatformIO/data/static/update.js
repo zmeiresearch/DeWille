@@ -1,3 +1,4 @@
+$( document ).ready(function() {
 $('form').submit(function(e){
     e.preventDefault();
     var formId = e.target.id;
@@ -29,4 +30,4 @@ $('form').submit(function(e){
         }
     });
 });
-
+});

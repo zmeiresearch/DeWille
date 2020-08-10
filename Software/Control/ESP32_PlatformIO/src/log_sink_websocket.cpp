@@ -26,13 +26,14 @@
 //  Includes
 //==============================================================================
 #include "log_sink_websocket.h"
+#include "logger.h"
 
 #include "ESPAsyncWebServer.h"
 
 //==============================================================================
 //  Defines
 //==============================================================================
-
+#define CMP_NAME    "WS_SINK"
 
 //==============================================================================
 //  Local types
@@ -41,8 +42,9 @@
 //==============================================================================
 //  Local data
 //==============================================================================
+static bool initialized = false;
 static AsyncWebServer server(LOG_SOCKET_PORT);
-static AsyncWebSocket socket("/log");
+static AsyncWebSocket socket(LOG_SOCKET_PATH);
 
 //==============================================================================
 //  Local functions
@@ -56,6 +58,113 @@ void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client,
         AwsEventType type, void * arg, uint8_t *data, size_t len)
 {
     // Nothing to do?
+    if(type == WS_EVT_CONNECT)
+    {
+        //client connected
+        Log(eLogInfo, CMP_NAME, "ws[%s][%u] connect\n", server->url(), client->id());
+        client->printf("Hello Client %u :)", client->id());
+        client->ping();
+    } 
+    else if(type == WS_EVT_DISCONNECT)
+    {
+        //client disconnected
+        Log(eLogInfo, CMP_NAME, "ws[%s][%u] disconnect: %u\n", server->url(), client->id());
+    } 
+    else if(type == WS_EVT_ERROR)
+    {
+        //error was received from the other end
+        Log(eLogInfo, CMP_NAME, "ws[%s][%u] error(%u): %s\n", server->url(), client->id(), *((uint16_t*)arg), (char*)data);
+    } 
+    else if(type == WS_EVT_PONG)
+    {
+        //pong message was received (in response to a ping request maybe)
+        Log(eLogInfo, CMP_NAME, "ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(), len, (len)?(char*)data:"");
+    } 
+    else if(type == WS_EVT_DATA)
+    {
+        //data packet
+        AwsFrameInfo * info = (AwsFrameInfo*)arg;
+        if(info->final && info->index == 0 && info->len == len)
+        {
+            //the whole message is in a single frame and we got all of it's data
+            Log(eLogInfo, CMP_NAME, "ws[%s][%u] %s-message[%llu]: ", server->url(), client->id(), (info->opcode == WS_TEXT)?"text":"binary", info->len);
+            if(info->opcode == WS_TEXT)
+            {
+                data[len] = 0;
+                Log(eLogInfo, CMP_NAME, "%s\n", (char*)data);
+            } 
+            else 
+            {
+                for (size_t i=0; i < info->len; i++) 
+                {
+                    Log(eLogInfo, CMP_NAME, "%02x ", data[i]);
+                }
+                Log(eLogInfo, CMP_NAME, "\n");
+            }
+            if(info->opcode == WS_TEXT)
+                client->text("I got your text message");
+            else
+                client->binary("I got your binary message");
+        } 
+        else 
+        {
+            //message is comprised of multiple frames or the frame is split into multiple packets
+            if(info->index == 0)
+            {
+                if(info->num == 0)
+                Log(eLogInfo, CMP_NAME, "ws[%s][%u] %s-message start\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
+                Log(eLogInfo, CMP_NAME, "ws[%s][%u] frame[%u] start[%llu]\n", server->url(), client->id(), info->num, info->len);
+            }
+
+            Log(eLogInfo, CMP_NAME, "ws[%s][%u] frame[%u] %s[%llu - %llu]: ", server->url(), client->id(), info->num, (info->message_opcode == WS_TEXT)?"text":"binary", info->index, info->index + len);
+      
+            if(info->message_opcode == WS_TEXT)
+            {
+                data[len] = 0;
+                Log(eLogInfo, CMP_NAME, "%s\n", (char*)data);
+            } 
+            else 
+            {
+                for(size_t i=0; i < len; i++)
+                {
+                    Log(eLogInfo, CMP_NAME, "%02x ", data[i]);
+                }
+                Log(eLogInfo, CMP_NAME, "\n");
+            }
+
+            if((info->index + len) == info->len)
+            {
+                Log(eLogInfo, CMP_NAME, "ws[%s][%u] frame[%u] end[%llu]\n", server->url(), client->id(), info->num, info->len);
+                if(info->final)
+                {
+                    Log(eLogInfo, CMP_NAME, "ws[%s][%u] %s-message end\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
+                    if(info->message_opcode == WS_TEXT)
+                        client->text("I got your text message");
+                    else
+                        client->binary("I got your binary message");
+                }
+            }
+        }
+    }
+}
+
+static void initTask(void * params)
+{
+    while (WiFi.status() != WL_CONNECTED) 
+    {
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+    }
+   
+    Log(eLogInfo, CMP_NAME, "Initializing log websocket on ws://%s:%d%s",
+            WiFi.localIP(), LOG_SOCKET_PORT, LOG_SOCKET_PATH );
+    socket.onEvent(onEvent);
+    server.addHandler(&socket);
+    server.onNotFound(notFound);
+    server.begin();
+
+    initialized = true;
+    // delete current task
+    vTaskDelete(NULL);
 }
 
 //==============================================================================
@@ -69,8 +178,11 @@ size_t LogSinkWebsocketGetWriteSize()
 
 size_t LogSinkWebsocketWrite(const uint8_t * const buffer, const size_t toSend)
 {
-    // Cast needed as there's no const uint8_t *, size_t overload
-    socket.textAll((const char* )buffer, toSend); 
+    if (initialized)
+    {
+        // Cast needed as there's no const uint8_t *, size_t overload
+        socket.textAll((const char* )buffer, toSend); 
+    }
     
     // No method seems to return any information on how much data was actually 
     // written, just assume everything is OK 
@@ -79,11 +191,25 @@ size_t LogSinkWebsocketWrite(const uint8_t * const buffer, const size_t toSend)
 
 eStatus LogSinkWebsocketInit()
 {
-    socket.onEvent(onEvent);
-    server.addHandler(&socket);
-    server.onNotFound(notFound);
+    eStatus retVal = eOK;
+    TaskHandle_t    taskHandle;
 
-    return eOK;
+    Log(eLogInfo, CMP_NAME, "LogSinkWebsocketInit()");
+
+    xTaskCreate(initTask, 
+            "Websocket Logsink init", 
+            4096,   // Stack size
+            NULL,   // no params
+            configMAX_PRIORITIES - 1,
+            &taskHandle);
+
+    if (NULL == taskHandle)
+    {
+        Log(eLogWarn, CMP_NAME, "Error creating init task!");
+        retVal = eFAIL;
+    }
+ 
+    return retVal;
 }
 
 
