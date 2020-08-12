@@ -35,10 +35,16 @@
 
 
 //==============================================================================
-//  Defines
+//  Defines/Macros
 //==============================================================================
 #define ARRAY_SIZE(x)           (sizeof(x)/sizeof(x[0]))
 
+#define WAIT_FOR(cond, timeout) ({                                          \
+        uint32_t startTime = PortGetTime(); bool condState = (cond);        \
+        while (!condState && ((PortGetTime() - startTime) < (timeout)))     \
+        { PortSleepMs(5); condState = (cond);}                              \
+        (condState) ? eOK : eTIMEOUT;                                       \
+    })
 
 //==============================================================================
 // Peripherals
@@ -100,6 +106,7 @@ typedef enum _eStatus
     eBUSY,
     eNOTINITIALIZED,
     eOUTOFMEMORY,
+    eTIMEOUT,
     eStatusCount
 } eStatus;
 

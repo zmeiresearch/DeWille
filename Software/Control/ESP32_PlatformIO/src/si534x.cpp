@@ -31,6 +31,8 @@
 #include "si534x.h"
 #include "si534x_regs.h"
 
+#include "port.h"   // for PortGetTime/PortSleepMs
+
 #include "../../Si5344_ClockBuilder/Si5344_RevD_DeWille01.h"
 
 #include "logger.h"
@@ -42,6 +44,9 @@
 //==============================================================================
 #define CMP_NAME                "SI534x"
 #define ALWAYS_SET_PAGE         false
+#define SI534X_SETUP_TIME       1000    // time in ms to wait for config to be
+                                        // applied
+
 
 #define MAX_CONSECUTIVE_REGS    64  // maximal number of config registers to try
                                     // writing consecutively
@@ -400,16 +405,14 @@ eStatus Si534xReadId(eSi534xType * const type)
 eStatus Si534xSoftReset()
 {
     uint8_t buf = 0x01;
+    eStatus retVal;
 
     Log(eLogInfo, CMP_NAME, "Si534xSoftReset()");
     writeReg(Reg_SoftResetCalib, &buf, 1);
 
-    while (!isReady())
-    {
-        // IVA: TODO: add dealy here!
-    }
+    retVal = WAIT_FOR(isReady(), SI534X_SETUP_TIME);
 
-    return eOK;
+    return retVal;
 }
 
 eStatus Si534xDumpStatus()
@@ -498,10 +501,8 @@ eStatus Si534xSetConfig(const uint8_t configId)
         writeConfigArray(&si5344_postamble[0], ARRAY_SIZE(si5344_postamble));
     }
 
-    while (!isReady())
-    {
-        // IVA: TODO: add delay here!
-    }
+    retVal = WAIT_FOR(false, SI534X_SETUP_TIME);
+    if (eOK != retVal) Log(eLogWarn, CMP_NAME, "Si534xSetConfig: Device not ready! %d", retVal);
 
     return retVal;
 }

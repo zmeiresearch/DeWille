@@ -149,7 +149,8 @@ eStatus Log(const eLogLevel level, const char * const component, ...)
             if (LogPortLock(LOG_MAX_WAIT))
             {
                 // first print the time
-                i = snprintf((char *)&logBuffer[writePtr], getFree(), "%08d|%c|%s|", LogPortGetTime(), getLevelChar(level), component);
+                i = snprintf((char *)&logBuffer[writePtr], getFree(),
+                        "%08d|%c|%s|", PortGetTime(), getLevelChar(level), component);
 
                 if (i < 0)
                 {

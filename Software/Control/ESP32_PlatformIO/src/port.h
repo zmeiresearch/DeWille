@@ -1,9 +1,9 @@
 /*==============================================================================
    DeWille ESP32 firmware
 
-   Logger portable interface - specifically for FreeRTOS on ESP32
-
    Copyright 2020 Ivan Vasilev, Zmei Research Ltd.
+
+   Platform-specific support functions and macros
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -24,34 +24,37 @@
    SOFTWARE.
   ============================================================================*/
 
-// No multi-include guard - this file is supposed to be include by logger.c only
+//==============================================================================
+//  Multi-include guard
+//==============================================================================
+#ifndef INC_PORT_H
+#define INC_PORT_H
 
 //==============================================================================
 //  Multi-include guard
 //==============================================================================
+#include <stdint.h>
 
 #include <Arduino.h>
-#include "globals.h"
-#include "port.h"
 
 //==============================================================================
 //  Defines
 //==============================================================================
-
-// FreeRTOS provided functionality
-#define LogPortInISR()      xPortInIsrContext()
+#define PortGetTime()       (xTaskGetTickCount() * portTICK_PERIOD_MS)
+#define PortSleepMs(x)      (vTaskDelay((x)/portTICK_PERIOD_MS))
 
 //==============================================================================
 //  Exported types
 //==============================================================================
 
+
 //==============================================================================
 //  Exported data
 //==============================================================================
 
+
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus     LogPortInit();
-bool        LogPortLock(size_t waitTime);
-void        LogPortUnlock();
+
+#endif // INC_PORT_H
