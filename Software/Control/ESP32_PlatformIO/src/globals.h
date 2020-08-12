@@ -45,7 +45,8 @@
 //==============================================================================
 
 // Log configuration
-#define     LOG_LEVEL_DEFAULT       eLogWarn
+#define     LOG_TASK_PERIOD         5   //  in ms
+#define     LOG_LEVEL_DEFAULT       eLogInfo
 #define     LOG_BUFFER_SIZE         8192
 #define     LOG_SOCKET_PORT         81
 #define     LOG_SOCKET_PATH         "/log"
@@ -92,6 +93,7 @@
 typedef enum _eStatus
 {
     eOK,
+    eDONE,
     eFAIL,
     eINVALIDARG,
     eUNSUPPORTED,

@@ -49,7 +49,7 @@
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus DewilleWebserverSetup();
+eStatus WebserverInit(void * params);
 
 
 #endif // INC_WEBSERVER_H

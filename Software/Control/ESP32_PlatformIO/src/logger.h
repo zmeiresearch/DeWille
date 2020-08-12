@@ -75,6 +75,11 @@ typedef struct _LogSink
 //==============================================================================
 eStatus Log(const eLogLevel level, const char * const component, ...);
 eStatus LogSetMinLevel(const eLogLevel level);
-eStatus LogStart();
+
+//==============================================================================
+//  Module generic interface
+//==============================================================================
+eStatus LogInit(void * params);
+eStatus LogLoop();
 
 #endif // INC_LOGGER_H

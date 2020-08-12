@@ -404,6 +404,11 @@ eStatus Si534xSoftReset()
     Log(eLogInfo, CMP_NAME, "Si534xSoftReset()");
     writeReg(Reg_SoftResetCalib, &buf, 1);
 
+    while (!isReady())
+    {
+        // IVA: TODO: add dealy here!
+    }
+
     return eOK;
 }
 
@@ -493,12 +498,19 @@ eStatus Si534xSetConfig(const uint8_t configId)
         writeConfigArray(&si5344_postamble[0], ARRAY_SIZE(si5344_postamble));
     }
 
+    while (!isReady())
+    {
+        // IVA: TODO: add delay here!
+    }
+
     return retVal;
 }
 
-eStatus Si534xInit()
+eStatus Si534xInit(void * params)
 {
     eStatus retVal = eOK;
+
+    (void)params;
 
     SpiInit();
 

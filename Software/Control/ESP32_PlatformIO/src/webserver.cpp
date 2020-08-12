@@ -135,7 +135,7 @@ static void spiffsUpload(AsyncWebServerRequest *request, String filename, size_t
 //==============================================================================
 
 // Initialize update webserver
-void DewilleWebserverSetup(void) 
+void WebserverInit(void * params) 
 {
     // IVA: TODO: Use Logger instead!
     Serial.begin(115200);

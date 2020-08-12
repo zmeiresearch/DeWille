@@ -40,7 +40,7 @@
 //==============================================================================
 //  Defines
 //==============================================================================
-
+#define CMP_NAME                "Main"
 
 #if CONFIG_FREERTOS_UNICORE
 #define ARDUINO_RUNNING_CORE    0
@@ -55,19 +55,79 @@
 //==============================================================================
 //  Local types
 //==============================================================================
+// Function pointers for the pseudo-modules. Each module gets a separate task,
+// in which 1) It's Init function is executed; 2) If init is OK, the Loop
+// function is called  periodically until it returns != OK, after which, the
+// task is deleted. Loop can also not return at all, but in this case, it needs
+// to call delay/yield on it's own
+typedef eStatus (*ModuleInitFn)(void * params);
+typedef eStatus (*ModuleLoopFn)();
 
-//==============================================================================
-//  Local data
-//==============================================================================
+typedef struct _Module
+{
+    const char *    Name;
+    ModuleInitFn    Init;
+    ModuleLoopFn    Loop;
+    uint32_t        Period;
+    void *          Params;
+    uint32_t        StackSize;
+    uint8_t         Priority;   // Priority, with 3 (configMAX_PRIORITIES - 1)
+                                // being the highest, and 0 being the lowest.
+} Module;
+
 
 //==============================================================================
 //  Local function definitions
 //==============================================================================
-static void TaskBlink(void *pvParams);
+static eStatus blinkLoop();
+static eStatus si534xLoop();
+
+
+//==============================================================================
+//  Local data
+//==============================================================================
+const Module Modules[] = {
+    { "Logger",     LogInit,        LogLoop,    LOG_TASK_PERIOD,    NULL,   4096,   2 },
+    { "Blink",      NULL,           blinkLoop,  0,                  NULL,   4096,   1 },
+    { "Webserver",  WebserverInit,  NULL,       5,                  NULL,   4096,   1 },
+    { "Si534x",     Si534xInit,     si534xLoop, 0,                  NULL,   4096,   1 }
+};
+
 
 //==============================================================================
 //  Local functions
 //==============================================================================
+static eStatus blinkLoop()
+{
+    digitalWrite(DO_LED_1, HIGH);
+    vTaskDelay(500/portTICK_PERIOD_MS);
+    digitalWrite(DO_LED_1, LOW);
+    vTaskDelay(500/portTICK_PERIOD_MS);
+
+    //Log(eLogWarn, CMP_NAME, "Still alive!");
+
+    return eOK;
+}
+
+static eStatus si534xLoop()
+{
+    const char * configList[10];
+    uint8_t configCount;
+    eStatus retVal = Si534xListConfigs(10, &configCount, configList);
+    Log(eLogInfo, CMP_NAME, "Si534xListConfigs returned: %d, got %d configs", retVal, configCount);
+    for (int i = 0; i < configCount; i++)
+    {
+        Log(eLogInfo, CMP_NAME, "config ID: %d, name: %s", i, configList[i]);
+    }
+
+    Si534xDumpStatus();
+    retVal = Si534xSetConfig(1);
+
+    Si534xDumpStatus();
+
+    return eDONE;
+}
+
 
 static void setupHardware()
 {
@@ -82,60 +142,83 @@ static void setupHardware()
     INIT_DO_HIGH(DO_LED_2);
 }
 
-static void setupTasks()
+static void moduleHost(void * param)
 {
-    xTaskCreatePinnedToCore(
-        TaskBlink
-        ,  "TaskBlink"  // A name just for humans
-        ,  4096          // Stack size - resets after some time with 1024, apparently an overflow
-        ,  NULL
-        ,  1            // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-        ,  NULL 
-        ,  ARDUINO_RUNNING_CORE);
+    eStatus retVal = eOK;
+    const Module * const module = (const Module * const)param;
 
+    if (NULL != module->Init)
+    {
+        retVal = module->Init(module->Params);
+    }
+
+    if (NULL != module->Loop)
+    {
+        while (eOK == retVal)
+        {
+            retVal = module->Loop();
+            if (0 != module->Period)
+            {
+                vTaskDelay(module->Period / portTICK_PERIOD_MS);
+            }
+        }
+    }
+    // FreeRTOS will reclaim resources
+    vTaskDelete(NULL);
+}
+
+static eStatus startModules()
+{
+    eStatus retVal = eOK;
+    TaskHandle_t    taskHandle;
+
+    for (int i = 0; i < ARRAY_SIZE(Modules); i++)
+    {
+        xTaskCreate(moduleHost,
+                Modules[i].Name,
+                Modules[i].StackSize,   // Stack size
+                (void*)&Modules[i],
+                Modules[i].Priority,
+                &taskHandle);
+        if (taskHandle == NULL)
+        {
+            Log(eLogCrit, CMP_NAME, "startModules: Error creating task for %s", Modules[i].Name);
+            // Logger may not be working at that time!
+            Serial.begin(115200);
+            Serial.print("startModules: Error creating task for");
+            Serial.println(Modules[i].Name);
+
+            retVal = eFAIL;
+        }
+    }
+    return retVal;
 }
 
 //==============================================================================
 //  Exported functions
 //==============================================================================
 
-void setup() 
+void setup()
 {
-    // put your setup code here, to run once:
+    eStatus retVal = eOK;
+
     setupHardware();
 
-    setupTasks();
-
-    LogStart();
     LogSetMinLevel(eLogInfo);
 
-    Si534xInit();
+    retVal = startModules();
 
-    const char * configList[10];
-    uint8_t configCount;
-    eStatus retVal = Si534xListConfigs(10, &configCount, configList);
-    Log(eLogInfo, "Main", "Si534xListConfigs returned: %d, got %d configs", retVal, configCount);
-    for (int i = 0; i < configCount; i++)
-    {
-        Log(eLogInfo, "Main", "config ID: %d, name: %s", i, configList[i]);
-    }
+    //retVal = Pcm1792CheckDevice();
+    //if (eOK == retVal)
+    //{
+    //    retVal = Pcm1792Init();
+    //}
 
-    Si534xDumpStatus();
-    retVal = Si534xSetConfig(1);
-
-    Si534xDumpStatus();
-
-    retVal = Pcm1792CheckDevice();
-    if (eOK == retVal)
-    {
-        retVal = Pcm1792Init();
-    }
-
-    retVal = DewilleWebserverSetup();
+    //retVal = DewilleWebserverSetup();
 
 }
 
-void loop() 
+void loop()
 {
     // put your main code here, to run repeatedly:
     //Si534xReadId();
@@ -143,21 +226,5 @@ void loop()
 
 }
 
-void TaskBlink(void *pvParams)
-{
-    uint16_t cnt = 0;
-    (void) pvParams;
-    
-    while(1)
-    {
-        Log(eLogDebug, "TaskBlink", "Still alive!");
-        cnt++;
-        
-        digitalWrite(DO_LED_1, HIGH);
-        vTaskDelay(500);
-        digitalWrite(DO_LED_1, LOW);
-        vTaskDelay(500);
-    }
-}
 
 

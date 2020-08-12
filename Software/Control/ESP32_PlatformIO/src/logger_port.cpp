@@ -61,7 +61,7 @@ void LogPortUnlock()
     xSemaphoreGive(LogSemaphore);
 }
 
-eStatus LogPortInit(void (*task)(void*) )
+eStatus LogPortInit()
 {
     eStatus retVal = eOK;
 
@@ -70,21 +70,6 @@ eStatus LogPortInit(void (*task)(void*) )
     if (NULL == LogSemaphore)
     {
         retVal = eFAIL;
-    }
-
-    if (eOK == retVal)
-    {
-        TaskHandle_t    taskHandle;
-        xTaskCreate((*task), "Log Task", 
-                2048,   // Stack size
-                NULL,   // no params
-                configMAX_PRIORITIES - 1,
-                &taskHandle);
-
-        if (NULL == taskHandle)
-        {
-            retVal = eFAIL;
-        }
     }
 
     return retVal;

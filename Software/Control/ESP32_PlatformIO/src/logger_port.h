@@ -38,7 +38,6 @@
 //==============================================================================
 
 // FreeRTOS provided functionality
-#define LogPortSleep(x)     vTaskDelay(x / portTICK_PERIOD_MS)
 #define LogPortInISR()      xPortInIsrContext()
 #define LogPortGetTime()    (xTaskGetTickCount() * portTICK_PERIOD_MS)
 
@@ -53,6 +52,6 @@
 //==============================================================================
 //  Exported functions
 //==============================================================================
-eStatus     LogPortInit(void (*taks)(void*));
+eStatus     LogPortInit();
 bool        LogPortLock(size_t waitTime);
 void        LogPortUnlock();

@@ -36,7 +36,6 @@
 //  Defines
 //==============================================================================
 #define CMP_NAME            "Logger"
-#define SEND_SLEEP_TIME     (uint32_t)1     // time to sleep between write attempts
 #define LOG_MAX_WAIT        (uint32_t)100   // max time to wait for synchronization
 
 //==============================================================================
@@ -97,45 +96,6 @@ static size_t sinksWrite(const uint8_t * const buffer, const size_t toSend)
     return written;
 }
 
-
-static void writeTask(void * params)
-{
-    while(1)
-    {
-        // Anyting to send?
-        if (readPtr < writePtr)
-        {
-            // is some space available?
-            size_t toSend = getSinksSmallestWriteSize();
-            if (toSend > 0)
-            {
-                if (LogPortLock(LOG_MAX_WAIT))
-                {
-                    // Lock aquired
-
-                    if ((writePtr - readPtr) < toSend) 
-                    {
-                        // queue as much as possible for the writer to accept
-                        toSend = writePtr - readPtr;
-                    }
-                
-                    size_t sent = sinksWrite(&logBuffer[readPtr], toSend);
-                    readPtr += sent;
-
-                    if (readPtr == writePtr)
-                    {
-                        // Everything sent? - rewind pointers to the start
-                        readPtr = writePtr = 0;
-                    }
-                
-                    LogPortUnlock();
-                }
-            }
-        }
-
-        LogPortSleep(SEND_SLEEP_TIME);
-    }
-}
 
 static const char getLevelChar(const eLogLevel level)
 {
@@ -255,16 +215,18 @@ eStatus LogSetMinLevel(const eLogLevel level)
     return retVal;
 }
 
-eStatus LogStart()
+eStatus LogInit(void * params)
 {
     eStatus retVal = eOK;
     bool oneSinkOk = false;
+
+    (void)params;
 
     currentLevel = LOG_LEVEL_DEFAULT;   // default log level
     
     readPtr = writePtr = 0;
     
-    retVal = LogPortInit(writeTask);
+    retVal = LogPortInit();
 
     if (eOK == retVal)
     {
@@ -288,3 +250,39 @@ eStatus LogStart()
 
     return retVal;
 }
+
+eStatus LogLoop()
+{
+    // Anyting to send?
+    if (readPtr < writePtr)
+    {
+        // is some space available?
+        size_t toSend = getSinksSmallestWriteSize();
+        if (toSend > 0)
+        {
+            if (LogPortLock(LOG_MAX_WAIT))
+            {
+                // Lock aquired
+
+                if ((writePtr - readPtr) < toSend)
+                {
+                    // queue as much as possible for the writer to accept
+                    toSend = writePtr - readPtr;
+                }
+
+                size_t sent = sinksWrite(&logBuffer[readPtr], toSend);
+                readPtr += sent;
+
+                if (readPtr == writePtr)
+                {
+                    // Everything sent? - rewind pointers to the start
+                    readPtr = writePtr = 0;
+                }
+
+                LogPortUnlock();
+            }
+        }
+    }
+    return eOK; // Always running
+}
+
