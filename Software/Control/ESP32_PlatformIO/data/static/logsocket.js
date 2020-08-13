@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Trying to connect to log websocket");
     
-    var logSocket = new WebSocket("wss://" + location.hostname + ":81/log");
+    var logSocket = new WebSocket("ws://" + location.hostname + ":81/log");
     logSocket.onopen = function(event) {
         console.log("logSocket: onOpen: " + event);
     };

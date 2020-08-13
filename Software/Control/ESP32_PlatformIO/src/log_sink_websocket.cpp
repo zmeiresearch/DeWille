@@ -57,95 +57,29 @@ void notFound(AsyncWebServerRequest *request)
 void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, 
         AwsEventType type, void * arg, uint8_t *data, size_t len)
 {
-    // Nothing to do?
+    // None of this is really needed
     if(type == WS_EVT_CONNECT)
     {
         //client connected
-        Log(eLogInfo, CMP_NAME, "ws[%s][%u] connect\n", server->url(), client->id());
+        Log(eLogDebug, CMP_NAME, "ws[%s][%u] connect\n", server->url(), client->id());
         client->printf("Hello Client %u :)", client->id());
         client->ping();
     } 
     else if(type == WS_EVT_DISCONNECT)
     {
         //client disconnected
-        Log(eLogInfo, CMP_NAME, "ws[%s][%u] disconnect: %u\n", server->url(), client->id());
+        Log(eLogDebug, CMP_NAME, "ws[%s][%u] disconnect: %u\n", server->url(), client->id());
     } 
     else if(type == WS_EVT_ERROR)
     {
         //error was received from the other end
-        Log(eLogInfo, CMP_NAME, "ws[%s][%u] error(%u): %s\n", server->url(), client->id(), *((uint16_t*)arg), (char*)data);
+        Log(eLogDebug, CMP_NAME, "ws[%s][%u] error(%u): %s\n", server->url(), client->id(), *((uint16_t*)arg), (char*)data);
     } 
     else if(type == WS_EVT_PONG)
     {
         //pong message was received (in response to a ping request maybe)
-        Log(eLogInfo, CMP_NAME, "ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(), len, (len)?(char*)data:"");
+        Log(eLogDebug, CMP_NAME, "ws[%s][%u] pong[%u]: %s\n", server->url(), client->id(), len, (len)?(char*)data:"");
     } 
-    else if(type == WS_EVT_DATA)
-    {
-        //data packet
-        AwsFrameInfo * info = (AwsFrameInfo*)arg;
-        if(info->final && info->index == 0 && info->len == len)
-        {
-            //the whole message is in a single frame and we got all of it's data
-            Log(eLogInfo, CMP_NAME, "ws[%s][%u] %s-message[%llu]: ", server->url(), client->id(), (info->opcode == WS_TEXT)?"text":"binary", info->len);
-            if(info->opcode == WS_TEXT)
-            {
-                data[len] = 0;
-                Log(eLogInfo, CMP_NAME, "%s\n", (char*)data);
-            } 
-            else 
-            {
-                for (size_t i=0; i < info->len; i++) 
-                {
-                    Log(eLogInfo, CMP_NAME, "%02x ", data[i]);
-                }
-                Log(eLogInfo, CMP_NAME, "\n");
-            }
-            if(info->opcode == WS_TEXT)
-                client->text("I got your text message");
-            else
-                client->binary("I got your binary message");
-        } 
-        else 
-        {
-            //message is comprised of multiple frames or the frame is split into multiple packets
-            if(info->index == 0)
-            {
-                if(info->num == 0)
-                Log(eLogInfo, CMP_NAME, "ws[%s][%u] %s-message start\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
-                Log(eLogInfo, CMP_NAME, "ws[%s][%u] frame[%u] start[%llu]\n", server->url(), client->id(), info->num, info->len);
-            }
-
-            Log(eLogInfo, CMP_NAME, "ws[%s][%u] frame[%u] %s[%llu - %llu]: ", server->url(), client->id(), info->num, (info->message_opcode == WS_TEXT)?"text":"binary", info->index, info->index + len);
-      
-            if(info->message_opcode == WS_TEXT)
-            {
-                data[len] = 0;
-                Log(eLogInfo, CMP_NAME, "%s\n", (char*)data);
-            } 
-            else 
-            {
-                for(size_t i=0; i < len; i++)
-                {
-                    Log(eLogInfo, CMP_NAME, "%02x ", data[i]);
-                }
-                Log(eLogInfo, CMP_NAME, "\n");
-            }
-
-            if((info->index + len) == info->len)
-            {
-                Log(eLogInfo, CMP_NAME, "ws[%s][%u] frame[%u] end[%llu]\n", server->url(), client->id(), info->num, info->len);
-                if(info->final)
-                {
-                    Log(eLogInfo, CMP_NAME, "ws[%s][%u] %s-message end\n", server->url(), client->id(), (info->message_opcode == WS_TEXT)?"text":"binary");
-                    if(info->message_opcode == WS_TEXT)
-                        client->text("I got your text message");
-                    else
-                        client->binary("I got your binary message");
-                }
-            }
-        }
-    }
 }
 
 static void initTask(void * params)
@@ -156,7 +90,7 @@ static void initTask(void * params)
     }
    
     Log(eLogInfo, CMP_NAME, "Initializing log websocket on ws://%s:%d%s",
-            WiFi.localIP(), LOG_SOCKET_PORT, LOG_SOCKET_PATH );
+            WiFi.localIP().toString().c_str(), LOG_SOCKET_PORT, LOG_SOCKET_PATH );
     socket.onEvent(onEvent);
     server.addHandler(&socket);
     server.onNotFound(notFound);
