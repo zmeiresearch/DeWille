@@ -39,6 +39,7 @@
 //==============================================================================
 #define ARRAY_SIZE(x)           (sizeof(x)/sizeof(x[0]))
 
+// GCC-ism below. Make it a proper function if compilation fails 
 #define WAIT_FOR(cond, timeout) ({                                          \
         uint32_t startTime = PortGetTime(); bool condState = (cond);        \
         while (!condState && ((PortGetTime() - startTime) < (timeout)))     \
@@ -84,9 +85,9 @@
 // SPI
 #define   DO_nCS_CLK                26
 #define   DO_nCS_DACR               33
-#define   DO_nCS_DACL               35
+#define   DO_nCS_DACL               14
 //#define   DO_nCS_FPGA             3   // TODO: fix on the board
-#define   DO_nCS_DUMMY              12  // Dummy CS to provide to the driver.
+#define   DO_nCS_DUMMY              4  // Dummy CS to provide to the driver.
 
 #define   SPI_MISO                  19 
 #define   SPI_MOSI                  23

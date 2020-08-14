@@ -84,15 +84,15 @@ eStatus SpiTransfer(eSpiDevice device, uint8_t * buffer, const uint8_t size)
     {   
         if (xSemaphoreTake(spiSemaphore, SPI_MAX_BLOCK_TIME / portTICK_PERIOD_MS))
         {
+            INIT_DO_LOW(csPins[device]);
             spi->beginTransaction(SPISettings(SPI_CLK_FREQ, MSBFIRST, SPI_MODE0));
-            digitalWrite(csPins[device], LOW);
             for (int i = 0; i < size; i++)
             {
                 uint8_t tmp = spi->transfer(*buffer);
                 *buffer++ = tmp;
             }
-            digitalWrite(csPins[device], HIGH);
             spi->endTransaction();
+            INIT_DO_HIGH(csPins[device]);
             xSemaphoreGive(spiSemaphore);
         }
         else

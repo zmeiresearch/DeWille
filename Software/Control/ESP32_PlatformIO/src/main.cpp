@@ -90,7 +90,8 @@ const Module Modules[] = {
     { "Logger",     LogInit,        LogLoop,    LOG_TASK_PERIOD,    NULL,   4096,   2 },
     { "Blink",      NULL,           blinkLoop,  0,                  NULL,   4096,   1 },
     { "Webserver",  WebserverInit,  NULL,       5,                  NULL,   4096,   1 },
-    { "Si534x",     Si534xInit,     si534xLoop, 0,                  NULL,   4096,   1 }
+    { "Si534x",     Si534xInit,     si534xLoop, 0,                  NULL,   4096,   1 },
+    { "Pcm1792",    NULL,           Pcm1792CheckDevice,   5000,     NULL,   4096,   1 }
 };
 
 
@@ -133,8 +134,8 @@ static void setupHardware()
 {
     // Hold all devices in reset
     INIT_DO_LOW(DO_nRST_FPGA);
-    INIT_DO_LOW(DO_nRST_DACR);
-    INIT_DO_LOW(DO_nRST_DACL);
+    INIT_DO_HIGH(DO_nRST_DACR);
+    INIT_DO_HIGH(DO_nRST_DACL);
     INIT_DO_HIGH(DO_nRST_CLK);
 
     // LED1 and LED2 off
@@ -218,11 +219,9 @@ void setup()
 
 }
 
+// All tasks already started during setup()
 void loop()
 {
-    // put your main code here, to run repeatedly:
-    //Si534xReadId();
-
 
 }
 

@@ -64,39 +64,39 @@ typedef struct _tPcmVariable
 
 // Default config
 tPcmReg const pcm1792DefaultConfig[] = {
-    { 0x10, 0xff }, // Left attenuator
-    { 0x11, 0xff }, // Right attenuator
-    { 0x12, 0x50 }, // 0b0101 0000 = 24bit, I2S, no deemp, no mute
-    { 0x13, 0x00 }, // all default
-    { 0x14, 0x08 }, // monaural mode, left channel
-    { 0x15, 0x01 }  // PCMZ enabled
+    { 16, 0xff }, // Left attenuator
+    { 17, 0xff }, // Right attenuator
+    { 18, 0x50 }, // 0b0101 0000 = 24bit, I2S, no deemp, no mute
+    { 19, 0x00 }, // all default
+    { 20, 0x08 }, // monaural mode, left channel
+    { 21, 0x01 }  // PCMZ enabled
 };
 
 // Individual variables - not really used for now
-const tPcmVariable  PcmAttenuatorL =        { 0x16, 0, 8, false };
-const tPcmVariable  PcmAttenuatorR =        { 0x17, 0, 8, false };
-const tPcmVariable  PcmAttenuatorLoad =     { 0x18, 7, 1, false };
-const tPcmVariable  PcmAudioFormat =        { 0x18, 4, 3, false };
-const tPcmVariable  PcmDeemphFreq =         { 0x18, 2, 2, false };
-const tPcmVariable  PcmDeemphEnable =       { 0x18, 1, 1, false };
-const tPcmVariable  PcmSoftMute =           { 0x18, 0, 1, false };
-const tPcmVariable  PcmPhaseRevert =        { 0x19, 7, 1, false };
-const tPcmVariable  PcmAttenuatorRate =     { 0x19, 5, 2, false };
-const tPcmVariable  PcmDacEnable =          { 0x19, 4, 1, false };
-const tPcmVariable  PcmDFModeSelect =       { 0x19, 2, 1, false };
-const tPcmVariable  PcmDFRollof =           { 0x19, 1, 1, false };
-const tPcmVariable  PcmInfZeroMute =        { 0x19, 0, 1, false };
-const tPcmVariable  PcmReset =              { 0x20, 6, 1, false };
-const tPcmVariable  PcmDsd =                { 0x20, 5, 1, false };
-const tPcmVariable  PcmDFBypass =           { 0x20, 4, 1, false };
-const tPcmVariable  PcmMono =               { 0x20, 3, 1, false };
-const tPcmVariable  PcmMonoChannel =        { 0x20, 2, 1, false };
-const tPcmVariable  PcmOversampleRate =     { 0x20, 0, 2, false };
-const tPcmVariable  PcmDsdZeroOutputEn =    { 0x21, 1, 2, false };
-const tPcmVariable  PcmPcmZeroOutputEn =    { 0x21, 0, 1, false };
-const tPcmVariable  PcmZeroR =              { 0x22, 1, 1, true };
-const tPcmVariable  PcmZeroL =              { 0x22, 0, 1, true };
-const tPcmVariable  PcmTdmcaId =            { 0x23, 0, 5, true };
+const tPcmVariable  PcmAttenuatorL =        { 16, 0, 8, false };
+const tPcmVariable  PcmAttenuatorR =        { 17, 0, 8, false };
+const tPcmVariable  PcmAttenuatorLoad =     { 18, 7, 1, false };
+const tPcmVariable  PcmAudioFormat =        { 18, 4, 3, false };
+const tPcmVariable  PcmDeemphFreq =         { 18, 2, 2, false };
+const tPcmVariable  PcmDeemphEnable =       { 18, 1, 1, false };
+const tPcmVariable  PcmSoftMute =           { 18, 0, 1, false };
+const tPcmVariable  PcmPhaseRevert =        { 19, 7, 1, false };
+const tPcmVariable  PcmAttenuatorRate =     { 19, 5, 2, false };
+const tPcmVariable  PcmDacEnable =          { 19, 4, 1, false };
+const tPcmVariable  PcmDFModeSelect =       { 19, 2, 1, false };
+const tPcmVariable  PcmDFRollof =           { 19, 1, 1, false };
+const tPcmVariable  PcmInfZeroMute =        { 19, 0, 1, false };
+const tPcmVariable  PcmReset =              { 20, 6, 1, false };
+const tPcmVariable  PcmDsd =                { 20, 5, 1, false };
+const tPcmVariable  PcmDFBypass =           { 20, 4, 1, false };
+const tPcmVariable  PcmMono =               { 20, 3, 1, false };
+const tPcmVariable  PcmMonoChannel =        { 20, 2, 1, false };
+const tPcmVariable  PcmOversampleRate =     { 20, 0, 2, false };
+const tPcmVariable  PcmDsdZeroOutputEn =    { 21, 1, 2, false };
+const tPcmVariable  PcmPcmZeroOutputEn =    { 21, 0, 1, false };
+const tPcmVariable  PcmZeroR =              { 22, 1, 1, true };
+const tPcmVariable  PcmZeroL =              { 22, 0, 1, true };
+const tPcmVariable  PcmTdmcaId =            { 23, 0, 5, true };
 
 
 //==============================================================================

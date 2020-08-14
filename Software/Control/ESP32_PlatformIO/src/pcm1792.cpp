@@ -107,7 +107,7 @@ static eStatus writeReg(const eSpiDevice dev, const tPcmReg& reg)
         // Set the address to start writing to
         tmp[0] = (uint8_t)((~PCM_READ_FLAG) & reg.address);
         tmp[1] = reg.value;
-        SpiTransfer(eSpiDevCLK, &tmp[0], 2);
+        SpiTransfer(dev, &tmp[0], 2);
 
         // everything below is for debug purposes
         char printBuf[5];   // 0xXX + zero termination
@@ -201,7 +201,7 @@ eStatus Pcm1792CheckDevice()
         retVal = eFAIL;
     }
 
-    return retVal;
+    return eOK;
 }
 
 eStatus Pcm1792Init()

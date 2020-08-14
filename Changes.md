@@ -33,6 +33,7 @@
 * Fix the ESP32 symbols mix-up (pin25 duplicated, 36 missing)
 * Route nINTR Si5344 output to ESP32 so that status polling is not needed
 * Make the Clock chip and power supply heat-sinks larger
+* Move CS_DACL away from pin35 - input-only 
 
 ## DeWille_Base_Rev_1.0
 * The GNDD polygon is not correctly manufactured. Check with PCB house whether
