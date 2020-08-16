@@ -50,7 +50,7 @@
 //  Exported functions
 //==============================================================================
 eStatus Pcm1792CheckDevice();
-eStatus Pcm1792Init();
+eStatus Pcm1792Init(void * params);
 
 
 #endif // INC_PCM1792_H

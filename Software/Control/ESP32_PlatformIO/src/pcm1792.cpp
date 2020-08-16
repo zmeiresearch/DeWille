@@ -173,6 +173,22 @@ eStatus Pcm1792CheckDevice()
 
     // Check both devices by writing to ATL (16) register
     tPcmReg tmp;
+
+    tmp.address = PcmMonoChannel.address;
+    tmp.value = DATA_DUMMY;
+
+    readReg(eSpiDevDACR, tmp);
+    Log(eLogWarn, CMP_NAME, "Pcm1792MonoChannel DACR: 0x%02X: 0x%02X", tmp.address, tmp.value);
+
+
+    readReg(eSpiDevDACL, tmp);
+    Log(eLogWarn, CMP_NAME, "Pcm1792MonoChannel DACL: 0x%02X: 0x%02X", tmp.address, tmp.value);
+
+
+
+    return eOK;
+
+
     tmp.address = PcmAttenuatorL.address;
     
     tmp.value = DATA_DUMMY;
@@ -204,11 +220,12 @@ eStatus Pcm1792CheckDevice()
     return eOK;
 }
 
-eStatus Pcm1792Init()
+eStatus Pcm1792Init(void * params)
 {
     eStatus retVal = eOK;
-
     tPcmReg tmp;
+
+    (void)params;
 
     for (int i = 0; i < ARRAY_SIZE(pcm1792DefaultConfig); i++)
     {

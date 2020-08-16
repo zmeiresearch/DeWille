@@ -91,7 +91,7 @@ const Module Modules[] = {
     { "Blink",      NULL,           blinkLoop,  0,                  NULL,   4096,   1 },
     { "Webserver",  WebserverInit,  NULL,       5,                  NULL,   4096,   1 },
     { "Si534x",     Si534xInit,     si534xLoop, 0,                  NULL,   4096,   1 },
-    { "Pcm1792",    NULL,           Pcm1792CheckDevice,   5000,     NULL,   4096,   1 }
+    { "Pcm1792",    Pcm1792Init,    Pcm1792CheckDevice,   5000,     NULL,   4096,   1 }
 };
 
 
@@ -128,7 +128,6 @@ static eStatus si534xLoop()
 
     return eDONE;
 }
-
 
 static void setupHardware()
 {
